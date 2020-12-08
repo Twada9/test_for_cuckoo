@@ -3,21 +3,23 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		1A2EF893257F2E99004DA90A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2EF892257F2E99004DA90A /* AppDelegate.swift */; };
 		1A2EF895257F2E99004DA90A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2EF894257F2E99004DA90A /* SceneDelegate.swift */; };
-		1A2EF897257F2E99004DA90A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2EF896257F2E99004DA90A /* ViewController.swift */; };
 		1A2EF89A257F2E99004DA90A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1A2EF898257F2E99004DA90A /* Main.storyboard */; };
 		1A2EF89C257F2E9A004DA90A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1A2EF89B257F2E9A004DA90A /* Assets.xcassets */; };
 		1A2EF89F257F2E9A004DA90A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1A2EF89D257F2E9A004DA90A /* LaunchScreen.storyboard */; };
 		1A2EF8AA257F2E9A004DA90A /* test_for_CuckooTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2EF8A9257F2E9A004DA90A /* test_for_CuckooTests.swift */; };
 		1A2EF8B5257F2E9A004DA90A /* test_for_CuckooUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2EF8B4257F2E9A004DA90A /* test_for_CuckooUITests.swift */; };
-		1A2EF8C3257F2F42004DA90A /* MainPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2EF8C2257F2F42004DA90A /* MainPresenter.swift */; };
-		1A2EF8C4257F2F42004DA90A /* MainPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2EF8C2257F2F42004DA90A /* MainPresenter.swift */; };
-		1A2EF8C5257F2F42004DA90A /* MainPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2EF8C2257F2F42004DA90A /* MainPresenter.swift */; };
+		1A6D05AD257F8672000DE167 /* MainPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A6D05AC257F8672000DE167 /* MainPresenter.swift */; };
+		1A6D05AE257F8672000DE167 /* MainPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A6D05AC257F8672000DE167 /* MainPresenter.swift */; };
+		1A6D05AF257F8672000DE167 /* MainPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A6D05AC257F8672000DE167 /* MainPresenter.swift */; };
+		1A6D05B2257F8678000DE167 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A6D05B1257F8678000DE167 /* ViewController.swift */; };
+		1A6D05B3257F8678000DE167 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A6D05B1257F8678000DE167 /* ViewController.swift */; };
+		1A6D05B4257F8678000DE167 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A6D05B1257F8678000DE167 /* ViewController.swift */; };
 		8F9A1345DF98718BA89AC2F8 /* Pods_test_for_Cuckoo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 48620EE454DD4C6812424F01 /* Pods_test_for_Cuckoo.framework */; };
 		AFD6A0B8C7DC3DB5DD6E6166 /* Pods_test_for_Cuckoo_test_for_CuckooUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C8DAF6B4D74BEBE1C1D5914E /* Pods_test_for_Cuckoo_test_for_CuckooUITests.framework */; };
 		FBEB36D23BE6F86D105007BF /* Pods_test_for_CuckooTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AAFAFF77E4AB0628CB2A1275 /* Pods_test_for_CuckooTests.framework */; };
@@ -44,7 +46,6 @@
 		1A2EF88F257F2E99004DA90A /* test_for_Cuckoo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = test_for_Cuckoo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1A2EF892257F2E99004DA90A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1A2EF894257F2E99004DA90A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		1A2EF896257F2E99004DA90A /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		1A2EF899257F2E99004DA90A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		1A2EF89B257F2E9A004DA90A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1A2EF89E257F2E9A004DA90A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -55,7 +56,8 @@
 		1A2EF8B0257F2E9A004DA90A /* test_for_CuckooUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = test_for_CuckooUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1A2EF8B4257F2E9A004DA90A /* test_for_CuckooUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = test_for_CuckooUITests.swift; sourceTree = "<group>"; };
 		1A2EF8B6257F2E9A004DA90A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		1A2EF8C2257F2F42004DA90A /* MainPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPresenter.swift; sourceTree = "<group>"; };
+		1A6D05AC257F8672000DE167 /* MainPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainPresenter.swift; sourceTree = "<group>"; };
+		1A6D05B1257F8678000DE167 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		1B0967CAD3DFB3A37FD04985 /* Pods-test_for_Cuckoo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-test_for_Cuckoo.debug.xcconfig"; path = "Target Support Files/Pods-test_for_Cuckoo/Pods-test_for_Cuckoo.debug.xcconfig"; sourceTree = "<group>"; };
 		3696BC499B0141607A86AF48 /* Pods-test_for_Cuckoo-test_for_CuckooUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-test_for_Cuckoo-test_for_CuckooUITests.debug.xcconfig"; path = "Target Support Files/Pods-test_for_Cuckoo-test_for_CuckooUITests/Pods-test_for_Cuckoo-test_for_CuckooUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		3B20B87D526512A1394FDB8F /* Pods-test_for_CuckooTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-test_for_CuckooTests.release.xcconfig"; path = "Target Support Files/Pods-test_for_CuckooTests/Pods-test_for_CuckooTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -122,8 +124,9 @@
 			children = (
 				1A2EF892257F2E99004DA90A /* AppDelegate.swift */,
 				1A2EF894257F2E99004DA90A /* SceneDelegate.swift */,
-				1A2EF896257F2E99004DA90A /* ViewController.swift */,
-				1A2EF8C2257F2F42004DA90A /* MainPresenter.swift */,
+				1A6D05B0257F8678000DE167 /* View */,
+				1A6D05AB257F8672000DE167 /* Presenter */,
+				1A6D05AA257F8669000DE167 /* Model */,
 				1A2EF898257F2E99004DA90A /* Main.storyboard */,
 				1A2EF89B257F2E9A004DA90A /* Assets.xcassets */,
 				1A2EF89D257F2E9A004DA90A /* LaunchScreen.storyboard */,
@@ -150,6 +153,29 @@
 			path = test_for_CuckooUITests;
 			sourceTree = "<group>";
 		};
+		1A6D05AA257F8669000DE167 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		1A6D05AB257F8672000DE167 /* Presenter */ = {
+			isa = PBXGroup;
+			children = (
+				1A6D05AC257F8672000DE167 /* MainPresenter.swift */,
+			);
+			path = Presenter;
+			sourceTree = "<group>";
+		};
+		1A6D05B0257F8678000DE167 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				1A6D05B1257F8678000DE167 /* ViewController.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		86204E96DC8C1223D882805C /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -160,7 +186,6 @@
 				DEEA9AA5A9742EB55945F3FC /* Pods-test_for_CuckooTests.debug.xcconfig */,
 				3B20B87D526512A1394FDB8F /* Pods-test_for_CuckooTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -431,10 +456,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1A2EF897257F2E99004DA90A /* ViewController.swift in Sources */,
+				1A6D05B2257F8678000DE167 /* ViewController.swift in Sources */,
+				1A6D05AD257F8672000DE167 /* MainPresenter.swift in Sources */,
 				1A2EF893257F2E99004DA90A /* AppDelegate.swift in Sources */,
 				1A2EF895257F2E99004DA90A /* SceneDelegate.swift in Sources */,
-				1A2EF8C3257F2F42004DA90A /* MainPresenter.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -443,7 +468,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				1A2EF8AA257F2E9A004DA90A /* test_for_CuckooTests.swift in Sources */,
-				1A2EF8C4257F2F42004DA90A /* MainPresenter.swift in Sources */,
+				1A6D05AE257F8672000DE167 /* MainPresenter.swift in Sources */,
+				1A6D05B3257F8678000DE167 /* ViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -452,7 +478,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				1A2EF8B5257F2E9A004DA90A /* test_for_CuckooUITests.swift in Sources */,
-				1A2EF8C5257F2F42004DA90A /* MainPresenter.swift in Sources */,
+				1A6D05AF257F8672000DE167 /* MainPresenter.swift in Sources */,
+				1A6D05B4257F8678000DE167 /* ViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
