@@ -1,0 +1,1367 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		05934B42EDD9F2B08AD10D438DD11FA9 /* ToBeStubbedProperty.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6FD540A50C5F1B20B710256FD47DFE6 /* ToBeStubbedProperty.swift */; };
+		06A9715BF5811C5D918A92B3882FEFD5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54808C6C88411583D225CB43662CF2A8 /* Foundation.framework */; };
+		09EB593EF2C0E6670EDE7E28F706CC96 /* DefaultValueRegistry.swift in Sources */ = {isa = PBXBuildFile; fileRef = B46BD399F06B035B7B71D44A1F718B65 /* DefaultValueRegistry.swift */; };
+		0B7AA9DE5B5F63D414B017F3F38C306F /* FSPagerView-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = B6C8759EC3DD75EA715D384F89E5D056 /* FSPagerView-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0CDD9C76DC7D159907B08D77221F8C27 /* ToBeStubbedReadOnlyProperty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 237119C731582559D097B5FF64F6641A /* ToBeStubbedReadOnlyProperty.swift */; };
+		162A3D0B5F025871F109D2354F9EDF16 /* FSPagerViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD1189D17442EE0E7D843BBBBBBDB40A /* FSPagerViewCell.swift */; };
+		289773B79897998000B11B98A6870B7E /* CuckooFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79D947658354BC6EC79AE4FB7739290D /* CuckooFunctions.swift */; };
+		29549D82829F35DCCB695A901459FC5F /* ArgumentCaptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48909D79CC5E35B8052645CD568B3B31 /* ArgumentCaptor.swift */; };
+		2DBD05BF712364B05E22EDCA28D2615E /* Stub.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AFDD0A989120D14B2C451B3DD0A477B /* Stub.swift */; };
+		2E1B0AC060EAA9E1BCE21C18F53542C5 /* StubFunctionThenCallRealImplementationTrait.swift in Sources */ = {isa = PBXBuildFile; fileRef = 928D874EEC7EC39EB5702AFA76B5C7F5 /* StubFunctionThenCallRealImplementationTrait.swift */; };
+		32E959D5213239CF0D84BD498775EBD9 /* StubNoReturnThrowingFunction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165B60F39DDB22533216BBB63F23C1C2 /* StubNoReturnThrowingFunction.swift */; };
+		3AF45799AE9E593A53E23EDF487DAF1B /* StubFunctionThenThrowingTrait.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7500C8EEE679A3241A2F656C7A8238D /* StubFunctionThenThrowingTrait.swift */; };
+		3FFA4B3B2FC82175FA4D2DD7394DBA38 /* Pods-test_for_CuckooTests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AA35124B382E8576C2C15BE477EC9F8 /* Pods-test_for_CuckooTests-dummy.m */; };
+		4DC758B228965072C4F3EFA007802AF3 /* Matchable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D3256D537652C5178A51E2BA41D1AF /* Matchable.swift */; };
+		5405240B3B74BEACCD4820595881CB61 /* FSPageViewTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40C6A80DC5B238794185975D7189933 /* FSPageViewTransformer.swift */; };
+		57B06E9633457D580E37B0D2A27CF582 /* CallMatcherFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476261A239037156B35B9FA14230E009 /* CallMatcherFunctions.swift */; };
+		6083C03F9B2DAAEB703217E632D07823 /* StubFunctionThenReturnTrait.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495109B932043C0E94A406B10ADACB98 /* StubFunctionThenReturnTrait.swift */; };
+		612B3045C731B08436ABFE967B276D67 /* MockBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC8E8778A9852BEF0A6F378AD8D671D0 /* MockBuilder.swift */; };
+		618EE464AF3F5AE0E9F55A68B5AE2599 /* ParameterMatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDF69182C4867E3B684E3B7921669E08 /* ParameterMatcher.swift */; };
+		6300672DE2AF4F9C1330C31FDA807768 /* StubCall.swift in Sources */ = {isa = PBXBuildFile; fileRef = F06F63472D00839C1E07598A9C5E8E47 /* StubCall.swift */; };
+		6693FAABCE6379B8DE510FFD2E5C3BE9 /* VerifyProperty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53D82E8EB07E048FAF876D09C4093C19 /* VerifyProperty.swift */; };
+		674354090507B3319EBC2FC18690EC5B /* FSPagerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 890EFD429EF4A071ACEA0E2D45C1BE35 /* FSPagerView.swift */; };
+		702D69BF03EA44844FEAD648C0249E88 /* FSPagerViewObjcCompat.m in Sources */ = {isa = PBXBuildFile; fileRef = C5BA50715ADF22D1A249D8CBD80B6600 /* FSPagerViewObjcCompat.m */; };
+		7039A51919788691D47C0C606F41DA0D /* Dictionary+matchers.swift in Sources */ = {isa = PBXBuildFile; fileRef = A44727C565C8AC62FE1B2C9FDC997F67 /* Dictionary+matchers.swift */; };
+		781328660DE3DBD4C1DEECBCBAEBAB25 /* FSPageViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0E24BA3A8D2886EE7D16914053AEAAA /* FSPageViewLayout.swift */; };
+		792B34C0036D916C02052C9CB873DAFE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54808C6C88411583D225CB43662CF2A8 /* Foundation.framework */; };
+		7B685C942F38136D467F6086D2A9C15D /* VerificationProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 662AA820D34939DA34A24BDD8EAAAE02 /* VerificationProxy.swift */; };
+		7CB62474AFF64CE4647E67F4916360C2 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54808C6C88411583D225CB43662CF2A8 /* Foundation.framework */; };
+		7E09CEE5D075B12FCE204C3C2412F9AF /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE438E25F67548080875B1E9D861E554 /* XCTest.framework */; };
+		841D07E543F7645F467D90FDB8B3531C /* StubAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032A81BD9083F910105ABD6CE1A0815D /* StubAction.swift */; };
+		87E4BE420171E747C5E7558B64EF18B0 /* StubFunctionThenDoNothingTrait.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B9DF9AF8E5A41A03319C24E78A3D524 /* StubFunctionThenDoNothingTrait.swift */; };
+		88176AA690DE1EBD2F8318DD4B8CB676 /* FSPagerView-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = CB0FD1F0B71F2DE22DC2AF7CC1AF7F30 /* FSPagerView-dummy.m */; };
+		9530566E9588A4605D0A7E1C5CC1D062 /* Pods-test_for_CuckooTests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = F91CDAAE50AD42B61E30B8A01B90A59F /* Pods-test_for_CuckooTests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9CC9B1068E881FD2E93B835ADB271D65 /* ThreadLocal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 433ACA1E73E94A4B081DA1DFC6B7768F /* ThreadLocal.swift */; };
+		A0AF38BD964E04E88586B10151404B8C /* FSPagerCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDD6CFA67801C51ACE31C9DF9D90B1C3 /* FSPagerCollectionView.swift */; };
+		A1C532850C5E44985940C62468462519 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54808C6C88411583D225CB43662CF2A8 /* Foundation.framework */; };
+		A2E8F38BF61FDFA928AB37A59DF88AF1 /* Pods-test_for_Cuckoo-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = FCEC1F2F4E20B64C40E0F58B7C02F9B4 /* Pods-test_for_Cuckoo-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A3D7F3815D4F055BEFD04D78177E6709 /* Pods-test_for_Cuckoo-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FA0E1263A5EBEC6E39DEEA13FC873B3 /* Pods-test_for_Cuckoo-dummy.m */; };
+		A402A1B0DA338F5963E3EC8DB2BE2AC0 /* VerifyReadOnlyProperty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87AB6180A3A6A18FE30DEA614D5C2855 /* VerifyReadOnlyProperty.swift */; };
+		AB1BFC3B19F8BAB981AC200026D88452 /* __DoNotUse.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB485F638A7616D05A8D81865DC9701B /* __DoNotUse.swift */; };
+		AD148E9649E649860DD978E7387D5166 /* BaseStubFunctionTrait.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56162A0BC78B8B42B538F589495681CE /* BaseStubFunctionTrait.swift */; };
+		AD42B158EA8D302DA980C9A31EA487C2 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 03D9F470BE7939CC23898F0F41EF0B5E /* UIKit.framework */; };
+		B1A909E5DEBDC7D4843CD39E83749BA0 /* StubFunctionThenTrait.swift in Sources */ = {isa = PBXBuildFile; fileRef = E287B9CF606AD8629578264C728EB4DD /* StubFunctionThenTrait.swift */; };
+		B4C70F5E8C02F97124ABF4E94CFE048C /* Mock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90B0E273A04B0DC7CE8F94915E7900A5 /* Mock.swift */; };
+		B96355A950B52767BDFCB3404D02EFC8 /* Cuckoo-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 72E08408726360280EDC6F0D0EF79EE0 /* Cuckoo-dummy.m */; };
+		BDAFB69C4408D1AA1D95F62F5F6F376E /* Mocked.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E0B8B896369D80A5EAADEDBC90A8C7D /* Mocked.swift */; };
+		BF00A9938111A311A8E0B9DE837840DB /* CreateMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09B55054EC18560AD201E650DC1400B4 /* CreateMock.swift */; };
+		C1DBB5B6040C8DE1BB6098FD85F57FAB /* Array+matchers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 906C05436311D0BF8E384D7F0E7148DB /* Array+matchers.swift */; };
+		C229EE15EA17374088C57E359CF20B43 /* Pods-test_for_Cuckoo-test_for_CuckooUITests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D4C72130848D3C2E2838690950A7212 /* Pods-test_for_Cuckoo-test_for_CuckooUITests-dummy.m */; };
+		C4ABE147DE603541B6899582EDF1B7D8 /* MockManager+preconfigured.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1033F03CB16066569BA1E1BED27EB84 /* MockManager+preconfigured.swift */; };
+		C9812DB34DB8CB7B2FAEAB9278EABB77 /* Cuckoo-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 7A3A1C7D9EA8D837B614B98EE18F06EF /* Cuckoo-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		CABF151B8611FA9937627F1DDFF71BC4 /* StubFunctionThenThrowTrait.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D25C9CA267F7A1EAA7B9FADE74A2F4C /* StubFunctionThenThrowTrait.swift */; };
+		CED9EC4A77DA392DF2764B2780FFF124 /* StubNoReturnFunction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 159F1324CC059D06FD891581D0528F1C /* StubNoReturnFunction.swift */; };
+		CFCED42013D268A10D0E7D5441FF70A9 /* StubFunction.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6FE7EB4AFFBC7C16AB83144E18EC8F3 /* StubFunction.swift */; };
+		D1956E389CE6A7E6BF64A8ED72008C46 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE7EEA92DBEC052E4D5105F42A93DBE /* Utils.swift */; };
+		DBF23FE7D8D680D9B19E5EA07CF070F0 /* Pods-test_for_Cuckoo-test_for_CuckooUITests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 2B8B6E55587E58D2199C0EDC563DF75A /* Pods-test_for_Cuckoo-test_for_CuckooUITests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DC02A5B5DF264C8959DE64863899DAAD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54808C6C88411583D225CB43662CF2A8 /* Foundation.framework */; };
+		DCC8F44280CF1048E9AF09204FE96BDC /* StubbingProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = F65BD235216A8691E4227F605477154B /* StubbingProxy.swift */; };
+		E4D526DCF32314F78F832AF8750DCBAA /* FSPageControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55EEC1B4F27DCF9C16E73DC86852F58C /* FSPageControl.swift */; };
+		E9F49F230D327FEAD9D2BF1A936C485A /* ParameterMatcherFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 850E3965233B21B9BB9424F25BBF731A /* ParameterMatcherFunctions.swift */; };
+		ECA7DD07597E971B856781E3697E786C /* CallMatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA085B10F63234D61865966D1D63D30 /* CallMatcher.swift */; };
+		F1906A44D6C430B8944B317F9E7651A2 /* FSPagerViewObjcCompat.h in Headers */ = {isa = PBXBuildFile; fileRef = 8EC4CD64A484346CF00A46A215533DCC /* FSPagerViewObjcCompat.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F2A3B4CFD7ED1812AF44330CCC7E7622 /* FSPagerViewLayoutAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1787F52E2BCA45D40FB0A4A42B53BEFB /* FSPagerViewLayoutAttributes.swift */; };
+		F33C6542E82CBE64D8AAAA442D404F4E /* StubThrowingFunction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4173FE2FB576BBFE928E1CD17E769AE2 /* StubThrowingFunction.swift */; };
+		FD1167035FB07F9AAE0088B0885F1470 /* Set+matchers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E998EAF8D4D62CCA6EAE8A3DD797F2A /* Set+matchers.swift */; };
+		FED8036E5F19A9642F17D56474CA83BF /* MockManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61DC381E121C494C04F2BBB8BB423293 /* MockManager.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		263BC269F5E88DD8433D168D7B87FDD0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = CFCA8CA494372A14108299CE150648B8;
+			remoteInfo = Cuckoo;
+		};
+		3C690A2AB2A76A77BD4F75F437370F7B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D4F8239FB329387A8476B964D92D92E7;
+			remoteInfo = FSPagerView;
+		};
+		5BFA8E13FB741781DD03331998AD6213 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 769DE5F228B7A6BF0898592A07EB2E4A;
+			remoteInfo = "Pods-test_for_Cuckoo";
+		};
+		62DB7419385BF528AAE0BE107ABF30DD /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D4F8239FB329387A8476B964D92D92E7;
+			remoteInfo = FSPagerView;
+		};
+		873A5B29023F9A2DB637E29FD05D4AD4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = CFCA8CA494372A14108299CE150648B8;
+			remoteInfo = Cuckoo;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		032A81BD9083F910105ABD6CE1A0815D /* StubAction.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = StubAction.swift; path = Source/Stubbing/StubAction.swift; sourceTree = "<group>"; };
+		03D9F470BE7939CC23898F0F41EF0B5E /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS14.0.sdk/System/Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
+		04D3256D537652C5178A51E2BA41D1AF /* Matchable.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Matchable.swift; path = Source/Matching/Matchable.swift; sourceTree = "<group>"; };
+		055391E0353DCFDCAB1333A9A6686129 /* Pods-test_for_Cuckoo-test_for_CuckooUITests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-test_for_Cuckoo-test_for_CuckooUITests-acknowledgements.plist"; sourceTree = "<group>"; };
+		05BDAA38394B7D84F715CFCD5B1BC8B3 /* Cuckoo.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = Cuckoo.modulemap; sourceTree = "<group>"; };
+		06BBD3298EFC08D95EEFE526BDDCDBD1 /* Cuckoo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Cuckoo.framework; path = Cuckoo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		09B55054EC18560AD201E650DC1400B4 /* CreateMock.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = CreateMock.swift; path = Source/Initialization/CreateMock.swift; sourceTree = "<group>"; };
+		0E0B8B896369D80A5EAADEDBC90A8C7D /* Mocked.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Mocked.swift; path = Source/Mock/Mocked.swift; sourceTree = "<group>"; };
+		0F47FB5E28EE8C8342B1776D813D1A4C /* FSPagerView.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = FSPagerView.framework; path = FSPagerView.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		0FA0E1263A5EBEC6E39DEEA13FC873B3 /* Pods-test_for_Cuckoo-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-test_for_Cuckoo-dummy.m"; sourceTree = "<group>"; };
+		159F1324CC059D06FD891581D0528F1C /* StubNoReturnFunction.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = StubNoReturnFunction.swift; path = Source/Stubbing/StubFunction/StubNoReturnFunction.swift; sourceTree = "<group>"; };
+		165B60F39DDB22533216BBB63F23C1C2 /* StubNoReturnThrowingFunction.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = StubNoReturnThrowingFunction.swift; path = Source/Stubbing/StubFunction/StubNoReturnThrowingFunction.swift; sourceTree = "<group>"; };
+		1787F52E2BCA45D40FB0A4A42B53BEFB /* FSPagerViewLayoutAttributes.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = FSPagerViewLayoutAttributes.swift; path = Sources/FSPagerViewLayoutAttributes.swift; sourceTree = "<group>"; };
+		1B9DF9AF8E5A41A03319C24E78A3D524 /* StubFunctionThenDoNothingTrait.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = StubFunctionThenDoNothingTrait.swift; path = Source/Stubbing/StubFunction/Trait/StubFunctionThenDoNothingTrait.swift; sourceTree = "<group>"; };
+		1FE7EEA92DBEC052E4D5105F42A93DBE /* Utils.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Utils.swift; path = Source/Utils.swift; sourceTree = "<group>"; };
+		23471F65BB9F4544C47E09D3D9953B80 /* Cuckoo-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Cuckoo-prefix.pch"; sourceTree = "<group>"; };
+		237119C731582559D097B5FF64F6641A /* ToBeStubbedReadOnlyProperty.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ToBeStubbedReadOnlyProperty.swift; path = Source/Stubbing/ToBeStubbedProperty/ToBeStubbedReadOnlyProperty.swift; sourceTree = "<group>"; };
+		247AB5EF5F6BC271F4920B08CF45B3B7 /* Pods-test_for_Cuckoo-test_for_CuckooUITests-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-test_for_Cuckoo-test_for_CuckooUITests-frameworks.sh"; sourceTree = "<group>"; };
+		2AFDD0A989120D14B2C451B3DD0A477B /* Stub.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Stub.swift; path = Source/Stubbing/Stub.swift; sourceTree = "<group>"; };
+		2B8B6E55587E58D2199C0EDC563DF75A /* Pods-test_for_Cuckoo-test_for_CuckooUITests-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-test_for_Cuckoo-test_for_CuckooUITests-umbrella.h"; sourceTree = "<group>"; };
+		2FF3D9E710C8ACA6D38F798C701D6205 /* Cuckoo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Cuckoo.debug.xcconfig; sourceTree = "<group>"; };
+		3125435E25C34D17C887933227614477 /* FSPagerView-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "FSPagerView-prefix.pch"; sourceTree = "<group>"; };
+		34A7BBE0F826A94488B3A5F9BBABD688 /* Pods-test_for_Cuckoo-test_for_CuckooUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-test_for_Cuckoo-test_for_CuckooUITests.release.xcconfig"; sourceTree = "<group>"; };
+		362F6DA1DC6E83DB38A2DA30F9442C20 /* Pods-test_for_CuckooTests-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-test_for_CuckooTests-Info.plist"; sourceTree = "<group>"; };
+		36C0BF3374068B333498EBA29B60E563 /* FSPagerView.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = FSPagerView.modulemap; sourceTree = "<group>"; };
+		4173FE2FB576BBFE928E1CD17E769AE2 /* StubThrowingFunction.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = StubThrowingFunction.swift; path = Source/Stubbing/StubFunction/StubThrowingFunction.swift; sourceTree = "<group>"; };
+		433ACA1E73E94A4B081DA1DFC6B7768F /* ThreadLocal.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ThreadLocal.swift; path = Source/Initialization/ThreadLocal.swift; sourceTree = "<group>"; };
+		440D8C33B9D9A9A4868223D0C2D28FF9 /* Pods-test_for_Cuckoo.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-test_for_Cuckoo.modulemap"; sourceTree = "<group>"; };
+		476261A239037156B35B9FA14230E009 /* CallMatcherFunctions.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = CallMatcherFunctions.swift; path = Source/Matching/CallMatcherFunctions.swift; sourceTree = "<group>"; };
+		48909D79CC5E35B8052645CD568B3B31 /* ArgumentCaptor.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ArgumentCaptor.swift; path = Source/Verification/ArgumentCaptor.swift; sourceTree = "<group>"; };
+		495109B932043C0E94A406B10ADACB98 /* StubFunctionThenReturnTrait.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = StubFunctionThenReturnTrait.swift; path = Source/Stubbing/StubFunction/Trait/StubFunctionThenReturnTrait.swift; sourceTree = "<group>"; };
+		4A8353F816D14495218996E1BA878701 /* Pods-test_for_Cuckoo-test_for_CuckooUITests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-test_for_Cuckoo-test_for_CuckooUITests.modulemap"; sourceTree = "<group>"; };
+		53D82E8EB07E048FAF876D09C4093C19 /* VerifyProperty.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = VerifyProperty.swift; path = Source/Verification/VerifyProperty/VerifyProperty.swift; sourceTree = "<group>"; };
+		54808C6C88411583D225CB43662CF2A8 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS14.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
+		55EEC1B4F27DCF9C16E73DC86852F58C /* FSPageControl.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = FSPageControl.swift; path = Sources/FSPageControl.swift; sourceTree = "<group>"; };
+		56162A0BC78B8B42B538F589495681CE /* BaseStubFunctionTrait.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = BaseStubFunctionTrait.swift; path = Source/Stubbing/StubFunction/Trait/BaseStubFunctionTrait.swift; sourceTree = "<group>"; };
+		575755083CD7F2DB524531D85C1619E3 /* Pods-test_for_Cuckoo-test_for_CuckooUITests-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-test_for_Cuckoo-test_for_CuckooUITests-Info.plist"; sourceTree = "<group>"; };
+		57C9924777C2ACA939899F2716BE1B6A /* Pods-test_for_Cuckoo-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-test_for_Cuckoo-acknowledgements.plist"; sourceTree = "<group>"; };
+		5CE0CCB4342F1C04A22DEFAAC5D3C699 /* Pods_test_for_Cuckoo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_test_for_Cuckoo.framework; path = "Pods-test_for_Cuckoo.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		5D4C72130848D3C2E2838690950A7212 /* Pods-test_for_Cuckoo-test_for_CuckooUITests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-test_for_Cuckoo-test_for_CuckooUITests-dummy.m"; sourceTree = "<group>"; };
+		5E8BCC7E78E765906F3C62A96CABAAE7 /* Pods-test_for_CuckooTests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-test_for_CuckooTests-acknowledgements.plist"; sourceTree = "<group>"; };
+		61DC381E121C494C04F2BBB8BB423293 /* MockManager.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MockManager.swift; path = Source/MockManager.swift; sourceTree = "<group>"; };
+		662AA820D34939DA34A24BDD8EAAAE02 /* VerificationProxy.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = VerificationProxy.swift; path = Source/Mock/VerificationProxy.swift; sourceTree = "<group>"; };
+		6AA35124B382E8576C2C15BE477EC9F8 /* Pods-test_for_CuckooTests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-test_for_CuckooTests-dummy.m"; sourceTree = "<group>"; };
+		6AAF744C195DE6CBD55D56070221F50C /* Pods-test_for_CuckooTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-test_for_CuckooTests.release.xcconfig"; sourceTree = "<group>"; };
+		6D25C9CA267F7A1EAA7B9FADE74A2F4C /* StubFunctionThenThrowTrait.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = StubFunctionThenThrowTrait.swift; path = Source/Stubbing/StubFunction/Trait/StubFunctionThenThrowTrait.swift; sourceTree = "<group>"; };
+		72E08408726360280EDC6F0D0EF79EE0 /* Cuckoo-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Cuckoo-dummy.m"; sourceTree = "<group>"; };
+		79D947658354BC6EC79AE4FB7739290D /* CuckooFunctions.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = CuckooFunctions.swift; path = Source/CuckooFunctions.swift; sourceTree = "<group>"; };
+		7A3A1C7D9EA8D837B614B98EE18F06EF /* Cuckoo-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Cuckoo-umbrella.h"; sourceTree = "<group>"; };
+		850E3965233B21B9BB9424F25BBF731A /* ParameterMatcherFunctions.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ParameterMatcherFunctions.swift; path = Source/Matching/ParameterMatcherFunctions.swift; sourceTree = "<group>"; };
+		87AB6180A3A6A18FE30DEA614D5C2855 /* VerifyReadOnlyProperty.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = VerifyReadOnlyProperty.swift; path = Source/Verification/VerifyProperty/VerifyReadOnlyProperty.swift; sourceTree = "<group>"; };
+		890EFD429EF4A071ACEA0E2D45C1BE35 /* FSPagerView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = FSPagerView.swift; path = Sources/FSPagerView.swift; sourceTree = "<group>"; };
+		8B2D9B36D5370569E51D0EC59448E81C /* Pods-test_for_Cuckoo-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-test_for_Cuckoo-acknowledgements.markdown"; sourceTree = "<group>"; };
+		8E998EAF8D4D62CCA6EAE8A3DD797F2A /* Set+matchers.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "Set+matchers.swift"; path = "Source/Matching/Set+matchers.swift"; sourceTree = "<group>"; };
+		8EC4CD64A484346CF00A46A215533DCC /* FSPagerViewObjcCompat.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FSPagerViewObjcCompat.h; path = Sources/FSPagerViewObjcCompat.h; sourceTree = "<group>"; };
+		8F6C60B724D32CFB638CCFEE3EBDCB5C /* Pods-test_for_CuckooTests-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-test_for_CuckooTests-frameworks.sh"; sourceTree = "<group>"; };
+		8FA085B10F63234D61865966D1D63D30 /* CallMatcher.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = CallMatcher.swift; path = Source/Matching/CallMatcher.swift; sourceTree = "<group>"; };
+		906C05436311D0BF8E384D7F0E7148DB /* Array+matchers.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "Array+matchers.swift"; path = "Source/Matching/Array+matchers.swift"; sourceTree = "<group>"; };
+		90B0E273A04B0DC7CE8F94915E7900A5 /* Mock.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Mock.swift; path = Source/Mock/Mock.swift; sourceTree = "<group>"; };
+		91F51AC4CA260EDAE3134B4C588C9DFD /* FSPagerView.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = FSPagerView.release.xcconfig; sourceTree = "<group>"; };
+		928D874EEC7EC39EB5702AFA76B5C7F5 /* StubFunctionThenCallRealImplementationTrait.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = StubFunctionThenCallRealImplementationTrait.swift; path = Source/Stubbing/StubFunction/Trait/StubFunctionThenCallRealImplementationTrait.swift; sourceTree = "<group>"; };
+		940CCC497E69ED81BAD4631E5DADB6E1 /* Pods-test_for_Cuckoo-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-test_for_Cuckoo-Info.plist"; sourceTree = "<group>"; };
+		97639A14BDDCFDAA98AAFBF17FB3AAEE /* FSPagerView-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "FSPagerView-Info.plist"; sourceTree = "<group>"; };
+		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		A20C164824DA61A93128E7F15C3B032C /* Pods-test_for_Cuckoo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-test_for_Cuckoo.debug.xcconfig"; sourceTree = "<group>"; };
+		A44727C565C8AC62FE1B2C9FDC997F67 /* Dictionary+matchers.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "Dictionary+matchers.swift"; path = "Source/Matching/Dictionary+matchers.swift"; sourceTree = "<group>"; };
+		A522A60DAD8F6623DF9C5A32CC361BD2 /* Pods-test_for_CuckooTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-test_for_CuckooTests.debug.xcconfig"; sourceTree = "<group>"; };
+		A665739FFED559E5728821F70A072560 /* Pods-test_for_CuckooTests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-test_for_CuckooTests-acknowledgements.markdown"; sourceTree = "<group>"; };
+		A6FE7EB4AFFBC7C16AB83144E18EC8F3 /* StubFunction.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = StubFunction.swift; path = Source/Stubbing/StubFunction/StubFunction.swift; sourceTree = "<group>"; };
+		AC79022DD2980F2D59CFB2967ACA10F6 /* Pods-test_for_Cuckoo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-test_for_Cuckoo.release.xcconfig"; sourceTree = "<group>"; };
+		AE438E25F67548080875B1E9D861E554 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS14.0.sdk/System/Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		AF4D6E35353B0C7D397B538F98614582 /* Pods-test_for_Cuckoo-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-test_for_Cuckoo-frameworks.sh"; sourceTree = "<group>"; };
+		B46BD399F06B035B7B71D44A1F718B65 /* DefaultValueRegistry.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = DefaultValueRegistry.swift; path = Source/DefaultValueRegistry.swift; sourceTree = "<group>"; };
+		B6C8759EC3DD75EA715D384F89E5D056 /* FSPagerView-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "FSPagerView-umbrella.h"; sourceTree = "<group>"; };
+		B76FD6CD7DD7BB4E4FF0757D2B97090B /* Cuckoo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Cuckoo.release.xcconfig; sourceTree = "<group>"; };
+		C5BA50715ADF22D1A249D8CBD80B6600 /* FSPagerViewObjcCompat.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = FSPagerViewObjcCompat.m; path = Sources/FSPagerViewObjcCompat.m; sourceTree = "<group>"; };
+		C5C4A44EDA28E074C4ED95120172F615 /* Pods_test_for_CuckooTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_test_for_CuckooTests.framework; path = "Pods-test_for_CuckooTests.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		CB0FD1F0B71F2DE22DC2AF7CC1AF7F30 /* FSPagerView-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "FSPagerView-dummy.m"; sourceTree = "<group>"; };
+		CB8848C79E751E49CBE3E573305BBC09 /* FSPagerView.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = FSPagerView.debug.xcconfig; sourceTree = "<group>"; };
+		CC0E45AE9D308A578CA1C2CBB0F40BFC /* Pods-test_for_Cuckoo-test_for_CuckooUITests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-test_for_Cuckoo-test_for_CuckooUITests-acknowledgements.markdown"; sourceTree = "<group>"; };
+		D43DD617C9967EE0977B70EBD94C90B0 /* Pods_test_for_Cuckoo_test_for_CuckooUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_test_for_Cuckoo_test_for_CuckooUITests.framework; path = "Pods-test_for_Cuckoo-test_for_CuckooUITests.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D6FD540A50C5F1B20B710256FD47DFE6 /* ToBeStubbedProperty.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ToBeStubbedProperty.swift; path = Source/Stubbing/ToBeStubbedProperty/ToBeStubbedProperty.swift; sourceTree = "<group>"; };
+		DB485F638A7616D05A8D81865DC9701B /* __DoNotUse.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = __DoNotUse.swift; path = Source/Verification/__DoNotUse.swift; sourceTree = "<group>"; };
+		DC8E8778A9852BEF0A6F378AD8D671D0 /* MockBuilder.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MockBuilder.swift; path = Source/Initialization/MockBuilder.swift; sourceTree = "<group>"; };
+		DE3DA91BF29FF02A99C242EE2C85EB55 /* Pods-test_for_Cuckoo-test_for_CuckooUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-test_for_Cuckoo-test_for_CuckooUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		DFBBDCAC0321D3B00C576D8072EBE14F /* Cuckoo-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Cuckoo-Info.plist"; sourceTree = "<group>"; };
+		E0E24BA3A8D2886EE7D16914053AEAAA /* FSPageViewLayout.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = FSPageViewLayout.swift; path = Sources/FSPageViewLayout.swift; sourceTree = "<group>"; };
+		E1033F03CB16066569BA1E1BED27EB84 /* MockManager+preconfigured.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "MockManager+preconfigured.swift"; path = "Source/Initialization/MockManager+preconfigured.swift"; sourceTree = "<group>"; };
+		E287B9CF606AD8629578264C728EB4DD /* StubFunctionThenTrait.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = StubFunctionThenTrait.swift; path = Source/Stubbing/StubFunction/Trait/StubFunctionThenTrait.swift; sourceTree = "<group>"; };
+		E7500C8EEE679A3241A2F656C7A8238D /* StubFunctionThenThrowingTrait.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = StubFunctionThenThrowingTrait.swift; path = Source/Stubbing/StubFunction/Trait/StubFunctionThenThrowingTrait.swift; sourceTree = "<group>"; };
+		F06F63472D00839C1E07598A9C5E8E47 /* StubCall.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = StubCall.swift; path = Source/Stubbing/StubCall.swift; sourceTree = "<group>"; };
+		F40C6A80DC5B238794185975D7189933 /* FSPageViewTransformer.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = FSPageViewTransformer.swift; path = Sources/FSPageViewTransformer.swift; sourceTree = "<group>"; };
+		F65BD235216A8691E4227F605477154B /* StubbingProxy.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = StubbingProxy.swift; path = Source/Mock/StubbingProxy.swift; sourceTree = "<group>"; };
+		F6E01B364C0DE5D9626E5BA571E62F10 /* Pods-test_for_CuckooTests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-test_for_CuckooTests.modulemap"; sourceTree = "<group>"; };
+		F91CDAAE50AD42B61E30B8A01B90A59F /* Pods-test_for_CuckooTests-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-test_for_CuckooTests-umbrella.h"; sourceTree = "<group>"; };
+		FCEC1F2F4E20B64C40E0F58B7C02F9B4 /* Pods-test_for_Cuckoo-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-test_for_Cuckoo-umbrella.h"; sourceTree = "<group>"; };
+		FD1189D17442EE0E7D843BBBBBBDB40A /* FSPagerViewCell.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = FSPagerViewCell.swift; path = Sources/FSPagerViewCell.swift; sourceTree = "<group>"; };
+		FDD6CFA67801C51ACE31C9DF9D90B1C3 /* FSPagerCollectionView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = FSPagerCollectionView.swift; path = Sources/FSPagerCollectionView.swift; sourceTree = "<group>"; };
+		FDF69182C4867E3B684E3B7921669E08 /* ParameterMatcher.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ParameterMatcher.swift; path = Source/Matching/ParameterMatcher.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		237DC3AA41D878329FB1C084D5B0B08A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7CB62474AFF64CE4647E67F4916360C2 /* Foundation.framework in Frameworks */,
+				AD42B158EA8D302DA980C9A31EA487C2 /* UIKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3A5B4AC25D6A4E1627CDE17A029583A8 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				06A9715BF5811C5D918A92B3882FEFD5 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		60B8D5D7AF17F58F70667302A5A3FF0F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DC02A5B5DF264C8959DE64863899DAAD /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		73DCCA4377775E57E7B27F953A3C7BEE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				792B34C0036D916C02052C9CB873DAFE /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C4857EFB275084595F894F52AE20C7A0 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A1C532850C5E44985940C62468462519 /* Foundation.framework in Frameworks */,
+				7E09CEE5D075B12FCE204C3C2412F9AF /* XCTest.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		03C3C69E86D1E8D7E4449CE3D77C3457 /* Pods-test_for_Cuckoo */ = {
+			isa = PBXGroup;
+			children = (
+				440D8C33B9D9A9A4868223D0C2D28FF9 /* Pods-test_for_Cuckoo.modulemap */,
+				8B2D9B36D5370569E51D0EC59448E81C /* Pods-test_for_Cuckoo-acknowledgements.markdown */,
+				57C9924777C2ACA939899F2716BE1B6A /* Pods-test_for_Cuckoo-acknowledgements.plist */,
+				0FA0E1263A5EBEC6E39DEEA13FC873B3 /* Pods-test_for_Cuckoo-dummy.m */,
+				AF4D6E35353B0C7D397B538F98614582 /* Pods-test_for_Cuckoo-frameworks.sh */,
+				940CCC497E69ED81BAD4631E5DADB6E1 /* Pods-test_for_Cuckoo-Info.plist */,
+				FCEC1F2F4E20B64C40E0F58B7C02F9B4 /* Pods-test_for_Cuckoo-umbrella.h */,
+				A20C164824DA61A93128E7F15C3B032C /* Pods-test_for_Cuckoo.debug.xcconfig */,
+				AC79022DD2980F2D59CFB2967ACA10F6 /* Pods-test_for_Cuckoo.release.xcconfig */,
+			);
+			name = "Pods-test_for_Cuckoo";
+			path = "Target Support Files/Pods-test_for_Cuckoo";
+			sourceTree = "<group>";
+		};
+		03C5C200A0787E300053CFA8F53CA094 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				204BF320E11014414D53166EB7C125A8 /* iOS */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		085E51A85A3C9B829512631CF8084EFC /* FSPagerView */ = {
+			isa = PBXGroup;
+			children = (
+				55EEC1B4F27DCF9C16E73DC86852F58C /* FSPageControl.swift */,
+				FDD6CFA67801C51ACE31C9DF9D90B1C3 /* FSPagerCollectionView.swift */,
+				890EFD429EF4A071ACEA0E2D45C1BE35 /* FSPagerView.swift */,
+				FD1189D17442EE0E7D843BBBBBBDB40A /* FSPagerViewCell.swift */,
+				1787F52E2BCA45D40FB0A4A42B53BEFB /* FSPagerViewLayoutAttributes.swift */,
+				8EC4CD64A484346CF00A46A215533DCC /* FSPagerViewObjcCompat.h */,
+				C5BA50715ADF22D1A249D8CBD80B6600 /* FSPagerViewObjcCompat.m */,
+				E0E24BA3A8D2886EE7D16914053AEAAA /* FSPageViewLayout.swift */,
+				F40C6A80DC5B238794185975D7189933 /* FSPageViewTransformer.swift */,
+				FE711134633DEAA4C08825758A34BD48 /* Support Files */,
+			);
+			name = FSPagerView;
+			path = FSPagerView;
+			sourceTree = "<group>";
+		};
+		15133713A255348F7AB7FC1242106CD1 /* Cuckoo */ = {
+			isa = PBXGroup;
+			children = (
+				57D2FA8FFD4306BC3A4A64B2A86B4635 /* Support Files */,
+				878F0F949E360505524219092B8D13C8 /* Swift */,
+			);
+			name = Cuckoo;
+			path = Cuckoo;
+			sourceTree = "<group>";
+		};
+		204BF320E11014414D53166EB7C125A8 /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				54808C6C88411583D225CB43662CF2A8 /* Foundation.framework */,
+				03D9F470BE7939CC23898F0F41EF0B5E /* UIKit.framework */,
+				AE438E25F67548080875B1E9D861E554 /* XCTest.framework */,
+			);
+			name = iOS;
+			sourceTree = "<group>";
+		};
+		4657699F7D83E15FB41B758AA3C64B31 /* Pods-test_for_CuckooTests */ = {
+			isa = PBXGroup;
+			children = (
+				F6E01B364C0DE5D9626E5BA571E62F10 /* Pods-test_for_CuckooTests.modulemap */,
+				A665739FFED559E5728821F70A072560 /* Pods-test_for_CuckooTests-acknowledgements.markdown */,
+				5E8BCC7E78E765906F3C62A96CABAAE7 /* Pods-test_for_CuckooTests-acknowledgements.plist */,
+				6AA35124B382E8576C2C15BE477EC9F8 /* Pods-test_for_CuckooTests-dummy.m */,
+				8F6C60B724D32CFB638CCFEE3EBDCB5C /* Pods-test_for_CuckooTests-frameworks.sh */,
+				362F6DA1DC6E83DB38A2DA30F9442C20 /* Pods-test_for_CuckooTests-Info.plist */,
+				F91CDAAE50AD42B61E30B8A01B90A59F /* Pods-test_for_CuckooTests-umbrella.h */,
+				A522A60DAD8F6623DF9C5A32CC361BD2 /* Pods-test_for_CuckooTests.debug.xcconfig */,
+				6AAF744C195DE6CBD55D56070221F50C /* Pods-test_for_CuckooTests.release.xcconfig */,
+			);
+			name = "Pods-test_for_CuckooTests";
+			path = "Target Support Files/Pods-test_for_CuckooTests";
+			sourceTree = "<group>";
+		};
+		57D2FA8FFD4306BC3A4A64B2A86B4635 /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				05BDAA38394B7D84F715CFCD5B1BC8B3 /* Cuckoo.modulemap */,
+				72E08408726360280EDC6F0D0EF79EE0 /* Cuckoo-dummy.m */,
+				DFBBDCAC0321D3B00C576D8072EBE14F /* Cuckoo-Info.plist */,
+				23471F65BB9F4544C47E09D3D9953B80 /* Cuckoo-prefix.pch */,
+				7A3A1C7D9EA8D837B614B98EE18F06EF /* Cuckoo-umbrella.h */,
+				2FF3D9E710C8ACA6D38F798C701D6205 /* Cuckoo.debug.xcconfig */,
+				B76FD6CD7DD7BB4E4FF0757D2B97090B /* Cuckoo.release.xcconfig */,
+			);
+			name = "Support Files";
+			path = "../Target Support Files/Cuckoo";
+			sourceTree = "<group>";
+		};
+		878F0F949E360505524219092B8D13C8 /* Swift */ = {
+			isa = PBXGroup;
+			children = (
+				DB485F638A7616D05A8D81865DC9701B /* __DoNotUse.swift */,
+				48909D79CC5E35B8052645CD568B3B31 /* ArgumentCaptor.swift */,
+				906C05436311D0BF8E384D7F0E7148DB /* Array+matchers.swift */,
+				56162A0BC78B8B42B538F589495681CE /* BaseStubFunctionTrait.swift */,
+				8FA085B10F63234D61865966D1D63D30 /* CallMatcher.swift */,
+				476261A239037156B35B9FA14230E009 /* CallMatcherFunctions.swift */,
+				09B55054EC18560AD201E650DC1400B4 /* CreateMock.swift */,
+				79D947658354BC6EC79AE4FB7739290D /* CuckooFunctions.swift */,
+				B46BD399F06B035B7B71D44A1F718B65 /* DefaultValueRegistry.swift */,
+				A44727C565C8AC62FE1B2C9FDC997F67 /* Dictionary+matchers.swift */,
+				04D3256D537652C5178A51E2BA41D1AF /* Matchable.swift */,
+				90B0E273A04B0DC7CE8F94915E7900A5 /* Mock.swift */,
+				DC8E8778A9852BEF0A6F378AD8D671D0 /* MockBuilder.swift */,
+				0E0B8B896369D80A5EAADEDBC90A8C7D /* Mocked.swift */,
+				61DC381E121C494C04F2BBB8BB423293 /* MockManager.swift */,
+				E1033F03CB16066569BA1E1BED27EB84 /* MockManager+preconfigured.swift */,
+				FDF69182C4867E3B684E3B7921669E08 /* ParameterMatcher.swift */,
+				850E3965233B21B9BB9424F25BBF731A /* ParameterMatcherFunctions.swift */,
+				8E998EAF8D4D62CCA6EAE8A3DD797F2A /* Set+matchers.swift */,
+				2AFDD0A989120D14B2C451B3DD0A477B /* Stub.swift */,
+				032A81BD9083F910105ABD6CE1A0815D /* StubAction.swift */,
+				F65BD235216A8691E4227F605477154B /* StubbingProxy.swift */,
+				F06F63472D00839C1E07598A9C5E8E47 /* StubCall.swift */,
+				A6FE7EB4AFFBC7C16AB83144E18EC8F3 /* StubFunction.swift */,
+				928D874EEC7EC39EB5702AFA76B5C7F5 /* StubFunctionThenCallRealImplementationTrait.swift */,
+				1B9DF9AF8E5A41A03319C24E78A3D524 /* StubFunctionThenDoNothingTrait.swift */,
+				495109B932043C0E94A406B10ADACB98 /* StubFunctionThenReturnTrait.swift */,
+				E7500C8EEE679A3241A2F656C7A8238D /* StubFunctionThenThrowingTrait.swift */,
+				6D25C9CA267F7A1EAA7B9FADE74A2F4C /* StubFunctionThenThrowTrait.swift */,
+				E287B9CF606AD8629578264C728EB4DD /* StubFunctionThenTrait.swift */,
+				159F1324CC059D06FD891581D0528F1C /* StubNoReturnFunction.swift */,
+				165B60F39DDB22533216BBB63F23C1C2 /* StubNoReturnThrowingFunction.swift */,
+				4173FE2FB576BBFE928E1CD17E769AE2 /* StubThrowingFunction.swift */,
+				433ACA1E73E94A4B081DA1DFC6B7768F /* ThreadLocal.swift */,
+				D6FD540A50C5F1B20B710256FD47DFE6 /* ToBeStubbedProperty.swift */,
+				237119C731582559D097B5FF64F6641A /* ToBeStubbedReadOnlyProperty.swift */,
+				1FE7EEA92DBEC052E4D5105F42A93DBE /* Utils.swift */,
+				662AA820D34939DA34A24BDD8EAAAE02 /* VerificationProxy.swift */,
+				53D82E8EB07E048FAF876D09C4093C19 /* VerifyProperty.swift */,
+				87AB6180A3A6A18FE30DEA614D5C2855 /* VerifyReadOnlyProperty.swift */,
+			);
+			name = Swift;
+			sourceTree = "<group>";
+		};
+		A21E0912E8FD96D14446C2B6431CDCCF /* Targets Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				03C3C69E86D1E8D7E4449CE3D77C3457 /* Pods-test_for_Cuckoo */,
+				D0ABA1B6667372F88C5C5ECC540A180A /* Pods-test_for_Cuckoo-test_for_CuckooUITests */,
+				4657699F7D83E15FB41B758AA3C64B31 /* Pods-test_for_CuckooTests */,
+			);
+			name = "Targets Support Files";
+			sourceTree = "<group>";
+		};
+		CF1408CF629C7361332E53B88F7BD30C = {
+			isa = PBXGroup;
+			children = (
+				9D940727FF8FB9C785EB98E56350EF41 /* Podfile */,
+				03C5C200A0787E300053CFA8F53CA094 /* Frameworks */,
+				D8F8C0EDC23079BE4C15D7F889C9FF56 /* Pods */,
+				E89032D65425F7CA1922E9211BBB7EB6 /* Products */,
+				A21E0912E8FD96D14446C2B6431CDCCF /* Targets Support Files */,
+			);
+			sourceTree = "<group>";
+		};
+		D0ABA1B6667372F88C5C5ECC540A180A /* Pods-test_for_Cuckoo-test_for_CuckooUITests */ = {
+			isa = PBXGroup;
+			children = (
+				4A8353F816D14495218996E1BA878701 /* Pods-test_for_Cuckoo-test_for_CuckooUITests.modulemap */,
+				CC0E45AE9D308A578CA1C2CBB0F40BFC /* Pods-test_for_Cuckoo-test_for_CuckooUITests-acknowledgements.markdown */,
+				055391E0353DCFDCAB1333A9A6686129 /* Pods-test_for_Cuckoo-test_for_CuckooUITests-acknowledgements.plist */,
+				5D4C72130848D3C2E2838690950A7212 /* Pods-test_for_Cuckoo-test_for_CuckooUITests-dummy.m */,
+				247AB5EF5F6BC271F4920B08CF45B3B7 /* Pods-test_for_Cuckoo-test_for_CuckooUITests-frameworks.sh */,
+				575755083CD7F2DB524531D85C1619E3 /* Pods-test_for_Cuckoo-test_for_CuckooUITests-Info.plist */,
+				2B8B6E55587E58D2199C0EDC563DF75A /* Pods-test_for_Cuckoo-test_for_CuckooUITests-umbrella.h */,
+				DE3DA91BF29FF02A99C242EE2C85EB55 /* Pods-test_for_Cuckoo-test_for_CuckooUITests.debug.xcconfig */,
+				34A7BBE0F826A94488B3A5F9BBABD688 /* Pods-test_for_Cuckoo-test_for_CuckooUITests.release.xcconfig */,
+			);
+			name = "Pods-test_for_Cuckoo-test_for_CuckooUITests";
+			path = "Target Support Files/Pods-test_for_Cuckoo-test_for_CuckooUITests";
+			sourceTree = "<group>";
+		};
+		D8F8C0EDC23079BE4C15D7F889C9FF56 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				15133713A255348F7AB7FC1242106CD1 /* Cuckoo */,
+				085E51A85A3C9B829512631CF8084EFC /* FSPagerView */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		E89032D65425F7CA1922E9211BBB7EB6 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				06BBD3298EFC08D95EEFE526BDDCDBD1 /* Cuckoo.framework */,
+				0F47FB5E28EE8C8342B1776D813D1A4C /* FSPagerView.framework */,
+				5CE0CCB4342F1C04A22DEFAAC5D3C699 /* Pods_test_for_Cuckoo.framework */,
+				D43DD617C9967EE0977B70EBD94C90B0 /* Pods_test_for_Cuckoo_test_for_CuckooUITests.framework */,
+				C5C4A44EDA28E074C4ED95120172F615 /* Pods_test_for_CuckooTests.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		FE711134633DEAA4C08825758A34BD48 /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				36C0BF3374068B333498EBA29B60E563 /* FSPagerView.modulemap */,
+				CB0FD1F0B71F2DE22DC2AF7CC1AF7F30 /* FSPagerView-dummy.m */,
+				97639A14BDDCFDAA98AAFBF17FB3AAEE /* FSPagerView-Info.plist */,
+				3125435E25C34D17C887933227614477 /* FSPagerView-prefix.pch */,
+				B6C8759EC3DD75EA715D384F89E5D056 /* FSPagerView-umbrella.h */,
+				CB8848C79E751E49CBE3E573305BBC09 /* FSPagerView.debug.xcconfig */,
+				91F51AC4CA260EDAE3134B4C588C9DFD /* FSPagerView.release.xcconfig */,
+			);
+			name = "Support Files";
+			path = "../Target Support Files/FSPagerView";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		7D2FD59C6F1BBF65BD96F7B7B7E10352 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A2E8F38BF61FDFA928AB37A59DF88AF1 /* Pods-test_for_Cuckoo-umbrella.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7E06654AA5AE3B62D7F9C42D92ECD17D /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0B7AA9DE5B5F63D414B017F3F38C306F /* FSPagerView-umbrella.h in Headers */,
+				F1906A44D6C430B8944B317F9E7651A2 /* FSPagerViewObjcCompat.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B95C46214AA65136CA31F620DD3E12E5 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9530566E9588A4605D0A7E1C5CC1D062 /* Pods-test_for_CuckooTests-umbrella.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CA10ED16E6FE1651F306A1C0BA43029A /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DBF23FE7D8D680D9B19E5EA07CF070F0 /* Pods-test_for_Cuckoo-test_for_CuckooUITests-umbrella.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FAD94F9D8C8F6929527A06E53FBEC27D /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C9812DB34DB8CB7B2FAEAB9278EABB77 /* Cuckoo-umbrella.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		769DE5F228B7A6BF0898592A07EB2E4A /* Pods-test_for_Cuckoo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B3C99FAD1C9601D1085FCDB6ADF94D4C /* Build configuration list for PBXNativeTarget "Pods-test_for_Cuckoo" */;
+			buildPhases = (
+				7D2FD59C6F1BBF65BD96F7B7B7E10352 /* Headers */,
+				B059405B7B8829AE32AC1A0D3BE8B013 /* Sources */,
+				73DCCA4377775E57E7B27F953A3C7BEE /* Frameworks */,
+				AD334A5EF412652E4B20E0FB51617FD5 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				907EC459748049E4B1A9A84FA6172343 /* PBXTargetDependency */,
+			);
+			name = "Pods-test_for_Cuckoo";
+			productName = "Pods-test_for_Cuckoo";
+			productReference = 5CE0CCB4342F1C04A22DEFAAC5D3C699 /* Pods_test_for_Cuckoo.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		AC55CA121B8C0EB35B758DE35993744E /* Pods-test_for_CuckooTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B3558C013203D97A1967260052DF0BC6 /* Build configuration list for PBXNativeTarget "Pods-test_for_CuckooTests" */;
+			buildPhases = (
+				B95C46214AA65136CA31F620DD3E12E5 /* Headers */,
+				D1F68F54D4F8A6D8D27F6D05F073B715 /* Sources */,
+				60B8D5D7AF17F58F70667302A5A3FF0F /* Frameworks */,
+				4490EFDBF23E938A64FC57D7C312EF67 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				EE3F0FF8FE948D790E85501C2CA6CD31 /* PBXTargetDependency */,
+				484371D7C8D47A8D2A7163C6B0406E32 /* PBXTargetDependency */,
+			);
+			name = "Pods-test_for_CuckooTests";
+			productName = "Pods-test_for_CuckooTests";
+			productReference = C5C4A44EDA28E074C4ED95120172F615 /* Pods_test_for_CuckooTests.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		CFCA8CA494372A14108299CE150648B8 /* Cuckoo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3D38FAA418EFB9F320E945497E52B6D8 /* Build configuration list for PBXNativeTarget "Cuckoo" */;
+			buildPhases = (
+				FAD94F9D8C8F6929527A06E53FBEC27D /* Headers */,
+				818FC399033D92B46908D43BE29AF3B2 /* Sources */,
+				C4857EFB275084595F894F52AE20C7A0 /* Frameworks */,
+				784AA05280F981F68626640881B83041 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Cuckoo;
+			productName = Cuckoo;
+			productReference = 06BBD3298EFC08D95EEFE526BDDCDBD1 /* Cuckoo.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		D4F8239FB329387A8476B964D92D92E7 /* FSPagerView */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DA7FF8FC28A7EB05F7308868F48D6938 /* Build configuration list for PBXNativeTarget "FSPagerView" */;
+			buildPhases = (
+				7E06654AA5AE3B62D7F9C42D92ECD17D /* Headers */,
+				C4484A10068696C80FF01E1E3C8CE558 /* Sources */,
+				237DC3AA41D878329FB1C084D5B0B08A /* Frameworks */,
+				9A620828AD4F8074C92E7134F598A83E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = FSPagerView;
+			productName = FSPagerView;
+			productReference = 0F47FB5E28EE8C8342B1776D813D1A4C /* FSPagerView.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		E185AD0BDF3F8FCFEC892462B806B7AA /* Pods-test_for_Cuckoo-test_for_CuckooUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 26E2EF27BDC19C5FEC9E7493BBDEF7DA /* Build configuration list for PBXNativeTarget "Pods-test_for_Cuckoo-test_for_CuckooUITests" */;
+			buildPhases = (
+				CA10ED16E6FE1651F306A1C0BA43029A /* Headers */,
+				4ED1B95D60981E29B0035683C9105582 /* Sources */,
+				3A5B4AC25D6A4E1627CDE17A029583A8 /* Frameworks */,
+				212211912276F64DD255FC16F228F7D3 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				3AFDA7A5539482EF384D3C0478AB7EB8 /* PBXTargetDependency */,
+				0FD6AB0327547F5FC2B7DF502FE44B9B /* PBXTargetDependency */,
+			);
+			name = "Pods-test_for_Cuckoo-test_for_CuckooUITests";
+			productName = "Pods-test_for_Cuckoo-test_for_CuckooUITests";
+			productReference = D43DD617C9967EE0977B70EBD94C90B0 /* Pods_test_for_Cuckoo_test_for_CuckooUITests.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		BFDFE7DC352907FC980B868725387E98 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1100;
+				LastUpgradeCheck = 1100;
+			};
+			buildConfigurationList = 4821239608C13582E20E6DA73FD5F1F9 /* Build configuration list for PBXProject "Pods" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = CF1408CF629C7361332E53B88F7BD30C;
+			productRefGroup = E89032D65425F7CA1922E9211BBB7EB6 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				CFCA8CA494372A14108299CE150648B8 /* Cuckoo */,
+				D4F8239FB329387A8476B964D92D92E7 /* FSPagerView */,
+				769DE5F228B7A6BF0898592A07EB2E4A /* Pods-test_for_Cuckoo */,
+				E185AD0BDF3F8FCFEC892462B806B7AA /* Pods-test_for_Cuckoo-test_for_CuckooUITests */,
+				AC55CA121B8C0EB35B758DE35993744E /* Pods-test_for_CuckooTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		212211912276F64DD255FC16F228F7D3 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4490EFDBF23E938A64FC57D7C312EF67 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		784AA05280F981F68626640881B83041 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9A620828AD4F8074C92E7134F598A83E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AD334A5EF412652E4B20E0FB51617FD5 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		4ED1B95D60981E29B0035683C9105582 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C229EE15EA17374088C57E359CF20B43 /* Pods-test_for_Cuckoo-test_for_CuckooUITests-dummy.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		818FC399033D92B46908D43BE29AF3B2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AB1BFC3B19F8BAB981AC200026D88452 /* __DoNotUse.swift in Sources */,
+				29549D82829F35DCCB695A901459FC5F /* ArgumentCaptor.swift in Sources */,
+				C1DBB5B6040C8DE1BB6098FD85F57FAB /* Array+matchers.swift in Sources */,
+				AD148E9649E649860DD978E7387D5166 /* BaseStubFunctionTrait.swift in Sources */,
+				ECA7DD07597E971B856781E3697E786C /* CallMatcher.swift in Sources */,
+				57B06E9633457D580E37B0D2A27CF582 /* CallMatcherFunctions.swift in Sources */,
+				BF00A9938111A311A8E0B9DE837840DB /* CreateMock.swift in Sources */,
+				B96355A950B52767BDFCB3404D02EFC8 /* Cuckoo-dummy.m in Sources */,
+				289773B79897998000B11B98A6870B7E /* CuckooFunctions.swift in Sources */,
+				09EB593EF2C0E6670EDE7E28F706CC96 /* DefaultValueRegistry.swift in Sources */,
+				7039A51919788691D47C0C606F41DA0D /* Dictionary+matchers.swift in Sources */,
+				4DC758B228965072C4F3EFA007802AF3 /* Matchable.swift in Sources */,
+				B4C70F5E8C02F97124ABF4E94CFE048C /* Mock.swift in Sources */,
+				612B3045C731B08436ABFE967B276D67 /* MockBuilder.swift in Sources */,
+				BDAFB69C4408D1AA1D95F62F5F6F376E /* Mocked.swift in Sources */,
+				C4ABE147DE603541B6899582EDF1B7D8 /* MockManager+preconfigured.swift in Sources */,
+				FED8036E5F19A9642F17D56474CA83BF /* MockManager.swift in Sources */,
+				618EE464AF3F5AE0E9F55A68B5AE2599 /* ParameterMatcher.swift in Sources */,
+				E9F49F230D327FEAD9D2BF1A936C485A /* ParameterMatcherFunctions.swift in Sources */,
+				FD1167035FB07F9AAE0088B0885F1470 /* Set+matchers.swift in Sources */,
+				2DBD05BF712364B05E22EDCA28D2615E /* Stub.swift in Sources */,
+				841D07E543F7645F467D90FDB8B3531C /* StubAction.swift in Sources */,
+				DCC8F44280CF1048E9AF09204FE96BDC /* StubbingProxy.swift in Sources */,
+				6300672DE2AF4F9C1330C31FDA807768 /* StubCall.swift in Sources */,
+				CFCED42013D268A10D0E7D5441FF70A9 /* StubFunction.swift in Sources */,
+				2E1B0AC060EAA9E1BCE21C18F53542C5 /* StubFunctionThenCallRealImplementationTrait.swift in Sources */,
+				87E4BE420171E747C5E7558B64EF18B0 /* StubFunctionThenDoNothingTrait.swift in Sources */,
+				6083C03F9B2DAAEB703217E632D07823 /* StubFunctionThenReturnTrait.swift in Sources */,
+				3AF45799AE9E593A53E23EDF487DAF1B /* StubFunctionThenThrowingTrait.swift in Sources */,
+				CABF151B8611FA9937627F1DDFF71BC4 /* StubFunctionThenThrowTrait.swift in Sources */,
+				B1A909E5DEBDC7D4843CD39E83749BA0 /* StubFunctionThenTrait.swift in Sources */,
+				CED9EC4A77DA392DF2764B2780FFF124 /* StubNoReturnFunction.swift in Sources */,
+				32E959D5213239CF0D84BD498775EBD9 /* StubNoReturnThrowingFunction.swift in Sources */,
+				F33C6542E82CBE64D8AAAA442D404F4E /* StubThrowingFunction.swift in Sources */,
+				9CC9B1068E881FD2E93B835ADB271D65 /* ThreadLocal.swift in Sources */,
+				05934B42EDD9F2B08AD10D438DD11FA9 /* ToBeStubbedProperty.swift in Sources */,
+				0CDD9C76DC7D159907B08D77221F8C27 /* ToBeStubbedReadOnlyProperty.swift in Sources */,
+				D1956E389CE6A7E6BF64A8ED72008C46 /* Utils.swift in Sources */,
+				7B685C942F38136D467F6086D2A9C15D /* VerificationProxy.swift in Sources */,
+				6693FAABCE6379B8DE510FFD2E5C3BE9 /* VerifyProperty.swift in Sources */,
+				A402A1B0DA338F5963E3EC8DB2BE2AC0 /* VerifyReadOnlyProperty.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B059405B7B8829AE32AC1A0D3BE8B013 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A3D7F3815D4F055BEFD04D78177E6709 /* Pods-test_for_Cuckoo-dummy.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C4484A10068696C80FF01E1E3C8CE558 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E4D526DCF32314F78F832AF8750DCBAA /* FSPageControl.swift in Sources */,
+				A0AF38BD964E04E88586B10151404B8C /* FSPagerCollectionView.swift in Sources */,
+				88176AA690DE1EBD2F8318DD4B8CB676 /* FSPagerView-dummy.m in Sources */,
+				674354090507B3319EBC2FC18690EC5B /* FSPagerView.swift in Sources */,
+				162A3D0B5F025871F109D2354F9EDF16 /* FSPagerViewCell.swift in Sources */,
+				F2A3B4CFD7ED1812AF44330CCC7E7622 /* FSPagerViewLayoutAttributes.swift in Sources */,
+				702D69BF03EA44844FEAD648C0249E88 /* FSPagerViewObjcCompat.m in Sources */,
+				781328660DE3DBD4C1DEECBCBAEBAB25 /* FSPageViewLayout.swift in Sources */,
+				5405240B3B74BEACCD4820595881CB61 /* FSPageViewTransformer.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D1F68F54D4F8A6D8D27F6D05F073B715 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3FFA4B3B2FC82175FA4D2DD7394DBA38 /* Pods-test_for_CuckooTests-dummy.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		0FD6AB0327547F5FC2B7DF502FE44B9B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = FSPagerView;
+			target = D4F8239FB329387A8476B964D92D92E7 /* FSPagerView */;
+			targetProxy = 62DB7419385BF528AAE0BE107ABF30DD /* PBXContainerItemProxy */;
+		};
+		3AFDA7A5539482EF384D3C0478AB7EB8 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Cuckoo;
+			target = CFCA8CA494372A14108299CE150648B8 /* Cuckoo */;
+			targetProxy = 873A5B29023F9A2DB637E29FD05D4AD4 /* PBXContainerItemProxy */;
+		};
+		484371D7C8D47A8D2A7163C6B0406E32 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "Pods-test_for_Cuckoo";
+			target = 769DE5F228B7A6BF0898592A07EB2E4A /* Pods-test_for_Cuckoo */;
+			targetProxy = 5BFA8E13FB741781DD03331998AD6213 /* PBXContainerItemProxy */;
+		};
+		907EC459748049E4B1A9A84FA6172343 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = FSPagerView;
+			target = D4F8239FB329387A8476B964D92D92E7 /* FSPagerView */;
+			targetProxy = 3C690A2AB2A76A77BD4F75F437370F7B /* PBXContainerItemProxy */;
+		};
+		EE3F0FF8FE948D790E85501C2CA6CD31 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Cuckoo;
+			target = CFCA8CA494372A14108299CE150648B8 /* Cuckoo */;
+			targetProxy = 263BC269F5E88DD8433D168D7B87FDD0 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		04282410AC5EF0C8FC9AB33A39CDBC83 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6AAF744C195DE6CBD55D56070221F50C /* Pods-test_for_CuckooTests.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = "Target Support Files/Pods-test_for_CuckooTests/Pods-test_for_CuckooTests-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-test_for_CuckooTests/Pods-test_for_CuckooTests.modulemap";
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		0B1CC7BD6B8F30F1CF4BA13B3D1F66C2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 91F51AC4CA260EDAE3134B4C588C9DFD /* FSPagerView.release.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREFIX_HEADER = "Target Support Files/FSPagerView/FSPagerView-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/FSPagerView/FSPagerView-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MODULEMAP_FILE = "Target Support Files/FSPagerView/FSPagerView.modulemap";
+				PRODUCT_MODULE_NAME = FSPagerView;
+				PRODUCT_NAME = FSPagerView;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		41CBE4E0EFA898C5A7BA00F45A2C1D34 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = A20C164824DA61A93128E7F15C3B032C /* Pods-test_for_Cuckoo.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = "Target Support Files/Pods-test_for_Cuckoo/Pods-test_for_Cuckoo-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-test_for_Cuckoo/Pods-test_for_Cuckoo.modulemap";
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		6BBDB5179B7EB533C4CDE7F0C2647E7D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = CB8848C79E751E49CBE3E573305BBC09 /* FSPagerView.debug.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREFIX_HEADER = "Target Support Files/FSPagerView/FSPagerView-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/FSPagerView/FSPagerView-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MODULEMAP_FILE = "Target Support Files/FSPagerView/FSPagerView.modulemap";
+				PRODUCT_MODULE_NAME = FSPagerView;
+				PRODUCT_NAME = FSPagerView;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		6D4E4E314254C3A2CE46846AAAA163A8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = AC79022DD2980F2D59CFB2967ACA10F6 /* Pods-test_for_Cuckoo.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = "Target Support Files/Pods-test_for_Cuckoo/Pods-test_for_Cuckoo-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-test_for_Cuckoo/Pods-test_for_Cuckoo.modulemap";
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		8DE5143C03248BB6CD542DE3963D6F3A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"POD_CONFIGURATION_DEBUG=1",
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRIP_INSTALLED_PRODUCT = NO;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				SYMROOT = "${SRCROOT}/../build";
+			};
+			name = Debug;
+		};
+		901D5B759E5384E62F688AAC00B8095F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2FF3D9E710C8ACA6D38F798C701D6205 /* Cuckoo.debug.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREFIX_HEADER = "Target Support Files/Cuckoo/Cuckoo-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/Cuckoo/Cuckoo-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MODULEMAP_FILE = "Target Support Files/Cuckoo/Cuckoo.modulemap";
+				PRODUCT_MODULE_NAME = Cuckoo;
+				PRODUCT_NAME = Cuckoo;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		94B1F6DA2AA114FB63BFF26FD8850757 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = DE3DA91BF29FF02A99C242EE2C85EB55 /* Pods-test_for_Cuckoo-test_for_CuckooUITests.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = "Target Support Files/Pods-test_for_Cuckoo-test_for_CuckooUITests/Pods-test_for_Cuckoo-test_for_CuckooUITests-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-test_for_Cuckoo-test_for_CuckooUITests/Pods-test_for_Cuckoo-test_for_CuckooUITests.modulemap";
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		9E406C6AAF85E580207CD97B0044DEAB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"POD_CONFIGURATION_RELEASE=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRIP_INSTALLED_PRODUCT = NO;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+				SYMROOT = "${SRCROOT}/../build";
+			};
+			name = Release;
+		};
+		BE46A14DD602D7494941BC4BBC661460 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = A522A60DAD8F6623DF9C5A32CC361BD2 /* Pods-test_for_CuckooTests.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = "Target Support Files/Pods-test_for_CuckooTests/Pods-test_for_CuckooTests-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-test_for_CuckooTests/Pods-test_for_CuckooTests.modulemap";
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		EF591ACFF7528547B1F3A515696186BA /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = B76FD6CD7DD7BB4E4FF0757D2B97090B /* Cuckoo.release.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREFIX_HEADER = "Target Support Files/Cuckoo/Cuckoo-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/Cuckoo/Cuckoo-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MODULEMAP_FILE = "Target Support Files/Cuckoo/Cuckoo.modulemap";
+				PRODUCT_MODULE_NAME = Cuckoo;
+				PRODUCT_NAME = Cuckoo;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		FCB193D1E1054D424121CDF5DAF49705 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 34A7BBE0F826A94488B3A5F9BBABD688 /* Pods-test_for_Cuckoo-test_for_CuckooUITests.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = "Target Support Files/Pods-test_for_Cuckoo-test_for_CuckooUITests/Pods-test_for_Cuckoo-test_for_CuckooUITests-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-test_for_Cuckoo-test_for_CuckooUITests/Pods-test_for_Cuckoo-test_for_CuckooUITests.modulemap";
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		26E2EF27BDC19C5FEC9E7493BBDEF7DA /* Build configuration list for PBXNativeTarget "Pods-test_for_Cuckoo-test_for_CuckooUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				94B1F6DA2AA114FB63BFF26FD8850757 /* Debug */,
+				FCB193D1E1054D424121CDF5DAF49705 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		3D38FAA418EFB9F320E945497E52B6D8 /* Build configuration list for PBXNativeTarget "Cuckoo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				901D5B759E5384E62F688AAC00B8095F /* Debug */,
+				EF591ACFF7528547B1F3A515696186BA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		4821239608C13582E20E6DA73FD5F1F9 /* Build configuration list for PBXProject "Pods" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8DE5143C03248BB6CD542DE3963D6F3A /* Debug */,
+				9E406C6AAF85E580207CD97B0044DEAB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B3558C013203D97A1967260052DF0BC6 /* Build configuration list for PBXNativeTarget "Pods-test_for_CuckooTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BE46A14DD602D7494941BC4BBC661460 /* Debug */,
+				04282410AC5EF0C8FC9AB33A39CDBC83 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B3C99FAD1C9601D1085FCDB6ADF94D4C /* Build configuration list for PBXNativeTarget "Pods-test_for_Cuckoo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				41CBE4E0EFA898C5A7BA00F45A2C1D34 /* Debug */,
+				6D4E4E314254C3A2CE46846AAAA163A8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		DA7FF8FC28A7EB05F7308868F48D6938 /* Build configuration list for PBXNativeTarget "FSPagerView" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6BBDB5179B7EB533C4CDE7F0C2647E7D /* Debug */,
+				0B1CC7BD6B8F30F1CF4BA13B3D1F66C2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+}

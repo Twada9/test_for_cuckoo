@@ -1,0 +1,6 @@
+framework module Pods_test_for_CuckooTests {
+  umbrella header "Pods-test_for_CuckooTests-umbrella.h"
+
+  export *
+  module * { export * }
+}

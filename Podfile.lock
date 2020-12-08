@@ -1,0 +1,22 @@
+PODS:
+  - Cuckoo (1.4.1):
+    - Cuckoo/Swift (= 1.4.1)
+  - Cuckoo/Swift (1.4.1)
+  - FSPagerView (0.8.3)
+
+DEPENDENCIES:
+  - Cuckoo
+  - FSPagerView
+
+SPEC REPOS:
+  trunk:
+    - Cuckoo
+    - FSPagerView
+
+SPEC CHECKSUMS:
+  Cuckoo: 4625f7f54d9bb880123270e8969898d6c1d036b5
+  FSPagerView: 670405b2f18e2a87fa37f20b00de783e562c25a8
+
+PODFILE CHECKSUM: 814e087460e8243692e73a2c4f8351fe23bdaeaf
+
+COCOAPODS: 1.10.0
