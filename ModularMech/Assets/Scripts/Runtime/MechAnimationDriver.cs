@@ -67,6 +67,14 @@ namespace ModularMech.Mechs
 
         RuntimeAnimatorController _appliedController;
 
+        /// <summary>
+        /// 「適用できる AnimatorController が無い」警告を出したか。
+        /// ベース AnimatorController が未作成の間、Loadout 適用のたびに同じ警告が積まれ、
+        /// D-2 が可視化したいボーン不一致の警告(1回きり)をコンソールから押し流してしまうため、
+        /// この警告は1回だけにする。コントローラが割り当てられたら畳み直す。
+        /// </summary>
+        bool _warnedMissingController;
+
         public Animator Animator => animator;
 
         /// <summary>現在適用されているコントローラ。テストから差し替え結果を確認するために公開する。</summary>
@@ -113,9 +121,18 @@ namespace ModularMech.Mechs
             if (next == null)
             {
                 // アニメータ未設定でも移動そのものは成立させる。警告だけ出して黙って進む。
-                Debug.LogWarning("[MechAnimationDriver] 適用できる AnimatorController が無い。アニメーションは更新されない。", this);
+                if (!_warnedMissingController)
+                {
+                    _warnedMissingController = true;
+                    Debug.LogWarning(
+                        "[MechAnimationDriver] 適用できる AnimatorController が無い。アニメーションは更新されない。" +
+                        "(この警告は最初の1回だけ出す)", this);
+                }
                 return;
             }
+
+            // 一度でも適用できたら、次に無くなったときは改めて知らせる。
+            _warnedMissingController = false;
 
             if (ReferenceEquals(_appliedController, next) && ReferenceEquals(animator.runtimeAnimatorController, next))
             {

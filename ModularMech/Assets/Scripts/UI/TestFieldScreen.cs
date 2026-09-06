@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using ModularMech.Data;
 using ModularMech.Loadouts;
 using ModularMech.Mechs;
@@ -39,6 +40,12 @@ namespace ModularMech.UI
             }
 
             LoadoutLoadResult result = LoadoutSaveFile.Load(partCatalog);
+
+            // 警告を捨てない(D-17 の趣旨)。この画面にはステータスパネルが無いので、
+            // 表示先はコンソールになるが、「保存したはずのパーツが消えている」ことに
+            // 気づける経路は最低限残す ―― ガレージへ戻れば同じ内容が警告行にも出る。
+            LogWarnings(result.Warnings);
+
             if (!result.Success || result.Loadouts == null || result.Loadouts.Count == 0)
             {
                 // 保存が無い、または壊れている。MechRuntime.Start の defaultPartIds フォールバックに任せる。
@@ -47,6 +54,19 @@ namespace ModularMech.UI
 
             int index = Mathf.Clamp(result.ActiveIndex, 0, result.Loadouts.Count - 1);
             mechRuntime.Apply(result.Loadouts[index], partCatalog);
+        }
+
+        private void LogWarnings(IReadOnlyList<string> warnings)
+        {
+            if (warnings == null)
+            {
+                return;
+            }
+
+            for (int i = 0; i < warnings.Count; i++)
+            {
+                Debug.LogWarning($"[TestFieldScreen] {warnings[i]}", this);
+            }
         }
     }
 }

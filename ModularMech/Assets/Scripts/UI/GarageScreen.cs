@@ -146,9 +146,20 @@ namespace ModularMech.UI
         }
 
         /// <summary>
-        /// 初回は MechRuntime が既に持っている構成を引き継ぎ、無ければ空の Loadout から始める。
+        /// 起動時の作業中 Loadout を決める。優先順位は
+        /// <b>保存ファイル → MechRuntime の既定構成 → 空の Loadout</b>(CLAUDE.md D-21)。
         /// 2回目以降は作り直さない(この画面が非表示の間に外部から ActiveLoadout が
         /// 差し替えられるケースまでは v1 では追従しない — 未検証点として報告する)。
+        ///
+        /// <para>
+        /// 保存ファイルを最優先で読むのは、出撃時の自動保存
+        /// (<see cref="SceneTransitionButton"/> の saveBeforeLoad)と既定構成での起動が
+        /// 組み合わさると、保存済み構成が無言で消えるため:
+        /// 構成 A を保存 → 再起動 → ガレージが既定構成で始まる → プレイヤーが「読込」を
+        /// 押さずに「テスト走行へ」を押す → 自動保存で A が上書きされる、という順序で
+        /// §11-6「構成を保存し、再起動後に復元できる」が最も自然な操作で破れる(D-21)。
+        /// <see cref="TestFieldScreen"/> が起動時に同じ保存ファイルを読むのと規則を揃える。
+        /// </para>
         /// </summary>
         private void EnsureWorkingLoadout()
         {
@@ -157,19 +168,55 @@ namespace ModularMech.UI
                 return;
             }
 
-            // Start の順序は保証されないので、MechRuntime.Start を待たずにこちらから既定構成の
-            // 適用を促す。適用済みなら何もしない(D-16)。これが無いと、ガレージが先に走ったときに
-            // 空の構成のまま既定機体が永久に使われない。
-            if (mechRuntime != null)
+            // D-21: まず保存済み構成。読めた場合は既定構成を組ませる必要がない
+            // (MechRuntime.Start より先にここが走っても、直後の ApplyWorkingLoadout で
+            //  ActiveLoadout がこの構成に確定するため、既定構成に戻されることはない)。
+            Loadout restored = TryLoadSavedLoadout();
+
+            if (restored == null)
             {
-                mechRuntime.EnsureDefaultLoadoutApplied();
+                // Start の順序は保証されないので、MechRuntime.Start を待たずにこちらから既定構成の
+                // 適用を促す。適用済みなら何もしない(D-16)。これが無いと、ガレージが先に走ったときに
+                // 空の構成のまま既定機体が永久に使われない。
+                if (mechRuntime != null)
+                {
+                    mechRuntime.EnsureDefaultLoadoutApplied();
+                }
+
+                restored = mechRuntime != null && mechRuntime.ActiveLoadout != null
+                    ? mechRuntime.ActiveLoadout.Clone()
+                    : new Loadout();
             }
 
-            _workingLoadout = mechRuntime != null && mechRuntime.ActiveLoadout != null
-                ? mechRuntime.ActiveLoadout.Clone()
-                : new Loadout();
-
+            _workingLoadout = restored;
             _workingLoadout.SlotChanged += HandleSlotChanged;
+        }
+
+        /// <summary>
+        /// 保存ファイルから構成を1件読む。読めなければ null(ファイル無し・破損・カタログ未設定)。
+        /// 警告は成否にかかわらず必ず <see cref="ReportDiskResult"/> を通してステータスパネルへ出す
+        /// (D-17)。起動時の自動読込(D-21)と「読込」ボタンの両方がこの1経路を通る。
+        /// </summary>
+        private Loadout TryLoadSavedLoadout()
+        {
+            if (partCatalog == null)
+            {
+                return null;
+            }
+
+            LoadoutLoadResult result = LoadoutSaveFile.Load(partCatalog);
+
+            // 「保存したはずのパーツが消えた」に気づけるよう、警告はコンソールだけで終わらせず
+            // ステータスパネルの警告行にも出す(D-17)。読み込みに失敗した場合も同じ経路で見せる。
+            ReportDiskResult(result.Warnings);
+
+            if (!result.Success || result.Loadouts == null || result.Loadouts.Count == 0)
+            {
+                return null;
+            }
+
+            int index = Mathf.Clamp(result.ActiveIndex, 0, result.Loadouts.Count - 1);
+            return result.Loadouts[index];
         }
 
         private void HandleSlotSelected(PartSlot slot)
@@ -231,10 +278,20 @@ namespace ModularMech.UI
             }
         }
 
-        /// <summary>MechRuntime.LoadoutApplied: ステータスパネルだけを更新する。</summary>
+        /// <summary>
+        /// MechRuntime.LoadoutApplied: ステータスパネルだけを更新する。
+        ///
+        /// <para>
+        /// 作業中 Loadout が未確定のうちは描かない。起動直後、
+        /// <see cref="EnsureWorkingLoadout"/> が促す既定構成の適用でこのイベントが先に飛ぶが、
+        /// その時点の <see cref="ComputeRawCapabilities"/> は None しか返せず、能力アイコン行が
+        /// 一度空で描かれる(同フレーム内の2回目の適用で上書きされるので画面には出ないが、
+        /// 無駄な描画である以上に「空 = 能力なし」を正常系の経路で作ってしまう)。
+        /// </para>
+        /// </summary>
         private void HandleLoadoutApplied()
         {
-            if (mechRuntime == null || statPanelView == null)
+            if (mechRuntime == null || statPanelView == null || _workingLoadout == null)
             {
                 return;
             }
@@ -243,7 +300,19 @@ namespace ModularMech.UI
                 mechRuntime.CurrentStats,
                 mechRuntime.Validation,
                 mechRuntime.Locomotion,
-                ComputeRawCapabilities());
+                ComputeRawCapabilities(),
+                GetRunSpeedRatio());
+        }
+
+        /// <summary>
+        /// スプリント倍率の出典は <see cref="MechLocomotionController"/> ただ1つ(D-23)。
+        /// ステータスパネルへ副表示する「走行時 ×N」も同じ値を読ませ、ここで別の既定値を
+        /// 持たない。参照が取れないときは 0 を返し、パネル側は副表示を出さない
+        /// (推測値を出すと D-9 の「表示と実効値が一致する」を静かに破るため)。
+        /// </summary>
+        private float GetRunSpeedRatio()
+        {
+            return previewLocomotion != null ? previewLocomotion.RunSpeedRatio : 0f;
         }
 
         /// <summary>
@@ -310,29 +379,17 @@ namespace ModularMech.UI
         /// <summary>保存ファイルを読み込み、先頭(activeIndex)の構成を作業中Loadoutとして反映する(M7)。</summary>
         public void LoadFromDisk()
         {
-            if (partCatalog == null)
+            Loadout loaded = TryLoadSavedLoadout();
+            if (loaded == null)
             {
                 return;
             }
-
-            LoadoutLoadResult result = LoadoutSaveFile.Load(partCatalog);
-
-            // 「保存したはずのパーツが消えた」に気づけるよう、警告はコンソールだけで終わらせず
-            // ステータスパネルの警告行にも出す(D-17)。読み込みに失敗した場合も同じ経路で見せる。
-            ReportDiskResult(result.Warnings);
-
-            if (!result.Success || result.Loadouts == null || result.Loadouts.Count == 0)
-            {
-                return;
-            }
-
-            int index = Mathf.Clamp(result.ActiveIndex, 0, result.Loadouts.Count - 1);
 
             if (_workingLoadout != null)
             {
                 _workingLoadout.SlotChanged -= HandleSlotChanged;
             }
-            _workingLoadout = result.Loadouts[index];
+            _workingLoadout = loaded;
             _workingLoadout.SlotChanged += HandleSlotChanged;
 
             RefreshSlotList();

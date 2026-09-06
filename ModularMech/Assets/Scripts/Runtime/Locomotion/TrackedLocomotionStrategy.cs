@@ -59,12 +59,9 @@ namespace ModularMech.Mechs
 
             // その場旋回(信地旋回): 前後入力が閾値未満なら目標速度は 0。
             // 履帯を止めてから回るので、微速前進しながらじりじり回る、ということが起きない。
+            // EffectiveMoveSpeed はスプリント倍率まで適用済みの確定値(D-23)。ここで掛け直さない。
             bool pivoting = Mathf.Abs(forwardInput) < PivotForwardThreshold;
-            float targetSpeed = pivoting ? 0f : forwardInput * ctx.MaxMoveSpeed;
-            if (input.sprint)
-            {
-                targetSpeed *= ctx.RunSpeedRatio;
-            }
+            float targetSpeed = pivoting ? 0f : forwardInput * ctx.EffectiveMoveSpeed;
 
             Vector3 desiredVelocity = ctx.Transform.forward * targetSpeed;
 

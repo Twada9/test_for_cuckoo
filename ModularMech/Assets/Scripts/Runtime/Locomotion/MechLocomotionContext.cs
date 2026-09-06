@@ -33,8 +33,23 @@ namespace ModularMech.Mechs
 
         public CapabilityFlags Capabilities { get; set; }
 
-        /// <summary>ペナルティ適用後の最大移動速度。</summary>
+        /// <summary>
+        /// ペナルティ適用後の最大移動速度。<c>StatPanelView</c> が主表示する実効速度と同じ値で、
+        /// 戦略はこれに倍率を掛けてはならない(D-14)。
+        /// </summary>
         public float MaxMoveSpeed { get; set; }
+
+        /// <summary>
+        /// 今フレームの上限速度。<see cref="MaxMoveSpeed"/> にスプリント倍率まで適用済みの
+        /// <b>確定値</b>で、<see cref="MechLocomotionController"/> が毎フレーム1回だけ決める(D-23)。
+        ///
+        /// <para>
+        /// 戦略が読むのはこちら。スプリント倍率を戦略ごとにコピーすると、新しい移動方式で
+        /// 書き忘れたときに「その方式だけスプリントが効かない」という無反応ができるため、
+        /// 掛け算はコントローラに1箇所だけ置く。
+        /// </para>
+        /// </summary>
+        public float EffectiveMoveSpeed { get; set; }
 
         /// <summary>ペナルティ適用後の旋回速度(度/秒)。</summary>
         public float TurnSpeed { get; set; }
@@ -51,7 +66,8 @@ namespace ModularMech.Mechs
 
         // PartStats.stability は v1 の予約フィールド。読む実装を作らない(CLAUDE.md D-4)。
 
-        public float RunSpeedRatio { get; set; } = 1.6f;
+        // スプリント倍率はここに持たない。コントローラが EffectiveMoveSpeed へ畳み込む(D-23)。
+
         public float Gravity { get; set; } = -20f;
 
         /// <summary>接地時に下向きに与えておく速度。0 だと CharacterController が接地を見失う。</summary>
@@ -147,6 +163,49 @@ namespace ModularMech.Mechs
                 worldDelta.y = 0f;
                 Transform.position += worldDelta;
             }
+        }
+
+        /// <summary>
+        /// 目標高度を持つ移動の適用。ホバーが使う(CLAUDE.md D-22)。
+        ///
+        /// <para>
+        /// <see cref="CharacterController"/> があるときは <see cref="ApplyMotion"/> と同じで、
+        /// 鉛直も速度として積分する(サスペンションの計算は呼び出し側が済ませている)。
+        /// </para>
+        /// <para>
+        /// 物理が無い(プレビュー)ときは、<see cref="ApplyMotion"/> のように鉛直成分を
+        /// 捨てるだけにしてはならない。捨てると <c>GroundOffset</c> まで永久に浮き上がらず、
+        /// D-20 が明示的に想定した「物理無しでホバーを見る」用途が成立しないため、
+        /// ここでは速度を積分する代わりに <c>Transform.position.y</c> を目標高度へ直接寄せる。
+        /// 接地系(<see cref="ApplyMotion"/>)は従来どおり鉛直成分を捨てる ―― 目標高度を持たない
+        /// 方式で同じことをすると、支えの無い空間で落下し続けることになるため。
+        /// </para>
+        /// </summary>
+        /// <param name="worldDelta">このフレームの移動量。鉛直成分は物理経路でのみ使う。</param>
+        /// <param name="targetY">目標高度(ワールド座標)。</param>
+        /// <param name="verticalSpeed">目標高度へ寄せる速さ(m/s)。符号は見ない。</param>
+        /// <param name="deltaTime">フレーム時間。</param>
+        public void ApplyMotionToAltitude(Vector3 worldDelta, float targetY, float verticalSpeed, float deltaTime)
+        {
+            if (Controller != null && Controller.enabled)
+            {
+                ApplyMotion(worldDelta);
+                return;
+            }
+
+            if (Transform == null)
+            {
+                return;
+            }
+
+            Vector3 position = Transform.position;
+            position.x += worldDelta.x;
+            position.z += worldDelta.z;
+            position.y = Mathf.MoveTowards(position.y, targetY, Mathf.Abs(verticalSpeed) * deltaTime);
+            Transform.position = position;
+
+            // 物理が無いときは接地扱いに揃える(D-20)。ホバーはどのみち接地を申告する(D-7)。
+            IsGrounded = true;
         }
 
         /// <summary>

@@ -56,7 +56,8 @@ namespace ModularMech.Mechs
         [Header("Tuning (機体共通。パーツ固有の値は LocomotionProfile 側)")]
         [SerializeField] float gravity = -20f;
 
-        [Tooltip("Run 能力があるときのスプリント倍率。")]
+        [Tooltip("Run 能力があるときのスプリント倍率。設計ドキュメント §5.2 の機体共通設定で、\n" +
+                 "この値の出典はここ1箇所だけ(D-23)。移動戦略にコピーしないこと。")]
         [SerializeField] float runSpeedRatio = 1.6f;
 
         [Tooltip("接地維持のために毎フレーム与える下向き速度。0 だと接地判定が点滅する。")]
@@ -83,6 +84,12 @@ namespace ModularMech.Mechs
         public MechLocomotionContext Context => _context;
 
         public LocomotionStrategyRegistry Registry => _registry;
+
+        /// <summary>
+        /// スプリント倍率(設計ドキュメント §5.2)。ステータスパネルが副表示の「走行時 ×N」に
+        /// 使う。表示と実挙動の出典を1つにするために公開している(D-23 / D-9)。
+        /// </summary>
+        public float RunSpeedRatio => runSpeedRatio;
 
         /// <summary>移動できる状態か。脚が無い / Walk も Hover も無い構成では false。</summary>
         public bool CanMove =>
@@ -175,6 +182,16 @@ namespace ModularMech.Mechs
             }
 
             ApplyCapabilityLocks(ref input);
+
+            // スプリント倍率の適用はここ1回だけ(CLAUDE.md D-23)。戦略に配ると、新しい移動方式の
+            // 実装者が同じ乗算を書き忘れた瞬間に「その方式だけスプリントが効かない」という
+            // 気づきにくい無反応(D-5 / D-18 が嫌ったもの)ができる。戦略には確定済みの速度を渡す。
+            // sprint は ApplyCapabilityLocks が Run 能力で既に落としてあるので、ここでは能力を見ない。
+            // 倍率は 1 未満に落とさない(Inspector に 1 未満を入れられても「走ると遅くなる」を作らない)。
+            // StatPanelView も 1 以下の倍率では副表示を出さないので、表示と挙動の扱いが揃う。
+            _context.EffectiveMoveSpeed = input.sprint
+                ? _context.MaxMoveSpeed * Mathf.Max(1f, runSpeedRatio)
+                : _context.MaxMoveSpeed;
 
             _context.JumpedThisFrame = false;
             _strategy.Tick(_context, in input, deltaTime);
@@ -304,7 +321,6 @@ namespace ModularMech.Mechs
 
             _context.Profile = profile;
             _context.Capabilities = runtime != null ? runtime.Capabilities : CapabilityFlags.None;
-            _context.RunSpeedRatio = runSpeedRatio;
             _context.Gravity = gravity;
             _context.GroundedStickSpeed = groundedStickSpeed;
             _context.GroundMask = groundMask;
@@ -315,6 +331,7 @@ namespace ModularMech.Mechs
                 // 脚が無い構成。移動不能として成立させる(例外は投げない)。
                 SwitchStrategy(null);
                 _context.MaxMoveSpeed = 0f;
+                _context.EffectiveMoveSpeed = 0f;
                 _context.TurnSpeed = 0f;
                 _context.JumpPower = 0f;
                 _context.Acceleration = 0f;
@@ -334,6 +351,10 @@ namespace ModularMech.Mechs
             // ここで焼き込んだ MaxMoveSpeed は StatPanelView が主表示する実効速度と同じ値になる。
             // 移動戦略はこの値に倍率を掛けてはならない(D-14)。
             _context.MaxMoveSpeed = Mathf.Max(0f, (profile.BaseMoveSpeed + stats.Raw.moveSpeedMod) * speedFactor);
+
+            // Update が走る前に戦略が Enter で参照しても 0 にならないよう、非スプリント時の値で初期化する。
+            // 毎フレームの確定値は Update が入力を読んでから入れ直す(D-23)。
+            _context.EffectiveMoveSpeed = _context.MaxMoveSpeed;
             _context.TurnSpeed = Mathf.Max(0f, (profile.BaseTurnSpeed + stats.Raw.turnSpeedMod) * turnFactor);
             _context.JumpPower = Mathf.Max(0f, profile.BaseJumpPower + stats.Raw.jumpPowerMod);
             _context.GroundOffset = profile.GroundOffset;

@@ -118,10 +118,15 @@ EventSystem も `StandaloneInputModule`(旧方式)です。
 - `G`: エモート(見た目のみ)
 - 左上「ガレージへ戻る」ボタンでいつでも `Garage` シーンへ戻れる
 
-ガレージで保存した構成は、テスト走行シーンの起動時に自動で読み込まれます
-(`TestFieldScreen` が保存ファイルを読み、無ければ機体プレハブ既定の構成にフォールバックする)。
+ガレージで保存した構成は、**ガレージ画面とテスト走行画面のどちらも起動時に自動で読み込みます**
+(`GarageScreen` / `TestFieldScreen` がそれぞれ同じ保存ファイルを読み、無ければ機体プレハブ既定の
+構成にフォールバックする)。ガレージを開き直したときに「読込」を押す必要はありません
+(押せば同じ内容を読み直します)。
 **保存を挟まずに「テスト走行へ」ボタンから移動した場合は、その場でも自動保存してから
 遷移するので、明示的に保存ボタンを押す必要はありません。**
+
+> ガレージ側の自動読込が無いと、「保存 → 再起動 → 読込を押さずにテスト走行へ」の順で
+> 出撃時の自動保存が保存済み構成を上書きし、保存したはずの構成が消えます(CLAUDE.md D-21)。
 
 ---
 
@@ -132,9 +137,9 @@ EventSystem も `StandaloneInputModule`(旧方式)です。
 | 1 | 全スロットのパーツを任意に入れ替えられる | ガレージ画面で8スロット(頭・胴・左右腕・脚・バックパック・左右手持ち)すべてを一度は選び、右のパーツ一覧から別のものへ切り替える。手持ちスロットは対応する腕を装備するまでボタンが非活性(理由テキスト表示)になることも確認する。 |
 | 2 | 入れ替えが3Dプレビューに即座に反映される | 上記の切り替え中、中央のプレビューの見た目(パーツの形・色)が装備直後に変わることを確認する。ドラッグで一周回して裏側も見る。 |
 | 3 | 総重量・電力・能力がリアルタイムに再計算・表示される | 下部ステータスパネルの「重量 X / Y」「電力 出力/消費」「速度」「能力アイコン」が、装備を変えるたびに数値ごと更新されることを確認する。 |
-| 4 | 過積載時に警告が出て、実際に走行不可になる | ガレージで `重装甲胴体` + `重装腕(左)` + `重装腕(右)` + `軽量二脚` を装備する(総重量214 / 上限120、比1.78。`PlaceholderPartGenerator` のコメントに明記された組み合わせ)。ステータスパネルに赤字の警告行と、能力アイコン列で「走行」が取り消し線付き(剥奪)表示になることを確認する。「テスト走行へ」で移動し、`Shift` を押しても走行(スプリント)にならないこと、`Space` でのジャンプも不可になっていること(比1.5超のため)を確認する。**歩行そのものはできる**(D-8: 走行不可 = Run 剥奪であって停止ではない)。 |
+| 4 | 過積載時に警告が出て、実際に走行不可になる | ガレージで `装甲ヘッド` + `重装甲胴体` + `重装腕(左)` + `重装腕(右)` + `軽量二脚` を装備する(14+95+38+38+20 = 総重量205 / 軽量二脚の積載上限120、比1.71。`PlaceholderPartGenerator` のコメントに検証用として明記されている組み合わせそのもの)。ステータスパネルに赤字の警告行と、能力アイコン列で「走行」が取り消し線付き(剥奪)表示になることを確認する。「テスト走行へ」で移動し、`Shift` を押しても走行(スプリント)にならないこと、`Space` でのジャンプも不可になっていること(比1.5超のため)を確認する。**歩行そのものはできる**(D-8: 走行不可 = Run 剥奪であって停止ではない)。 |
 | 5 | 二脚 / ホバーの脚を入れ替えると移動挙動が明確に変わる | ガレージで脚を `軽量二脚(legs_biped_light_01)` にして「テスト走行へ」。接地して走る・跳べることを確認したらガレージへ戻り、脚を `ホバー脚(legs_hover_01)` に差し替えて再度「テスト走行へ」。今度は機体が地面から浮いた高さを保って滑るように移動し、`Space` を押してもジャンプしないことを確認する。 |
-| 6 | 構成を保存し、再起動後に復元できる | ガレージで好きな構成を組み、上部バーの「保存」を押す(Console に失敗時のみ警告が出る)。Unity エディタを一度終了する、または Play モードを止めて再度 Play し直した上で「読込」を押し、保存時と同じ構成が復元されることを確認する。保存先は `Application.persistentDataPath/loadouts.json`(Windows: `%USERPROFILE%\AppData\LocalLow\<CompanyName>\ModularMech\loadouts.json`、macOS: `~/Library/Application Support/<CompanyName>/ModularMech/loadouts.json`、Linux: `~/.config/unity3d/<CompanyName>/ModularMech/loadouts.json`)。 |
+| 6 | 構成を保存し、再起動後に復元できる | ガレージで好きな構成を組み、上部バーの「保存」を押す(Console に失敗時のみ警告が出る)。Unity エディタを一度終了する、または Play モードを止めて再度 Play し直す。**ガレージ画面は起動時に保存ファイルを自動で読み込む(D-21)ので、何も押さずに保存時と同じ構成が復元されていること**を確認する(「読込」ボタンを押しても同じ結果になる)。保存したパーツがカタログから消えている場合は、ステータスパネルの警告行にその旨が出る(D-17)。保存先は `Application.persistentDataPath/loadouts.json`(Windows: `%USERPROFILE%\AppData\LocalLow\<CompanyName>\ModularMech\loadouts.json`、macOS: `~/Library/Application Support/<CompanyName>/ModularMech/loadouts.json`、Linux: `~/.config/unity3d/<CompanyName>/ModularMech/loadouts.json`)。 |
 
 ---
 
@@ -186,22 +191,51 @@ Canvas
 
 ### SerializeField 結線対応表(このセットアップが埋めるもの)
 
+いずれも `SerializedObject` 経由で **フィールド名の文字列** を指定して埋めています。
+C# のコンパイラが検出できない唯一の箇所なので、**対象クラスの `[SerializeField]` を
+増減・改名したら、生成側(`PlaceholderPartGenerator` / `GarageSceneBuilder` /
+`TestFieldSceneBuilder`)とこの表の両方を必ず同時に直してください。**
+名前が食い違うと生成時に Console へエラー(または警告)が出て、その参照だけが空のままになります。
+
+#### ステップ①(`PlaceholderPartGenerator`)が機体プレハブ `Mech_Placeholder.prefab` に埋めるもの
+
+| コンポーネント | フィールド | 結線先 |
+|---|---|---|
+| `MechAssembly` | `skeletonRoot` | プレハブ内のボーン階層のルート `Root` |
+| `MechAnimationDriver` | `animator` | プレハブルートの `Animator` |
+| `MechRuntime` | `assembly` | 同じ GameObject の `MechAssembly` |
+| | `animationDriver` | 同じ GameObject の `MechAnimationDriver` |
+| | `catalog` | `Assets/ScriptableObjects/PartCatalog.asset` |
+| | `defaultPartIds` | `PartSlots.All` の宣言順で8要素(`head_sensor_01` / `torso_standard_01` / `arm_standard_l_01` / `arm_standard_r_01` / `legs_biped_light_01` / 以降3件は空文字)。総重量107 / 上限120、消費32 / 出力95 でペナルティのかからない基準構成 |
+| `MechLocomotionController` | `runtime` | 同じ GameObject の `MechRuntime` |
+| | `characterController` | 同じ GameObject の `CharacterController` |
+| | `animationDriver` | 同じ GameObject の `MechAnimationDriver` |
+
+`MechLocomotionController` は `Animator` を直接持ちません(アニメータへの書き込みは
+`MechAnimationDriver` に一本化してあるため)。
+
+#### ステップ②③(シーンビルダ)が各シーンに埋めるもの
+
 | コンポーネント | フィールド | 結線先 |
 |---|---|---|
 | `GarageScreen` | `mechRuntime` | Garage の `Mech_Preview` 上の `MechRuntime` |
 | | `partCatalog` | `Assets/ScriptableObjects/PartCatalog.asset` |
 | | `slotListView` / `partListView` / `statPanelView` | 同シーン内の各ビュー |
 | | `saveButton` / `loadButton` | TopBar の「保存」「読込」ボタン |
+| | `previewLocomotion` | `Mech_Preview` 上の `MechLocomotionController`(ガレージでは起動時に無効化される。D-19。ステータスパネルの「走行時 ×N」の倍率もここから読む) |
 | `SlotListView` | `entryPrefab` | `Assets/Prefabs/UI/SlotEntry.prefab` |
 | | `entryContainer` | LeftPanel のスクロール `Content` |
 | `PartListView` | `entryPrefab` | `Assets/Prefabs/UI/PartEntry.prefab` |
 | | `entryContainer` | RightPanel のスクロール `Content` |
 | `StatPanelView` | `weightText` / `weightBarFill` / `weightOverflowBarFill` | BottomPanel の重量行 |
 | | `powerText` / `powerBarFill` | BottomPanel の電力行 |
-| | `speedText` / `speedBaseText` | BottomPanel の速度行 |
+| | `speedText` / `speedBaseText` / `speedRunText` | BottomPanel の速度行(主表示 / 基礎値 / 走行時倍率) |
 | | `capabilityIconSet` | `Assets/ScriptableObjects/UI/CapabilityIconSet.asset` |
 | | `capabilityIconContainer` / `capabilityIconPrefab` | 能力アイコン行 / `Assets/Prefabs/UI/CapabilityIcon.prefab` |
 | | `issueListContainer` / `issueTextPrefab` | 警告一覧行 / `Assets/Prefabs/UI/IssueText.prefab` |
+| `SlotEntryView`(`SlotEntry.prefab`) | `slotNameText` / `partNameText` / `iconImage` / `selectedHighlight` / `button` | プレハブ内の各要素 |
+| `PartEntryView`(`PartEntry.prefab`) | `iconImage` / `nameText` / `reasonText` / `equippedHighlight` / `button` | プレハブ内の各要素 |
+| `CapabilityIconView`(`CapabilityIcon.prefab`) | `iconImage` / `labelText` / `strippedOverlay` | アイコン(白い四角)/ 能力名テキスト / 剥奪時の斜線 |
 | `MechPreviewRotator` | `target` | `MechPreviewPivot` |
 | `SceneTransitionButton`(出撃ボタン) | `sceneName` / `requireDeployableFrom` / `saveBeforeLoad` | `"TestField"` / `GarageScreen` / `GarageScreen` |
 | `SceneTransitionButton`(戻るボタン) | `sceneName` | `"Garage"` |
@@ -240,6 +274,8 @@ Canvas
   `MechAnimationDriver` は割り当てるコントローラが無い場合 Console に警告を出して
   何もしない設計なので、**アニメーションが再生されないだけで、移動そのものは
   スクリプト駆動のまま正常に動く**はずです(移動に root motion は使っていない)。
+  この警告は装備を変えるたびではなく**最初の1回だけ**出ます(毎回出すと、ボーン名の
+  不一致など1回きりの警告がコンソールから流れてしまうため)。
 - 全プレースホルダパーツは `AttachmentMode.RigidToBone` で、`MechAssembly.AttachSkinned`
   (Skinned メッシュ経路)は一度も経由していません。購入アセット等で Skinned メッシュを
   導入する際は、この経路の動作を別途確認してください。
@@ -258,6 +294,11 @@ Canvas
 - Active Input Handling を「Input System Package (New)」のままにした場合、
   UI クリックも機体移動も反応しません(§1.2 を参照)。これは事故ではなく、
   実装(`KeyboardMechInputSource` / `StandaloneInputModule`)が旧方式前提のためです。
-- `CapabilityIconSet` のアイコンはすべて未設定(スプライト無し)です。能力の有無・
-  剥奪は色と取り消し線オーバーレイだけで判別できますが、実際のアイコン画像は
-  デザイナーが差し替える前提です。
+- 保存ファイルがまだ無い状態でガレージを開くと、起動時の自動読込(D-21)の結果として
+  ステータスパネルの警告行に「保存ファイルが見つかりません。新規状態として扱います。」が
+  1行出ます。異常ではなく、「既定構成から始めた」ことの明示です(一度保存すれば消えます)。
+- `CapabilityIconSet` のアイコンはすべて未設定(スプライト無し)です。そのため能力アイコンは
+  **白い四角 + 能力名テキスト**(「歩行」「走行」…)で表示され、剥奪されたものは暗い色と
+  取り消し線で示されます。どの能力が剥奪されたかはテキストで判別できますが、実際のアイコン画像は
+  デザイナーが差し替える前提です(`CapabilityIconSet` の `icon` にスプライトを入れるだけで、
+  コード変更なしに置き換わります)。

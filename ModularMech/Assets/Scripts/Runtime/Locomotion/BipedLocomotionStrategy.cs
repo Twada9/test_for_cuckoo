@@ -51,13 +51,10 @@ namespace ModularMech.Mechs
             ctx.RotateYaw(turnInput * ctx.TurnSpeed * deltaTime);
 
             float forwardInput = Mathf.Clamp(input.move.y, -1f, 1f);
-            float targetSpeed = forwardInput * ctx.MaxMoveSpeed;
 
-            // sprint は能力(Run)で既に落とされている前提。ここでは能力を再判定しない。
-            if (input.sprint)
-            {
-                targetSpeed *= ctx.RunSpeedRatio;
-            }
+            // EffectiveMoveSpeed はスプリント倍率まで適用済みの確定値(D-23)。
+            // ここで input.sprint を見て掛け直さないこと。倍率の適用箇所はコントローラ1箇所に限る。
+            float targetSpeed = forwardInput * ctx.EffectiveMoveSpeed;
 
             Vector3 desiredVelocity = ctx.Transform.forward * targetSpeed;
 

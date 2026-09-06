@@ -206,7 +206,9 @@ namespace ModularMech.Tests
         [Test]
         public void Validate_ValidMinimalLoadout_IsDeployableAndHasNoWarnings()
         {
-            var torso = PartDataBuilder.Torso(powerOutput: 100f, powerDraw: 0f);
+            // 「警告が1件も出ない」ことを主張するテストなので、総重量(30+10=40 <= 100)が
+            // ビルダの既定重量に左右されないよう胴体の重量も明示する。
+            var torso = PartDataBuilder.Torso(weight: 30f, powerOutput: 100f, powerDraw: 0f);
             var legs = PartDataBuilder.BipedLegs(weight: 10f, weightCapacity: 100f);
             var resolved = PartDataBuilder.Resolved(new Dictionary<PartSlot, IPartData>
             {
@@ -279,7 +281,8 @@ namespace ModularMech.Tests
         {
             // Loadout.Validate(catalog) が Resolver + Validator の合成であることを
             // end-to-end で確認する(個々の単体テストとは別に、委譲そのものを固定する)。
-            var torso = PartDataBuilder.Torso(powerOutput: 100f, powerDraw: 0f);
+            // HasIssues=false を主張するため、総重量(30+10=40 <= 100)も既定値任せにしない。
+            var torso = PartDataBuilder.Torso(weight: 30f, powerOutput: 100f, powerDraw: 0f);
             var legs = PartDataBuilder.BipedLegs(weight: 10f, weightCapacity: 100f);
             var catalog = PartDataBuilder.Catalog(torso, legs);
 

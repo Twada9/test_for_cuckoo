@@ -12,6 +12,11 @@ namespace ModularMech.Mechs
     ///  - 慣性が強い。入力を切ってもしばらく滑り、旋回しても速度ベクトルが遅れて追従する
     ///
     /// <para>
+    /// CharacterController が無い(物理無しプレビュー)場合でも浮く。鉛直速度を捨てるだけだと
+    /// <c>GroundOffset</c> まで永久に浮き上がらないため、この方式だけは
+    /// <see cref="MechLocomotionContext.ApplyMotionToAltitude"/> で高度を直接寄せる(CLAUDE.md D-22)。
+    /// </para>
+    /// <para>
     /// 「速いが旋回が鈍い」という数値面の性格は <c>Locomotion_Hover</c> プロファイルの
     /// baseMoveSpeed / baseTurnSpeed 側に置いてある(CLAUDE.md D-14)。ここで最高速や
     /// 旋回速度に倍率を掛けると、ステータスパネルの実効速度表示と実挙動が食い違う。
@@ -67,11 +72,9 @@ namespace ModularMech.Mechs
             ctx.RotateYaw(turnInput * ctx.TurnSpeed * deltaTime);
 
             float forwardInput = Mathf.Clamp(input.move.y, -1f, 1f);
-            float targetSpeed = forwardInput * ctx.MaxMoveSpeed;
-            if (input.sprint)
-            {
-                targetSpeed *= ctx.RunSpeedRatio;
-            }
+
+            // EffectiveMoveSpeed はスプリント倍率まで適用済みの確定値(D-23)。ここで掛け直さない。
+            float targetSpeed = forwardInput * ctx.EffectiveMoveSpeed;
 
             Vector3 desiredVelocity = ctx.Transform.forward * targetSpeed;
 
@@ -83,9 +86,12 @@ namespace ModularMech.Mechs
             // 目標「方向」ではなく目標「ベクトル」へ寄せるので、旋回直後は横滑りが残る。
             ctx.PlanarVelocity = Vector3.MoveTowards(ctx.PlanarVelocity, desiredVelocity, rate * deltaTime);
 
-            if (ctx.TrySampleGroundHeight(out float groundY))
+            bool hasTargetAltitude = ctx.TrySampleGroundHeight(out float groundY);
+            float desiredY = ctx.Position.y;
+
+            if (hasTargetAltitude)
             {
-                float desiredY = groundY + Mathf.Max(MinHoverHeight, ctx.GroundOffset);
+                desiredY = groundY + Mathf.Max(MinHoverHeight, ctx.GroundOffset);
                 float error = desiredY - ctx.Position.y;
                 float targetVertical = Mathf.Clamp(error * HoverStiffness, MaxDescendSpeed, MaxClimbSpeed);
                 ctx.VerticalVelocity = Mathf.MoveTowards(ctx.VerticalVelocity, targetVertical, HoverResponse * deltaTime);
@@ -100,7 +106,21 @@ namespace ModularMech.Mechs
 
             Vector3 motion = ctx.PlanarVelocity;
             motion.y = ctx.VerticalVelocity;
-            ctx.ApplyMotion(motion * deltaTime);
+
+            if (hasTargetAltitude)
+            {
+                // 物理無し(CharacterController が無い)経路では、鉛直速度を積分しても
+                // 支えが無く目標高度まで浮き上がれないため、position.y を目標高度へ直接寄せる(D-22)。
+                // 寄せる速さは上で求めた鉛直速度そのものなので、物理経路と見た目の立ち上がりが揃う。
+                // CharacterController があるときは ApplyMotion と同じ挙動になる。
+                ctx.ApplyMotionToAltitude(motion * deltaTime, desiredY, ctx.VerticalVelocity, deltaTime);
+            }
+            else
+            {
+                // 目標高度が取れないフレームは寄せる先が無い。従来どおり速度で動かす
+                // (物理無しなら ApplyMotion が鉛直を捨てるので、その場の高度を保つ)。
+                ctx.ApplyMotion(motion * deltaTime);
+            }
 
             // ApplyMotion が CharacterController.isGrounded を書き戻すので、申告値に戻す(D-7)。
             ctx.IsGrounded = true;

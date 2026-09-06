@@ -25,6 +25,8 @@ namespace ModularMech.Tests
         //     if (ratio > 1) speedMul *= Lerp(1, 0.4, (ratio-1)/0.5); caps &= ~Run;
         //                     if (ratio > 1.5) caps &= ~Jump;
         // capacity = 100 に固定し、weight = ratio*100 で狙った積載率を作る。
+        // ここでは脚以外を一切装備しないので「総重量 = 脚の重量」になる(他パーツを足す場合は
+        // その重量も総重量に入るので、狙った比を作るには全パーツの重量を明示すること)。
         //
         // ratio=1.0  (weight=100): 1.0 は "超" ではないためペナルティ無し。
         // ratio=1.1  (weight=110): t=(1.1-1)/0.5=0.2  -> Lerp(1,0.4,0.2)=1+(0.4-1)*0.2=0.88
@@ -233,11 +235,17 @@ namespace ModularMech.Tests
         {
             // 過積載とパワー不足は別の乗数(SpeedMultiplier と Accel/TurnMultiplier)に
             // 分かれているため、両方が同時に発生しても互いを打ち消さないことを確認する。
-            // weight=125/100 -> ratio=1.25 -> speedMul=0.7 (上と同じ手計算)
+            //
+            // 総重量は「機体に載っている全パーツの合計」であって脚の重量ではない。
+            // 脚 85 + 胴 30 + 腕 10 = 125、上限 100 -> ratio=1.25 -> speedMul=0.7(上と同じ手計算)。
+            // 重量は3パーツすべてに明示指定する。ビルダの既定重量(Torso=30 / ArmLeft=10)に
+            // 依存させると、既定値を動かした瞬間に狙った積載率が静かにずれる
+            // (PartDataBuilder の「暗黙のデフォルトに依存したテストにしない」方針)。
+            //
             // output=50/draw=100 -> powerRatio=0.5 -> accelMul=turnMul=0.5
-            var legs = PartDataBuilder.BipedLegs(weight: 125f, weightCapacity: 100f);
-            var torso = PartDataBuilder.Torso(powerOutput: 50f, powerDraw: 0f);
-            var arm = PartDataBuilder.ArmLeft(powerDraw: 100f);
+            var legs = PartDataBuilder.BipedLegs(weight: 85f, weightCapacity: 100f);
+            var torso = PartDataBuilder.Torso(weight: 30f, powerOutput: 50f, powerDraw: 0f);
+            var arm = PartDataBuilder.ArmLeft(weight: 10f, powerDraw: 100f);
             var resolved = PartDataBuilder.Resolved(new Dictionary<PartSlot, IPartData>
             {
                 [PartSlot.Legs] = legs,
@@ -246,6 +254,11 @@ namespace ModularMech.Tests
             });
 
             var block = StatAggregator.Aggregate(resolved);
+
+            // 積載率の前提そのものを先に固定する。ここがずれると SpeedMultiplier の期待値も
+            // 意味を失うため、失敗時にどちらが崩れたのかが分かるようにしておく。
+            Assert.That(block.TotalWeight, Is.EqualTo(125f).Within(Tol), "3パーツの合計重量");
+            Assert.That(block.OverweightRatio, Is.EqualTo(1.25f).Within(Tol));
 
             Assert.That(block.SpeedMultiplier, Is.EqualTo(0.7f).Within(Tol));
             Assert.That(block.AccelerationMultiplier, Is.EqualTo(0.5f).Within(Tol));

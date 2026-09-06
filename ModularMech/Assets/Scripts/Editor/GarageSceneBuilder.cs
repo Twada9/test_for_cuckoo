@@ -329,6 +329,12 @@ namespace ModularMech.EditorTools
             Text speedText = UGUIBuilderUtility.CreateText("Speed", speedRow, "速度 —", 18, TextAnchor.MiddleLeft);
             UGUIBuilderUtility.AddFixedWidth(speedText.gameObject, 160f);
             Text speedBaseText = UGUIBuilderUtility.CreateText("SpeedBase", speedRow, string.Empty, 14, TextAnchor.MiddleLeft, new Color(0.75f, 0.75f, 0.8f));
+            UGUIBuilderUtility.AddFixedWidth(speedBaseText.gameObject, 120f);
+
+            // スプリント倍率の副表示(D-23)。主表示の実効速度はスプリントを含まないため、
+            // ここが無いと「Shift で主表示より速く走る」ことが画面から読み取れない。
+            Text speedRunText = UGUIBuilderUtility.CreateText("SpeedRun", speedRow, string.Empty, 14, TextAnchor.MiddleLeft, new Color(0.75f, 0.8f, 0.75f));
+            UGUIBuilderUtility.AddFlexibleWidth(speedRunText.gameObject);
 
             RectTransform capsRow = UGUIBuilderUtility.CreateUIObject("CapabilitiesRow", content);
             UGUIBuilderUtility.AddFixedHeight(capsRow.gameObject, 44f);
@@ -346,6 +352,7 @@ namespace ModularMech.EditorTools
             UGUIBuilderUtility.SetRef(view, "powerBarFill", powerFill);
             UGUIBuilderUtility.SetRef(view, "speedText", speedText);
             UGUIBuilderUtility.SetRef(view, "speedBaseText", speedBaseText);
+            UGUIBuilderUtility.SetRef(view, "speedRunText", speedRunText);
             UGUIBuilderUtility.SetRef(view, "capabilityIconSet", iconSet);
             UGUIBuilderUtility.SetRef(view, "capabilityIconContainer", capsRow);
             UGUIBuilderUtility.SetRef(view, "capabilityIconPrefab", iconPrefab);
@@ -554,18 +561,26 @@ namespace ModularMech.EditorTools
             var root = new GameObject("CapabilityIcon", typeof(RectTransform));
             try
             {
-                UGUIBuilderUtility.AddFixedWidth(root, 40f);
+                // アイコン(絵)+ 表示名(文字)の横並び。CapabilityIconSet の icon は v1 では
+                // 全件 null なので、文字が無いと同じ白い四角が最大9個並ぶだけになり、
+                // どの能力が剥奪されたのか判別できない(§11-3 / D-9)。
+                UGUIBuilderUtility.AddFixedWidth(root, 96f);
                 UGUIBuilderUtility.AddFixedHeight(root, 40f);
-
-                var iconImage = root.AddComponent<Image>();
-                iconImage.color = Color.white;
-                iconImage.raycastTarget = false;
+                UGUIBuilderUtility.AddHorizontalLayout(root, 4f);
 
                 var view = root.AddComponent<CapabilityIconView>();
 
+                Image iconImage = UGUIBuilderUtility.CreateImage("Icon", root.transform, Color.white, raycastTarget: false);
+                UGUIBuilderUtility.AddFixedWidth(iconImage.gameObject, 32f);
+                UGUIBuilderUtility.AddFixedHeight(iconImage.gameObject, 32f);
+
+                Text labelText = UGUIBuilderUtility.CreateText("Label", root.transform, string.Empty, 13, TextAnchor.MiddleLeft);
+                UGUIBuilderUtility.AddFlexibleWidth(labelText.gameObject);
+
                 // 「剥奪」を示す取り消し線の代わりに、斜めの細い赤線を重ねる(任意演出。CLAUDE.md D-9)。
-                RectTransform strike = UGUIBuilderUtility.CreateUIObject("StrikeLine", root.transform);
-                strike.sizeDelta = new Vector2(56f, 4f);
+                // アイコンの子に置く。ルート直下だとレイアウトグループに1要素として並べられてしまう。
+                RectTransform strike = UGUIBuilderUtility.CreateUIObject("StrikeLine", iconImage.transform);
+                strike.sizeDelta = new Vector2(44f, 4f);
                 strike.anchorMin = strike.anchorMax = new Vector2(0.5f, 0.5f);
                 strike.localRotation = Quaternion.Euler(0f, 0f, 45f);
                 var strikeImage = strike.gameObject.AddComponent<Image>();
@@ -574,6 +589,7 @@ namespace ModularMech.EditorTools
                 strike.gameObject.SetActive(false);
 
                 UGUIBuilderUtility.SetRef(view, "iconImage", iconImage);
+                UGUIBuilderUtility.SetRef(view, "labelText", labelText);
                 UGUIBuilderUtility.SetRef(view, "strippedOverlay", strike.gameObject);
 
                 GameObject prefab = PrefabUtility.SaveAsPrefabAsset(root, path);

@@ -15,7 +15,9 @@ namespace ModularMech.UI
     ///
     /// 表示規約(CLAUDE.md D-9。逸脱禁止):
     /// <list type="bullet">
-    /// <item>速度: ペナルティ適用後の実効値を主表示、基礎値を副表示(減っているときだけ)。</item>
+    /// <item>速度: ペナルティ適用後の実効値を主表示、基礎値を副表示(減っているときだけ)。
+    /// スプリント倍率は主表示に含まれない(押している間だけ超える)ので、副表示に
+    /// 「走行時 ×N」として出す(D-23)。</item>
     /// <item>重量: 総重量/上限。WeightCapacity&lt;=0(脚未装備等)は「—」であって「0%」ではない。</item>
     /// <item>電力: 出力/消費の順。比率(PowerRatio) 1.0 未満で色を変える。</item>
     /// <item>能力アイコン: 「そもそも付与されていない」(一覧に出ない)と
@@ -42,6 +44,9 @@ namespace ModularMech.UI
 
         [Tooltip("副表示(基礎値)。ペナルティが無いときは空にして隠す。任意。")]
         [SerializeField] private Text speedBaseText;
+
+        [Tooltip("副表示(スプリント)。「走行時 ×N」を出す。Run が無い/剥奪されているときは隠す。任意。")]
+        [SerializeField] private Text speedRunText;
 
         [Header("色")]
         [SerializeField] private Color normalColor = Color.white;
@@ -74,13 +79,23 @@ namespace ModularMech.UI
         /// 適用後の値しか持たないため、「剥奪された」表示のために呼び出し側(GarageScreen)で
         /// 別途集約して渡してもらう。
         /// </param>
-        public void Refresh(StatBlock stats, LoadoutValidation validation, ILocomotionProfileData locomotion, CapabilityFlags rawCapabilities)
+        /// <param name="runSpeedRatio">
+        /// スプリント倍率(<see cref="ModularMech.Mechs.MechLocomotionController.RunSpeedRatio"/>)。
+        /// 副表示「走行時 ×N」に使う。倍率の出典はコントローラ1箇所なので(D-23)、
+        /// このビューは既定値を持たない ―― 取得できないときは 0 を渡して副表示を消すこと。
+        /// </param>
+        public void Refresh(
+            StatBlock stats,
+            LoadoutValidation validation,
+            ILocomotionProfileData locomotion,
+            CapabilityFlags rawCapabilities,
+            float runSpeedRatio)
         {
             _lastValidation = validation;
 
             RefreshWeight(stats);
             RefreshPower(stats);
-            RefreshSpeed(stats, locomotion);
+            RefreshSpeed(stats, locomotion, runSpeedRatio);
             RefreshCapabilities(rawCapabilities, stats.Capabilities);
             RefreshIssues();
         }
@@ -185,9 +200,9 @@ namespace ModularMech.UI
             }
         }
 
-        private void RefreshSpeed(StatBlock stats, ILocomotionProfileData locomotion)
+        private void RefreshSpeed(StatBlock stats, ILocomotionProfileData locomotion, float runSpeedRatio)
         {
-            if (speedText == null && speedBaseText == null)
+            if (speedText == null && speedBaseText == null && speedRunText == null)
             {
                 return;
             }
@@ -202,6 +217,10 @@ namespace ModularMech.UI
                 if (speedBaseText != null)
                 {
                     speedBaseText.gameObject.SetActive(false);
+                }
+                if (speedRunText != null)
+                {
+                    speedRunText.gameObject.SetActive(false);
                 }
                 return;
             }
@@ -225,6 +244,20 @@ namespace ModularMech.UI
                     speedBaseText.text = $"(基礎 {baseSpeed:0.0})";
                 }
             }
+
+            // スプリント中の実速度は主表示を超える。D-9 の「表示と実効値が一致する」を保つため、
+            // 倍率と到達速度を副表示に出す(D-23)。Run が無い / ペナルティで剥奪されている構成では
+            // スプリント入力そのものが落とされる(MechLocomotionController.ApplyCapabilityLocks)ので、
+            // 出せば嘘になる。倍率が 1 以下(未取得を表す 0 を含む)のときも出さない。
+            if (speedRunText != null)
+            {
+                bool canRun = stats.Capabilities.Has(CapabilityFlags.Run) && runSpeedRatio > 1f;
+                speedRunText.gameObject.SetActive(canRun);
+                if (canRun)
+                {
+                    speedRunText.text = $"走行時 ×{runSpeedRatio:0.0} ({effectiveSpeed * runSpeedRatio:0.0})";
+                }
+            }
         }
 
         private void RefreshCapabilities(CapabilityFlags rawCapabilities, CapabilityFlags activeCapabilities)
@@ -246,7 +279,7 @@ namespace ModularMech.UI
             {
                 bool active = activeCapabilities.Has(entries[i].Flag);
                 _capabilityIconPool[i].gameObject.SetActive(true);
-                _capabilityIconPool[i].SetState(entries[i].Icon, active);
+                _capabilityIconPool[i].SetState(entries[i].Icon, entries[i].DisplayName, active);
             }
             for (int i = entries.Count; i < _capabilityIconPool.Count; i++)
             {
