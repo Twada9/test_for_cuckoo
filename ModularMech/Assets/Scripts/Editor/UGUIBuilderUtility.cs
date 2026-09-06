@@ -277,6 +277,18 @@ namespace ModularMech.EditorTools
                 return;
             }
 
+            // value 自体が null(= 呼び出し元で参照の取得・生成に失敗していた)場合、
+            // 代入自体は成立してしまい例外も出ないため、後になって Play モードでの
+            // NullReference/未配線エラーとして遅れて発覚する。ここで一次発生源を特定できるよう、
+            // 呼び出し側のスタックトレースごと即座に警告する。
+            if (value == null)
+            {
+                Debug.LogWarning(
+                    $"[UGUIBuilderUtility] '{target.GetType().Name}.{propertyName}' へ null を代入しようとした。" +
+                    "この参照を用意した呼び出し元(1つ上のスタックフレーム)で生成・取得が失敗している可能性が高い。",
+                    target as Object);
+            }
+
             var serialized = new SerializedObject(target);
             SerializedProperty property = serialized.FindProperty(propertyName);
             if (property == null)

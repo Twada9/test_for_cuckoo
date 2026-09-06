@@ -101,6 +101,9 @@ ModularMech/[Mm]emoryCaptures/
 ModularMech/[Rr]ecordings/
 ModularMech/*.csproj
 ModularMech/*.sln
+ModularMech/*.slnx
+ModularMech/.vscode/
+ModularMech/.idea/
 ModularMech/*.unityproj
 ModularMech/*.pidb
 ModularMech/*.booproj
