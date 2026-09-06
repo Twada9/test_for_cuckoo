@@ -70,6 +70,26 @@ namespace ModularMech.Data
             return true;
         }
 
+        /// <summary>
+        /// 登録内容を丸ごと差し替える。プレースホルダ生成などのエディタスクリプトから使う想定で、
+        /// SerializedObject 経由でプライベートフィールド名に依存させないために用意している。
+        /// </summary>
+        public void SetParts(IReadOnlyList<PartDefinition> newParts)
+        {
+            if (parts == null) parts = new List<PartDefinition>();
+            parts.Clear();
+
+            if (newParts != null)
+            {
+                for (int i = 0; i < newParts.Count; i++)
+                {
+                    parts.Add(newParts[i]);
+                }
+            }
+
+            Invalidate();
+        }
+
         /// <summary>索引を破棄する。実行中にリストを差し替えた場合に呼ぶ。</summary>
         public void Invalidate()
         {

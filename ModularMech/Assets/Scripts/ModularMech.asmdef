@@ -1,7 +1,7 @@
 {
     "name": "ModularMech",
     "rootNamespace": "ModularMech",
-    "references": [],
+    "references": ["UnityEngine.UI"],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
