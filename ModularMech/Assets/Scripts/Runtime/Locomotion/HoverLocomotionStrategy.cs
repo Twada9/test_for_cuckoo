@@ -40,6 +40,11 @@ namespace ModularMech.Mechs
         {
             ctx.ResetMotion();
             ctx.IsHovering = true;
+
+            // 常に「接地している」と申告する(CLAUDE.md D-7)。
+            // 実際には浮いているが、false のままだとベースステートマシンが落下ループに入り、
+            // 着地モーションを延々と繰り返す。v1 ではここでステートマシンに嘘をつくのが正解。
+            ctx.IsGrounded = true;
         }
 
         public void Exit(MechLocomotionContext ctx)
@@ -49,8 +54,9 @@ namespace ModularMech.Mechs
 
         public void Tick(MechLocomotionContext ctx, in MechInputState input, float deltaTime)
         {
-            // 常時浮遊なので接地はしない。アニメーションもここを見て地上ステートに入らない。
-            ctx.IsGrounded = false;
+            // 高度は自前で維持するので CharacterController の接地判定は取り込まない。
+            // ただしステートマシンには常に接地を申告する(D-7)。
+            ctx.IsGrounded = true;
             ctx.IsHovering = true;
 
             float turnInput = Mathf.Clamp(input.move.x, -1f, 1f);
@@ -93,8 +99,8 @@ namespace ModularMech.Mechs
             motion.y = ctx.VerticalVelocity;
             ctx.ApplyMotion(motion * deltaTime);
 
-            // CharacterController.Move が接地を立ててもホバー中は接地扱いにしない。
-            ctx.IsGrounded = false;
+            // ApplyMotion が CharacterController.isGrounded を書き戻すので、申告値に戻す(D-7)。
+            ctx.IsGrounded = true;
 
             ctx.UpdateNormalizedSpeed();
         }

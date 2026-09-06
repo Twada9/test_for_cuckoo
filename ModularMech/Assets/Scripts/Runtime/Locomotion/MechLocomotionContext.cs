@@ -38,7 +38,7 @@ namespace ModularMech.Mechs
 
         public float JumpPower { get; set; }
 
-        /// <summary>安定性で鈍らせた加速度。stability が高いほど小さい。</summary>
+        /// <summary>加速度(LocomotionProfile.Acceleration × パワー不足ペナルティ)。</summary>
         public float Acceleration { get; set; }
 
         /// <summary>減速度。加速度と別に持つのは、ホバーの「止まらなさ」を表現するため。</summary>
@@ -46,8 +46,7 @@ namespace ModularMech.Mechs
 
         public float GroundOffset { get; set; }
 
-        /// <summary>合計 stability。0 以上。戦略ごとの味付けに使う。</summary>
-        public float Stability { get; set; }
+        // PartStats.stability は v1 の予約フィールド。読む実装を作らない(CLAUDE.md D-4)。
 
         public float RunSpeedRatio { get; set; } = 1.6f;
         public float Gravity { get; set; } = -20f;
@@ -58,6 +57,9 @@ namespace ModularMech.Mechs
         public LayerMask GroundMask { get; set; }
         public float GroundProbeDistance { get; set; } = 20f;
 
+        /// <summary>接地サンプリング用の使い回しバッファ。Update での割り当てを避けるため。</summary>
+        readonly RaycastHit[] _groundHits = new RaycastHit[8];
+
         // --- 毎フレームの可変状態 ---------------------------------------------------
 
         /// <summary>水平方向の速度(ワールド)。慣性はここに溜まる。</summary>
@@ -65,6 +67,10 @@ namespace ModularMech.Mechs
 
         public float VerticalVelocity { get; set; }
 
+        /// <summary>
+        /// ステートマシンに申告する接地状態。レイキャストではなく <see cref="ILocomotionStrategy"/> が書く
+        /// (CLAUDE.md D-7)。ホバーは常に true を申告し、落下/着地ループに落ちるのを防ぐ。
+        /// </summary>
         public bool IsGrounded { get; set; }
 
         /// <summary>ホバーなど、接地せずに高度を保っている状態。アニメーション側の分岐に使う。</summary>
@@ -125,7 +131,10 @@ namespace ModularMech.Mechs
             }
         }
 
-        /// <summary>接地状態を更新する。CharacterController が無い場合は false のまま。</summary>
+        /// <summary>
+        /// CharacterController から接地状態を取り込む。接地系の戦略だけが使う。
+        /// ホバーのように接地しない方式は、これを呼ばずに自分で値を申告する(D-7)。
+        /// </summary>
         public void RefreshGrounded()
         {
             IsGrounded = Controller != null && Controller.enabled && Controller.isGrounded;
@@ -133,7 +142,9 @@ namespace ModularMech.Mechs
 
         /// <summary>
         /// 真下の地面の高さを取る。ホバーが高度を保つために使う。
-        /// Physics.Raycast は割り当てを伴わないので Update から呼んでよい。
+        /// RaycastNonAlloc + 使い回しバッファなので、毎フレーム呼んでも割り当てが起きない。
+        /// 自機のコライダ(CharacterController のカプセル)は必ず除外する。
+        /// レイ始点がカプセル内側になる姿勢があり、そこを拾うと機体が自分の上に浮こうとするため。
         /// </summary>
         public bool TrySampleGroundHeight(out float groundY)
         {
@@ -143,15 +154,32 @@ namespace ModularMech.Mechs
                 return false;
             }
 
-            // 機体が既に地面より下にめり込んでいても拾えるよう、少し上から撃つ。
+            // 地面に少しめり込んでいても拾えるよう、足元より上から撃つ。
             Vector3 origin = Transform.position + Vector3.up * 1f;
-            if (Physics.Raycast(origin, Vector3.down, out RaycastHit hit, GroundProbeDistance, GroundMask, QueryTriggerInteraction.Ignore))
+            int count = Physics.RaycastNonAlloc(
+                origin, Vector3.down, _groundHits, GroundProbeDistance, GroundMask, QueryTriggerInteraction.Ignore);
+
+            float nearest = float.MaxValue;
+            bool found = false;
+
+            for (int i = 0; i < count; i++)
             {
-                groundY = hit.point.y;
-                return true;
+                Transform hitTransform = _groundHits[i].transform;
+                if (hitTransform == null || hitTransform == Transform || hitTransform.IsChildOf(Transform))
+                {
+                    continue;
+                }
+
+                float distance = _groundHits[i].distance;
+                if (distance < nearest)
+                {
+                    nearest = distance;
+                    groundY = _groundHits[i].point.y;
+                    found = true;
+                }
             }
 
-            return false;
+            return found;
         }
 
         public void NotifyJumped()

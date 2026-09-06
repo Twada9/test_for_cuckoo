@@ -33,9 +33,6 @@ namespace ModularMech.Mechs
         [Tooltip("接地維持のために毎フレーム与える下向き速度。0 だと接地判定が点滅する。")]
         [SerializeField] float groundedStickSpeed = -2f;
 
-        [Tooltip("stability 1 あたり加減速を何割鈍らせるか。高いほど「重い」挙動になる。")]
-        [SerializeField] float stabilityAccelInfluence = 0.35f;
-
         [Tooltip("減速度 = 加速度 × この比率。1 より大きいと止まりやすい。")]
         [SerializeField] float decelerationRatio = 1.3f;
 
@@ -289,7 +286,6 @@ namespace ModularMech.Mechs
             _context.GroundedStickSpeed = groundedStickSpeed;
             _context.GroundMask = groundMask;
             _context.GroundProbeDistance = groundProbeDistance;
-            _context.Stability = Mathf.Max(0f, stats.Raw.stability);
 
             if (profile == null)
             {
@@ -311,9 +307,9 @@ namespace ModularMech.Mechs
             _context.JumpPower = Mathf.Max(0f, profile.BaseJumpPower + stats.Raw.jumpPowerMod);
             _context.GroundOffset = profile.GroundOffset;
 
-            // stability が高いほど加減速が緩やか(§2.3)。パワー不足は加速倍率で効く(§3.3)。
-            float stabilityDamping = 1f / (1f + _context.Stability * Mathf.Max(0f, stabilityAccelInfluence));
-            float acceleration = Mathf.Max(0.01f, profile.Acceleration * stats.AccelerationMultiplier * stabilityDamping);
+            // パワー不足は加速度に効く(§3.3)。
+            // PartStats.stability はここでは読まない(v1 の予約フィールド。CLAUDE.md D-4)。
+            float acceleration = Mathf.Max(0.01f, profile.Acceleration * stats.AccelerationMultiplier);
             _context.Acceleration = acceleration;
             _context.Deceleration = acceleration * Mathf.Max(0.1f, decelerationRatio);
 

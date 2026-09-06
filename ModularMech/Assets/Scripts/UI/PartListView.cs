@@ -24,6 +24,11 @@ namespace ModularMech.UI
         /// <summary>
         /// 指定スロットの装備可能パーツ一覧を表示する。ArmLeft/ArmRight の有無で HandLeft/HandRight の
         /// 装備可否が変わるため、呼び出し側(GarageScreen)は該当スロットの装備が変わるたびに呼び直す。
+        ///
+        /// 先頭に必ず「装備しない」という選択肢を1件差し込む(設計ドキュメント §2.1: Torso/Legs 以外は
+        /// null を許容する。Torso/Legs 自体も <c>Loadout.Unequip</c> は拒否しないため、選べてしまうが
+        /// 結果はバリデーションが Error として警告する)。<see cref="PartChosen"/> はこの選択肢のとき
+        /// part=null で発火する。
         /// </summary>
         public void Show(PartSlot slot, PartCatalog catalog, Loadout loadout)
         {
@@ -35,12 +40,23 @@ namespace ModularMech.UI
 
             IReadOnlyList<PartDefinition> parts = catalog.PartsForSlot(slot);
             string equippedId = loadout?.GetPartId(slot);
+            int total = parts.Count + 1;
 
-            EnsurePoolSize(parts.Count);
+            EnsurePoolSize(total);
+            if (_pool.Count < total)
+            {
+                // entryPrefab / entryContainer が未配線(プレハブ未接続)。描画できないので何もしない。
+                return;
+            }
+
+            PartEntryView emptyEntry = _pool[0];
+            emptyEntry.SetActiveEntry(true);
+            emptyEntry.SetContent(null, equippable: true, reasonIfBlocked: null, isEquipped: string.IsNullOrEmpty(equippedId));
+
             for (int i = 0; i < parts.Count; i++)
             {
                 PartDefinition part = parts[i];
-                PartEntryView entry = _pool[i];
+                PartEntryView entry = _pool[i + 1];
                 entry.SetActiveEntry(true);
 
                 bool equippable = CanEquip(slot, part, loadout, out string reason);
@@ -48,7 +64,7 @@ namespace ModularMech.UI
                 entry.SetContent(part, equippable, reason, isEquipped);
             }
 
-            HideFrom(parts.Count);
+            HideFrom(total);
         }
 
         private bool CanEquip(PartSlot slot, PartDefinition part, Loadout loadout, out string reason)

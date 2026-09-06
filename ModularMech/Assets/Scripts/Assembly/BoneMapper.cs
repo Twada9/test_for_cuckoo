@@ -101,43 +101,47 @@ namespace ModularMech.Assembling
         }
 
         /// <summary>
-        /// SkinnedMeshRenderer の bones 配列を、共通スケルトン側の Transform 配列に読み替える。
-        /// 1つでも解決できなければ false を返し、<paramref name="missingBoneName"/> に原因を入れる。
-        /// 途中で捨てるのは、半分だけ張り替わった SkinnedMeshRenderer が
-        /// 見た目上いちばん壊れた状態になるため。
+        /// SkinnedMeshRenderer の bones 配列を、共通スケルトン側の Transform に読み替える。
+        ///
+        /// 解決できなかったボーンは **元の Transform をそのまま残す**(CLAUDE.md D-2)。
+        /// 1本の名前違いで機体が丸ごと消えるより、その1本だけスキンが追従しないほうが被害が小さく、
+        /// 原因も見た目から特定しやすいため。何本落ちたかは戻り値で受け取り、警告に使う。
         /// </summary>
-        public bool TryResolveBones(Transform[] source, out Transform[] resolved, out string missingBoneName)
+        /// <returns>解決できなかったボーンの数。0 なら完全一致。</returns>
+        public int ResolveBonesLenient(Transform[] source, out Transform[] resolved, out string firstMissingBoneName)
         {
-            resolved = null;
-            missingBoneName = null;
+            firstMissingBoneName = null;
 
             if (source == null)
             {
-                missingBoneName = "(bones 配列が null)";
-                return false;
+                resolved = null;
+                return 0;
             }
 
             var result = new Transform[source.Length];
+            int unresolved = 0;
+
             for (int i = 0; i < source.Length; i++)
             {
                 Transform sourceBone = source[i];
-                if (sourceBone == null)
+                if (sourceBone != null && _bones.TryGetValue(sourceBone.name, out Transform target))
                 {
-                    missingBoneName = $"(bones[{i}] が null)";
-                    return false;
+                    result[i] = target;
+                    continue;
                 }
 
-                if (!_bones.TryGetValue(sourceBone.name, out Transform target))
-                {
-                    missingBoneName = sourceBone.name;
-                    return false;
-                }
+                // 直接インデックス (boneMap[name]) は使わない。ここが §10 で最も壊れやすい箇所。
+                result[i] = sourceBone;
+                unresolved++;
 
-                result[i] = target;
+                if (firstMissingBoneName == null)
+                {
+                    firstMissingBoneName = sourceBone != null ? sourceBone.name : $"(bones[{i}] が null)";
+                }
             }
 
             resolved = result;
-            return true;
+            return unresolved;
         }
 
         void Register(Transform bone)

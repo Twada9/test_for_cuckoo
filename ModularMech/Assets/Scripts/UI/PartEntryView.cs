@@ -9,9 +9,13 @@ namespace ModularMech.UI
     /// 装備可能パーツ一覧の1件。<see cref="PartListView"/> がプールして使い回す
     /// (スロット切り替えのたびに Destroy/Instantiate しない)。
     /// 装備不可の理由がある場合はボタンを非活性にし、理由テキストを表示する。
+    /// <see cref="SetContent"/> に part=null を渡すと「装備しない」選択肢として表示する
+    /// (<see cref="PartListView"/> がスロットの先頭に必ず1件差し込む)。
     /// </summary>
     public sealed class PartEntryView : MonoBehaviour
     {
+        private const string EmptyOptionLabel = "(装備しない)";
+
         [SerializeField] private Image iconImage;
         [SerializeField] private Text nameText;
         [SerializeField] private Text reasonText;
@@ -49,7 +53,7 @@ namespace ModularMech.UI
 
             if (nameText != null)
             {
-                nameText.text = part != null ? part.displayName : string.Empty;
+                nameText.text = part != null ? part.displayName : EmptyOptionLabel;
             }
 
             if (iconImage != null)
@@ -79,10 +83,9 @@ namespace ModularMech.UI
 
         private void HandleClick()
         {
-            if (_part == null)
-            {
-                return;
-            }
+            // _part が null の場合もある(先頭の「装備しない」エントリ)。それも有効なクリックとして
+            // そのまま通知する — PartListView/GarageScreen 側が null=unequip として解釈する。
+            // 非活性(equippable=false)なボタンは Unity 側がそもそもクリックを発生させない。
             _onClicked?.Invoke(_part);
         }
     }

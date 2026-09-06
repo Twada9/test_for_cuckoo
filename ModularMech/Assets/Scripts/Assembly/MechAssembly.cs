@@ -20,13 +20,24 @@ namespace ModularMech.Assembling
     [AddComponentMenu("ModularMech/Mech Assembly")]
     public sealed class MechAssembly : MonoBehaviour
     {
-        /// <summary>スロットごとの既定アタッチ先。パーツ側に <see cref="PartAttachment"/> が無いときのフォールバック。</summary>
-        [Serializable]
-        sealed class SlotBoneBinding
+        /// <summary>
+        /// スロットごとの既定ソケット名(CLAUDE.md D-1)。
+        /// パーツ側の <see cref="PartAttachment"/> が唯一の出典で、これはそれが無い / 空のときの
+        /// フォールバックにすぎない。**この表がプロジェクト唯一の既定名の定義**であり、
+        /// PartDefinition 側にアタッチ情報を二重化しない。
+        /// スロットの取り付け規約なので、パーツ種別による分岐(設計原則2の禁止事項)ではない。
+        /// </summary>
+        static readonly string[] DefaultSocketNames =
         {
-            public PartSlot slot;
-            public string boneName;
-        }
+            "Head",           // PartSlot.Head
+            "Chest",          // PartSlot.Torso
+            "UpperArm_L",     // PartSlot.ArmLeft
+            "UpperArm_R",     // PartSlot.ArmRight
+            "Hips",           // PartSlot.Legs
+            "Backpack",       // PartSlot.Backpack
+            "Hand_L",         // PartSlot.HandLeft
+            "Hand_R",         // PartSlot.HandRight
+        };
 
         [Header("Skeleton")]
         [Tooltip("全パーツが共有するスケルトンのルート。未設定なら自分自身を使う。")]
@@ -36,8 +47,6 @@ namespace ModularMech.Assembling
         [SerializeField] Transform fallbackAttachRoot;
 
         [Header("Attachment")]
-        [SerializeField] SlotBoneBinding[] defaultBoneBindings = Array.Empty<SlotBoneBinding>();
-
         [Tooltip("生成したパーツ内の Animator を除去する。機体側の Animator と二重に回ると姿勢が競合するため。")]
         [SerializeField] bool stripNestedAnimators = true;
 
@@ -254,7 +263,7 @@ namespace ModularMech.Assembling
             string boneName = attachment != null ? attachment.BoneName : null;
             if (string.IsNullOrEmpty(boneName))
             {
-                boneName = GetDefaultBoneName(slot);
+                boneName = GetDefaultSocketName(slot);
             }
 
             Transform parent;
@@ -286,8 +295,11 @@ namespace ModularMech.Assembling
 
         /// <summary>
         /// SkinnedMeshRenderer の bones / rootBone を共通スケルトンへ張り替える(設計ドキュメント §4.1)。
-        /// 1本でも名前解決に失敗したら false を返し、呼び出し側でパーツごと捨てる。
-        /// 半分だけ張り替わった状態が見た目としては最悪なので、部分成功は許さない。
+        ///
+        /// 失敗の扱いは CLAUDE.md D-2 に従う:
+        ///  - 個々のボーンが解決できない → 元の Transform を残して続行(そのボーンだけ追従しない)
+        ///  - rootBone が解決できない → false を返し、このパーツだけ生成を諦める
+        /// どちらの場合も他スロットのパーツは通常どおり組み、SpawnedParts と実階層は食い違わせない。
         /// </summary>
         bool AttachSkinned(GameObject instance, PartSlot slot)
         {
@@ -305,28 +317,35 @@ namespace ModularMech.Assembling
             {
                 SkinnedMeshRenderer smr = renderers[i];
 
-                if (!_boneMapper.TryResolveBones(smr.bones, out Transform[] newBones, out string missingBone))
+                // rootBone が解決できないパーツだけ生成を諦める(D-2)。
+                // rootBone はスキンの基準であり、これが他機体のボーンを指したままだと
+                // メッシュがワールドの別位置に飛ぶので、見た目の破綻がいちばん大きい。
+                Transform sourceRootBone = smr.rootBone;
+                if (sourceRootBone == null || !_boneMapper.TryGetBone(sourceRootBone.name, out Transform mappedRootBone))
                 {
+                    string missingRoot = sourceRootBone != null ? sourceRootBone.name : "(null)";
                     Debug.LogWarning(
-                        $"[MechAssembly] {slot} のボーン '{missingBone}' を共通スケルトンで解決できない。" +
-                        "全パーツのボーン名が一致していることが前提(§4.1)。", this);
+                        $"[MechAssembly] {slot} の rootBone '{missingRoot}' を共通スケルトンで解決できない。" +
+                        "このパーツの生成のみ中止する(他のパーツは通常どおり組む)。", this);
                     return false;
                 }
 
-                smr.bones = newBones;
+                // 個々のボーンは解決できなくても元の Transform を残して続行する(D-2)。
+                int unresolved = _boneMapper.ResolveBonesLenient(smr.bones, out Transform[] newBones, out string firstMissingBone);
+                if (newBones != null)
+                {
+                    smr.bones = newBones;
+                }
 
-                Transform sourceRootBone = smr.rootBone;
-                if (sourceRootBone != null && _boneMapper.TryGetBone(sourceRootBone.name, out Transform mappedRootBone))
+                if (unresolved > 0)
                 {
-                    smr.rootBone = mappedRootBone;
+                    Debug.LogWarning(
+                        $"[MechAssembly] {slot} のボーン {unresolved} 本を共通スケルトンで解決できない(最初: '{firstMissingBone}')。" +
+                        "該当ボーンは元のまま残すため、その部分だけ機体に追従しない。" +
+                        "全パーツのボーン名が一致していることが前提(§4.1)。", this);
                 }
-                else
-                {
-                    // rootBone はバウンディング計算にしか効かない。ここで捨てるより、
-                    // スケルトンルートで代用してカリング精度だけ諦めるほうが安全側。
-                    smr.rootBone = root;
-                    Debug.LogWarning($"[MechAssembly] {slot} の rootBone を解決できないため skeletonRoot で代用する。", this);
-                }
+
+                smr.rootBone = mappedRootBone;
             }
 
             // スキンメッシュはボーンに従って変形するので、ボーンの兄弟として置く(§4.1)。
@@ -338,23 +357,11 @@ namespace ModularMech.Assembling
             return true;
         }
 
-        string GetDefaultBoneName(PartSlot slot)
+        /// <summary>スロット既定のソケット名。表は <see cref="DefaultSocketNames"/> の1箇所だけ。</summary>
+        public static string GetDefaultSocketName(PartSlot slot)
         {
-            if (defaultBoneBindings == null)
-            {
-                return null;
-            }
-
-            for (int i = 0; i < defaultBoneBindings.Length; i++)
-            {
-                SlotBoneBinding binding = defaultBoneBindings[i];
-                if (binding != null && binding.slot == slot && !string.IsNullOrEmpty(binding.boneName))
-                {
-                    return binding.boneName;
-                }
-            }
-
-            return null;
+            int index = (int)slot;
+            return index >= 0 && index < DefaultSocketNames.Length ? DefaultSocketNames[index] : null;
         }
 
         string GetAppliedId(PartSlot slot)
