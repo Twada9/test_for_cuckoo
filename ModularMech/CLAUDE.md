@@ -189,6 +189,8 @@ public sealed class MechAssembly : MonoBehaviour {
 }
 
 public sealed class MechRuntime : MonoBehaviour {
+    // 冪等。Start の実行順が保証されないため、MechRuntime.Start と GarageScreen の両方から呼ぶ(D-16)
+    public void EnsureDefaultLoadoutApplied();
     public StatBlock CurrentStats { get; }
     public CapabilityFlags Capabilities { get; }
     public ILocomotionProfileData Locomotion { get; }
