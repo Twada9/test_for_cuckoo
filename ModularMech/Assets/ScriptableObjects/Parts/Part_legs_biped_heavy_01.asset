@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a053f703cefb4dbaa61446f7efece92, type: 3}
+  m_Name: Part_legs_biped_heavy_01
+  m_EditorClassIdentifier: ModularMech::ModularMech.Data.PartDefinition
+  partId: legs_biped_heavy_01
+  displayName: "\u91CD\u91CF\u4E8C\u811A"
+  description: "\u9045\u3044\u304C\u7A4D\u8F09\u4E0A\u9650 260\u3002\u91CD\u88C5\u7532\u3092\u62C5\u3052\u308B\u3002"
+  icon: {fileID: 0}
+  slot: 4
+  meshPrefab: {fileID: 1658335072703963979, guid: cb4833ee62714459f910fa4ba7da7a51, type: 3}
+  attachmentMode: 1
+  stats:
+    weight: 45
+    powerOutput: 0
+    powerDraw: 14
+    moveSpeedMod: -0.5
+    turnSpeedMod: 0
+    jumpPowerMod: 0
+    stability: 0.6
+  grantedCapabilities: 7
+  locomotionProfile: {fileID: 11400000, guid: 6d3c0f340594b4bec9edc7c6d7c1be31, type: 2}
+  animatorOverride: {fileID: 0}

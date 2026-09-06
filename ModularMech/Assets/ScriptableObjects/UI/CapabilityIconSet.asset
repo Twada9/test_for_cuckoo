@@ -1,0 +1,42 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0764d3a54fc3b4fe3a792fd33d337068, type: 3}
+  m_Name: CapabilityIconSet
+  m_EditorClassIdentifier: ModularMech::ModularMech.UI.CapabilityIconSet
+  mappings:
+  - flag: 1
+    displayName: "\u6B69\u884C"
+    icon: {fileID: 0}
+  - flag: 2
+    displayName: "\u8D70\u884C"
+    icon: {fileID: 0}
+  - flag: 4
+    displayName: "\u30B8\u30E3\u30F3\u30D7"
+    icon: {fileID: 0}
+  - flag: 8
+    displayName: "\u30DB\u30D0\u30FC"
+    icon: {fileID: 0}
+  - flag: 16
+    displayName: "\u30C0\u30C3\u30B7\u30E5"
+    icon: {fileID: 0}
+  - flag: 32
+    displayName: "\u3057\u3083\u304C\u307F"
+    icon: {fileID: 0}
+  - flag: 64
+    displayName: "\u5DE6\u624B\u6301\u3061"
+    icon: {fileID: 0}
+  - flag: 128
+    displayName: "\u53F3\u624B\u6301\u3061"
+    icon: {fileID: 0}
+  - flag: 256
+    displayName: "\u30A8\u30E2\u30FC\u30C8"
+    icon: {fileID: 0}

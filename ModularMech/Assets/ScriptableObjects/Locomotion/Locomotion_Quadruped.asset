@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e693aa547ea974c00b88920fa1614607, type: 3}
+  m_Name: Locomotion_Quadruped
+  m_EditorClassIdentifier: ModularMech::ModularMech.Data.LocomotionProfile
+  type: 1
+  baseMoveSpeed: 5.2
+  baseTurnSpeed: 128
+  baseJumpPower: 2.8
+  acceleration: 15
+  groundOffset: 0
+  animatorSet: {fileID: 0}
+  weightCapacity: 240

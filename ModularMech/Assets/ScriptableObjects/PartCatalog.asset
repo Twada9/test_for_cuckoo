@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7da1dc51218984d2bad453ee8bc9be51, type: 3}
+  m_Name: PartCatalog
+  m_EditorClassIdentifier: ModularMech::ModularMech.Data.PartCatalog
+  parts:
+  - {fileID: 11400000, guid: bc3fcdfe3fa9b46b7a8cf87d860997b6, type: 2}
+  - {fileID: 11400000, guid: b6b731fc2a3c54623999bef55e530ba6, type: 2}
+  - {fileID: 11400000, guid: e320c3172175f4101bc8d7beedf3afb9, type: 2}
+  - {fileID: 11400000, guid: 4ae25802a84ec453eb60cf271b5e13b3, type: 2}
+  - {fileID: 11400000, guid: 8efe4ffd5e560439ba445ee1ed75b42e, type: 2}
+  - {fileID: 11400000, guid: 4c2458ea6a467482f96b3e75d9c3562e, type: 2}
+  - {fileID: 11400000, guid: 6431ed052d37842f7b549f7131e47bfc, type: 2}
+  - {fileID: 11400000, guid: 670e616efb78a4ee6b7660e22e5cb63b, type: 2}
+  - {fileID: 11400000, guid: e08a89fea173a49f482c4c41a81bd5c4, type: 2}
+  - {fileID: 11400000, guid: b251474e0352a4bc7a5cae77fb8da455, type: 2}
+  - {fileID: 11400000, guid: 82aa0c2931fd247fdbfc6d7efafc8643, type: 2}
+  - {fileID: 11400000, guid: 56d1420340dfe46728e35b4c752edf81, type: 2}
+  - {fileID: 11400000, guid: c6e56e22877334f62accdcf7296205e5, type: 2}
+  - {fileID: 11400000, guid: 58cf68264dbfc47f2a1cfb58a1650233, type: 2}
+  - {fileID: 11400000, guid: 1ed3344ea6964490a85a679d7bb5878b, type: 2}
+  - {fileID: 11400000, guid: 4847cfa455cc04bc89687883524ec138, type: 2}
+  - {fileID: 11400000, guid: a220a328f55d04da588b9a9049419649, type: 2}
+  - {fileID: 11400000, guid: 529721c8087db436ea73cc24b09479df, type: 2}
+  - {fileID: 11400000, guid: 875a48de81d704cc1ab57f31a3b5a742, type: 2}
+  - {fileID: 11400000, guid: de46800f45496420792539a0348dc753, type: 2}

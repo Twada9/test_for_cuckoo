@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a053f703cefb4dbaa61446f7efece92, type: 3}
+  m_Name: Part_arm_standard_r_01
+  m_EditorClassIdentifier: ModularMech::ModularMech.Data.PartDefinition
+  partId: arm_standard_r_01
+  displayName: "\u6A19\u6E96\u8155 (\u53F3)"
+  description: "\u6A19\u6E96\u7684\u306A\u8155\u3002"
+  icon: {fileID: 0}
+  slot: 3
+  meshPrefab: {fileID: 4564637091350220735, guid: fae4c1059b43d43fa94b0ec22ab9df13, type: 3}
+  attachmentMode: 1
+  stats:
+    weight: 18
+    powerOutput: 0
+    powerDraw: 6
+    moveSpeedMod: 0
+    turnSpeedMod: 0
+    jumpPowerMod: 0
+    stability: 0
+  grantedCapabilities: 128
+  locomotionProfile: {fileID: 0}
+  animatorOverride: {fileID: 0}

@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a053f703cefb4dbaa61446f7efece92, type: 3}
+  m_Name: Part_legs_hover_01
+  m_EditorClassIdentifier: ModularMech::ModularMech.Data.PartDefinition
+  partId: legs_hover_01
+  displayName: "\u30DB\u30D0\u30FC\u811A"
+  description: "\u5E38\u6642 0.9m \u6D6E\u3044\u3066\u6ED1\u308B\u3088\u3046\u306B\u52D5\u304F\u3002\u901F\u3044\u304C\u30B8\u30E3\u30F3\u30D7\u4E0D\u53EF\u3002\u6D88\u8CBB\u96FB\u529B 30 \u3068\u5927\u304D\u3044\u3002"
+  icon: {fileID: 0}
+  slot: 4
+  meshPrefab: {fileID: 6504399533640870345, guid: eebd73ee75c124b22ba49c49f7a25d5a, type: 3}
+  attachmentMode: 1
+  stats:
+    weight: 30
+    powerOutput: 0
+    powerDraw: 30
+    moveSpeedMod: 1
+    turnSpeedMod: 0
+    jumpPowerMod: 0
+    stability: 0
+  grantedCapabilities: 25
+  locomotionProfile: {fileID: 11400000, guid: 0226a3dce44654597926016b34c2f355, type: 2}
+  animatorOverride: {fileID: 0}

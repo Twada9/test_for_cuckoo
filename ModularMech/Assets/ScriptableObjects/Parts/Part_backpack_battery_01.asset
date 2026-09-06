@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a053f703cefb4dbaa61446f7efece92, type: 3}
+  m_Name: Part_backpack_battery_01
+  m_EditorClassIdentifier: ModularMech::ModularMech.Data.PartDefinition
+  partId: backpack_battery_01
+  displayName: "\u5897\u8A2D\u30D0\u30C3\u30C6\u30EA\u30FC"
+  description: "\u51FA\u529B +40\u3002\u30D1\u30EF\u30FC\u4E0D\u8DB3\u306E\u89E3\u6D88\u7528\u3002\u305F\u3060\u3057\u91CD\u3044\u3002"
+  icon: {fileID: 0}
+  slot: 5
+  meshPrefab: {fileID: 1882841409331701015, guid: c83d8099a84164fcc9dd7c4473582024, type: 3}
+  attachmentMode: 1
+  stats:
+    weight: 22
+    powerOutput: 40
+    powerDraw: 2
+    moveSpeedMod: 0
+    turnSpeedMod: 0
+    jumpPowerMod: 0
+    stability: 0
+  grantedCapabilities: 0
+  locomotionProfile: {fileID: 0}
+  animatorOverride: {fileID: 0}

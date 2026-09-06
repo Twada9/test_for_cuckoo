@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a053f703cefb4dbaa61446f7efece92, type: 3}
+  m_Name: Part_torso_heavy_01
+  m_EditorClassIdentifier: ModularMech::ModularMech.Data.PartDefinition
+  partId: torso_heavy_01
+  displayName: "\u91CD\u88C5\u7532\u80F4\u4F53"
+  description: "\u91CD\u3044\u5272\u306B\u51FA\u529B\u304C\u4F38\u3073\u306A\u3044\u3002\u91CD\u88C5\u8155\u3068\u8EFD\u91CF\u4E8C\u811A\u306B\u7D44\u307F\u5408\u308F\u305B\u308B\u3068\u7A4D\u8F09\u7387 1.7 \u306E\u904E\u7A4D\u8F09\u306B\u306A\u308B\u3002"
+  icon: {fileID: 0}
+  slot: 1
+  meshPrefab: {fileID: 4592088942606289610, guid: 9f27b424141164bd6a272bad1e960f2f, type: 3}
+  attachmentMode: 1
+  stats:
+    weight: 95
+    powerOutput: 75
+    powerDraw: 14
+    moveSpeedMod: -0.5
+    turnSpeedMod: 0
+    jumpPowerMod: 0
+    stability: 0.9
+  grantedCapabilities: 289
+  locomotionProfile: {fileID: 0}
+  animatorOverride: {fileID: 0}
