@@ -66,7 +66,7 @@ namespace ModularMech.Loadouts
                 if (!File.Exists(targetPath))
                 {
                     var warnings = new List<string> { "保存ファイルが見つかりません。新規状態として扱います。" };
-                    return new LoadoutLoadResult(false, new List<Loadout>(), 0, warnings);
+                    return new LoadoutLoadResult(false, new List<Loadout>(), 0, warnings, fileNotFound: true);
                 }
 
                 string json = File.ReadAllText(targetPath, Encoding.UTF8);

@@ -9,12 +9,18 @@ namespace ModularMech.Loadouts
     /// </summary>
     public sealed class LoadoutLoadResult
     {
-        public LoadoutLoadResult(bool success, List<Loadout> loadouts, int activeIndex, IReadOnlyList<string> warnings)
+        public LoadoutLoadResult(
+            bool success,
+            List<Loadout> loadouts,
+            int activeIndex,
+            IReadOnlyList<string> warnings,
+            bool fileNotFound = false)
         {
             Success = success;
             Loadouts = loadouts;
             ActiveIndex = activeIndex;
             Warnings = warnings;
+            FileNotFound = fileNotFound;
         }
 
         /// <summary>1件以上のLoadoutを読み込めたか。false でも <see cref="Loadouts"/> は null にはしない。</summary>
@@ -27,5 +33,12 @@ namespace ModularMech.Loadouts
 
         /// <summary>日本語の警告メッセージ。空リストの場合もある(null にはしない)。</summary>
         public IReadOnlyList<string> Warnings { get; }
+
+        /// <summary>
+        /// 保存ファイルそのものが存在しなかった(壊れていたのではなく、まだ一度も保存していない)場合に true。
+        /// 初回起動では必ずこの状態になるため、呼び出し側はこれを「データが消えた警告」と同列に
+        /// 表示しない判断ができるよう区別して持たせている(D-24)。
+        /// </summary>
+        public bool FileNotFound { get; }
     }
 }

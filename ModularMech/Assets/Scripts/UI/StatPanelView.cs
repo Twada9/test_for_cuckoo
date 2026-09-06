@@ -93,6 +93,7 @@ namespace ModularMech.UI
         {
             _lastValidation = validation;
 
+            EnsureFillBarsConfigured();
             RefreshWeight(stats);
             RefreshPower(stats);
             RefreshSpeed(stats, locomotion, runSpeedRatio);
@@ -131,6 +132,39 @@ namespace ModularMech.UI
             }
 
             RefreshIssues();
+        }
+
+        private bool _fillBarsConfigured;
+
+        /// <summary>
+        /// <see cref="Image.fillAmount"/> は <see cref="Image.type"/> が <c>Filled</c> でないと
+        /// 描画に反映されない(代入自体は例外も警告も出ずに成立する)。シーン構築側
+        /// (<c>GarageSceneBuilder</c>)は Filled で生成するが、差し替えプレハブ経由で配線された
+        /// 場合にも壊れないよう、ここでも一度だけ強制する(1回で十分。毎フレーム呼ばれる経路ではない)。
+        /// </summary>
+        private void EnsureFillBarsConfigured()
+        {
+            if (_fillBarsConfigured)
+            {
+                return;
+            }
+            _fillBarsConfigured = true;
+
+            ConfigureFillBar(weightBarFill);
+            ConfigureFillBar(weightOverflowBarFill);
+            ConfigureFillBar(powerBarFill);
+        }
+
+        private static void ConfigureFillBar(Image image)
+        {
+            if (image == null)
+            {
+                return;
+            }
+            if (image.type != Image.Type.Filled)
+            {
+                image.type = Image.Type.Filled;
+            }
         }
 
         private void RefreshWeight(StatBlock stats)

@@ -134,17 +134,22 @@ namespace ModularMech.Mechs
             // 一度でも適用できたら、次に無くなったときは改めて知らせる。
             _warnedMissingController = false;
 
-            if (ReferenceEquals(_appliedController, next) && ReferenceEquals(animator.runtimeAnimatorController, next))
+            bool controllerChanged =
+                !ReferenceEquals(_appliedController, next) || !ReferenceEquals(animator.runtimeAnimatorController, next);
+
+            if (controllerChanged)
             {
-                return;
+                animator.runtimeAnimatorController = next;
+                _appliedController = next;
+
+                // クリップ表が変わるとパラメータ構成も変わり得るので、存在確認をやり直す。
+                CacheParameters();
             }
 
-            animator.runtimeAnimatorController = next;
-            _appliedController = next;
-
-            // クリップ表が変わるとパラメータ構成も変わり得るので、存在確認をやり直す。
-            CacheParameters();
-
+            // コントローラが同じ(= 例えば二脚どうしの脚換装で animatorSet がどちらも未設定)場合でも、
+            // LocomotionType パラメータは毎回更新する。ここを早期 return の内側に置くと、
+            // 「脚を替えたのにステートマシン側の分岐が前の値のまま固まる」という実行時の
+            // 黙った失敗になる(T ポーズ回避のためのコントローラ再代入スキップとは独立の話)。
             SetLocomotionType(profile != null ? profile.Type : ModularMech.Data.LocomotionType.Biped);
         }
 

@@ -93,7 +93,7 @@ namespace ModularMech.UI
             {
                 // 再表示。状態は保持しているので、表示だけ現在値に合わせ直す。
                 RefreshSlotList();
-                if (_hasSelectedSlot) partListView?.Show(_selectedSlot, partCatalog, _workingLoadout);
+                if (_hasSelectedSlot && partListView != null) partListView.Show(_selectedSlot, partCatalog, _workingLoadout);
             }
         }
 
@@ -171,7 +171,7 @@ namespace ModularMech.UI
             // D-21: まず保存済み構成。読めた場合は既定構成を組ませる必要がない
             // (MechRuntime.Start より先にここが走っても、直後の ApplyWorkingLoadout で
             //  ActiveLoadout がこの構成に確定するため、既定構成に戻されることはない)。
-            Loadout restored = TryLoadSavedLoadout();
+            Loadout restored = TryLoadSavedLoadout(isStartup: true);
 
             if (restored == null)
             {
@@ -196,8 +196,13 @@ namespace ModularMech.UI
         /// 保存ファイルから構成を1件読む。読めなければ null(ファイル無し・破損・カタログ未設定)。
         /// 警告は成否にかかわらず必ず <see cref="ReportDiskResult"/> を通してステータスパネルへ出す
         /// (D-17)。起動時の自動読込(D-21)と「読込」ボタンの両方がこの1経路を通る。
+        ///
+        /// <paramref name="isStartup"/> が true のときだけ、「保存ファイルが見つからない」の1件は
+        /// パネルへ出さない(D-24)。初回起動では必ずこの状態になり、D-17 が本当に見せたい
+        /// 「パーツが消えた」警告を毎回埋もれさせてしまうため。「読込」ボタンを明示的に押した結果
+        /// としてのファイル無しは、押した本人へのフィードバックとして意味があるので出す。
         /// </summary>
-        private Loadout TryLoadSavedLoadout()
+        private Loadout TryLoadSavedLoadout(bool isStartup = false)
         {
             if (partCatalog == null)
             {
@@ -208,7 +213,14 @@ namespace ModularMech.UI
 
             // 「保存したはずのパーツが消えた」に気づけるよう、警告はコンソールだけで終わらせず
             // ステータスパネルの警告行にも出す(D-17)。読み込みに失敗した場合も同じ経路で見せる。
-            ReportDiskResult(result.Warnings);
+            if (isStartup && result.FileNotFound)
+            {
+                LogWarnings(result.Warnings);   // コンソールには残す。パネルには出さない。
+            }
+            else
+            {
+                ReportDiskResult(result.Warnings);
+            }
 
             if (!result.Success || result.Loadouts == null || result.Loadouts.Count == 0)
             {
@@ -228,8 +240,8 @@ namespace ModularMech.UI
         {
             _selectedSlot = slot;
             _hasSelectedSlot = true;
-            slotListView?.SetSelected(slot);
-            partListView?.Show(slot, partCatalog, _workingLoadout);
+            if (slotListView != null) slotListView.SetSelected(slot);
+            if (partListView != null) partListView.Show(slot, partCatalog, _workingLoadout);
         }
 
         /// <summary>
@@ -264,17 +276,17 @@ namespace ModularMech.UI
         {
             IPartData part = null;
             string partId = _workingLoadout.GetPartId(slot);
-            if (!string.IsNullOrEmpty(partId))
+            if (!string.IsNullOrEmpty(partId) && partCatalog != null)
             {
-                partCatalog?.TryGet(partId, out part);
+                partCatalog.TryGet(partId, out part);
             }
-            slotListView?.RefreshSlot(slot, part);
+            if (slotListView != null) slotListView.RefreshSlot(slot, part);
 
             // 腕の着脱は HandRequiresArm を通じて手持ちスロットの装備可否に影響するため、
             // 選択中スロットのパーツ一覧(ボタンの活性状態)を更新する。
-            if (_hasSelectedSlot)
+            if (_hasSelectedSlot && partListView != null)
             {
-                partListView?.Show(_selectedSlot, partCatalog, _workingLoadout);
+                partListView.Show(_selectedSlot, partCatalog, _workingLoadout);
             }
         }
 
@@ -354,7 +366,7 @@ namespace ModularMech.UI
 
         private void RefreshSlotList()
         {
-            slotListView?.RefreshAll(_workingLoadout, partCatalog);
+            if (slotListView != null) slotListView.RefreshAll(_workingLoadout, partCatalog);
         }
 
         /// <summary>現在の作業中Loadoutを1件構成として保存する(M7)。Save/Loadボタンから呼ぶ想定。</summary>
@@ -393,9 +405,9 @@ namespace ModularMech.UI
             _workingLoadout.SlotChanged += HandleSlotChanged;
 
             RefreshSlotList();
-            if (_hasSelectedSlot)
+            if (_hasSelectedSlot && partListView != null)
             {
-                partListView?.Show(_selectedSlot, partCatalog, _workingLoadout);
+                partListView.Show(_selectedSlot, partCatalog, _workingLoadout);
             }
 
             // Loadout インスタンスを丸ごと差し替えたので、MechRuntime に明示的に再認識させる。
@@ -419,7 +431,7 @@ namespace ModularMech.UI
         private void ReportDiskResult(IReadOnlyList<string> warnings)
         {
             LogWarnings(warnings);
-            statPanelView?.SetNotices(warnings);
+            if (statPanelView != null) statPanelView.SetNotices(warnings);
         }
 
         private static void LogWarnings(IReadOnlyList<string> warnings)
