@@ -1,7 +1,7 @@
 {
     "name": "ModularMech.EditorTools",
     "rootNamespace": "ModularMech.EditorTools",
-    "references": ["ModularMech"],
+    "references": ["ModularMech", "UnityEngine.UI"],
     "includePlatforms": ["Editor"],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
