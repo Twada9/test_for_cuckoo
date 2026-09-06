@@ -489,17 +489,18 @@ namespace ModularMech.EditorTools
         static void CreateCatalog(List<PartDefinition> definitions, ref int created, ref int skipped)
         {
             var existing = AssetDatabase.LoadAssetAtPath<PartCatalog>(CatalogAssetPath);
-            if (existing != null)
-            {
-                Debug.LogWarning(
-                    $"[PlaceholderPartGenerator] 既存のため上書きしない: {CatalogAssetPath}。" +
-                    "新しいパーツを載せるには、カタログの parts リストへ手動で追加するか、既存アセットを削除して再実行する。");
-                skipped++;
-                return;
-            }
+            bool isNew = existing == null;
 
-            var catalog = ScriptableObject.CreateInstance<PartCatalog>();
-            AssetDatabase.CreateAsset(catalog, CatalogAssetPath);
+            PartCatalog catalog;
+            if (isNew)
+            {
+                catalog = ScriptableObject.CreateInstance<PartCatalog>();
+                AssetDatabase.CreateAsset(catalog, CatalogAssetPath);
+            }
+            else
+            {
+                catalog = existing;
+            }
 
             var serialized = new SerializedObject(catalog);
             SerializedProperty listProperty = serialized.FindProperty(CatalogPartsField) ?? FindPartListProperty(serialized);
@@ -509,8 +510,38 @@ namespace ModularMech.EditorTools
                 Debug.LogError(
                     "[PlaceholderPartGenerator] PartCatalog のパーツ一覧フィールドを特定できなかった。" +
                     "生成したカタログは空のままなので、Inspector で手動登録すること。");
-                created++;
+                if (isNew) created++; else skipped++;
                 return;
+            }
+
+            // 既存カタログが「空(または中身が全て欠落)」なら、以前の実行が途中で失敗して
+            // 埋まらないまま残ったものである可能性が高い。その場合は黙って据え置かず、
+            // 生成した定義で埋め直す(自己修復)。中身が既にあるなら、手動で足したパーツを
+            // 消さないよう従来どおり据え置く。
+            bool hasAnyPart = false;
+            for (int i = 0; i < listProperty.arraySize; i++)
+            {
+                if (listProperty.GetArrayElementAtIndex(i).objectReferenceValue != null)
+                {
+                    hasAnyPart = true;
+                    break;
+                }
+            }
+
+            if (!isNew && hasAnyPart)
+            {
+                Debug.LogWarning(
+                    $"[PlaceholderPartGenerator] 既存のため上書きしない: {CatalogAssetPath}。" +
+                    "新しいパーツを載せるには、カタログの parts リストへ手動で追加するか、既存アセットを削除して再実行する。");
+                skipped++;
+                return;
+            }
+
+            if (!isNew)
+            {
+                Debug.LogWarning(
+                    $"[PlaceholderPartGenerator] 既存の {CatalogAssetPath} の parts が空だったため、" +
+                    "生成した定義で埋め直した(以前の実行が途中で失敗していた可能性)。");
             }
 
             listProperty.arraySize = definitions.Count;
@@ -525,7 +556,7 @@ namespace ModularMech.EditorTools
             // 索引はキャッシュされるので、内容を書き換えたら明示的に無効化する。
             catalog.Invalidate();
 
-            created++;
+            if (isNew) created++; else skipped++;
         }
 
         /// <summary>フィールド名が変わっていても拾えるよう、PartDefinition 配列を型で探す保険。</summary>
