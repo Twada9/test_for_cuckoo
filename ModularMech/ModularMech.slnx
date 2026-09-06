@@ -1,0 +1,5 @@
+﻿<Solution>
+  <Project Path="ModularMech.csproj" />
+  <Project Path="ModularMech.EditorTools.csproj" />
+  <Project Path="ModularMech.Tests.EditMode.csproj" />
+</Solution>

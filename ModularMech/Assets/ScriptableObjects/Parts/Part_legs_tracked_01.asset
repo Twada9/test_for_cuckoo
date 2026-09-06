@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a053f703cefb4dbaa61446f7efece92, type: 3}
+  m_Name: Part_legs_tracked_01
+  m_EditorClassIdentifier: ModularMech::ModularMech.Data.PartDefinition
+  partId: legs_tracked_01
+  displayName: "\u88C5\u8ECC\u811A"
+  description: "\u76F4\u9032\u304C\u901F\u304F\u65CB\u56DE\u304C\u9045\u3044\u3002\u305D\u306E\u5834\u65CB\u56DE\u304C\u3067\u304D\u308B\u3002\u7A4D\u8F09\u4E0A\u9650 320\u3002"
+  icon: {fileID: 0}
+  slot: 4
+  meshPrefab: {fileID: 1893746023544693193, guid: edcf753f7dd504aa6b7b0d01bf944fb5, type: 3}
+  attachmentMode: 1
+  stats:
+    weight: 60
+    powerOutput: 0
+    powerDraw: 16
+    moveSpeedMod: 0
+    turnSpeedMod: -20
+    jumpPowerMod: 0
+    stability: 1
+  grantedCapabilities: 3
+  locomotionProfile: {fileID: 11400000, guid: 270447ce65bbc43cab33ea491c93564a, type: 2}
+  animatorOverride: {fileID: 0}
