@@ -118,6 +118,9 @@ namespace ModularMech.EditorTools
         public static Image CreateFillBar(string name, Transform parent, Color color)
         {
             Image image = CreateImage(name, parent, color, raycastTarget: false);
+            // sprite が null のままだと Image.OnPopulateMesh が Filled 系の設定を素通りして
+            // 常に矩形フルクアッドを描く(= 常に満杯に見える)。組み込みの白スプライトを明示的に積む。
+            image.sprite = AssetDatabase.GetBuiltinExtraResource<Sprite>("UI/Skin/UISprite.psd");
             image.type = Image.Type.Filled;
             image.fillMethod = Image.FillMethod.Horizontal;
             image.fillOrigin = (int)Image.OriginHorizontal.Left;
@@ -297,7 +300,13 @@ namespace ModularMech.EditorTools
                 return existing;
             }
 
-            Shader shader = Shader.Find("Universal Render Pipeline/Lit") ?? Shader.Find("Standard");
+            // UnityEngine.Object のオーバーロード == を迂回する `??` は使わない(疑似 null を
+            // 誤って「値あり」と扱う恐れがあるため)。PlaceholderPartGenerator と同じ if 方式に揃える。
+            Shader shader = Shader.Find("Universal Render Pipeline/Lit");
+            if (shader == null)
+            {
+                shader = Shader.Find("Standard");
+            }
             if (shader == null)
             {
                 Debug.LogWarning("[UGUIBuilderUtility] 使えるシェーダが見つからない。既定マテリアルのままにする。");
@@ -366,6 +375,9 @@ namespace ModularMech.EditorTools
                 {
                     element.stringValue = layerName;
                     tagManager.ApplyModifiedPropertiesWithoutUndo();
+                    // 呼び出し側の SaveAssets 頼みにせず、ここで確実にディスクへ落とす
+                    // (この後の処理が例外で中断すると、変更が反映されないまま消える)。
+                    AssetDatabase.SaveAssets();
                     return i;
                 }
             }

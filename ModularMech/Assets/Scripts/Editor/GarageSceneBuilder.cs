@@ -59,6 +59,9 @@ namespace ModularMech.EditorTools
             UGUIBuilderUtility.EnsureFolder(UIPrefabFolder);
             UGUIBuilderUtility.EnsureFolder("Assets/ScriptableObjects/UI");
             UGUIBuilderUtility.EnsureFolder(TextureFolder);
+            // PreviewMaterialPath の親フォルダ。通常は PlaceholderPartGenerator が先に作るが、
+            // 単独でここだけ削除された場合に AssetDatabase.CreateAsset が失敗しないよう明示的に確保する。
+            UGUIBuilderUtility.EnsureFolder("Assets/Materials/Placeholder");
 
             SlotEntryView slotEntryPrefab = CreateSlotEntryPrefab();
             PartEntryView partEntryPrefab = CreatePartEntryPrefab();
@@ -66,6 +69,13 @@ namespace ModularMech.EditorTools
             Text issueTextPrefab = CreateIssueTextPrefab();
             CapabilityIconSet capabilityIconSet = CreateCapabilityIconSet();
 
+            // NewScene は開いているシーンの未保存変更を確認なしに破棄する。
+            // Unity 自身のシーンテンプレート機能もこの確認を先に挟んでいる。
+            if (!EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo())
+            {
+                Debug.Log("[GarageSceneBuilder] ユーザーがキャンセルしたため中断する。");
+                return;
+            }
             EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
 
             UGUIBuilderUtility.CreateLegacyEventSystem();
@@ -83,7 +93,7 @@ namespace ModularMech.EditorTools
             StatPanelView statPanelView = BuildBottomPanel(canvasRoot, capabilityIconSet, capabilityIconPrefab, issueTextPrefab);
 
             GarageScreen garageScreen = canvasRoot.gameObject.AddComponent<GarageScreen>();
-            (Button saveButton, Button loadButton, Button deployButton) = BuildTopBar(canvasRoot, garageScreen);
+            (Button saveButton, Button loadButton, Button deployButton) = BuildTopBar(canvasRoot);
 
             UGUIBuilderUtility.SetRef(garageScreen, "mechRuntime", mechRuntime);
             UGUIBuilderUtility.SetRef(garageScreen, "partCatalog", catalog);
@@ -389,7 +399,7 @@ namespace ModularMech.EditorTools
             return (label, fill, overflowFill);
         }
 
-        static (Button save, Button load, Button deploy) BuildTopBar(RectTransform canvasRoot, GarageScreen garageScreen)
+        static (Button save, Button load, Button deploy) BuildTopBar(RectTransform canvasRoot)
         {
             RectTransform bar = UGUIBuilderUtility.CreateUIObject("TopBar", canvasRoot);
             UGUIBuilderUtility.AnchorTopBar(bar, TopBarHeight);

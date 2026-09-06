@@ -56,6 +56,13 @@ namespace ModularMech.EditorTools
                     "groundMask は Everything のままにする(動作はするが地形限定にはならない)。");
             }
 
+            // NewScene は開いているシーンの未保存変更を確認なしに破棄する。
+            // Unity 自身のシーンテンプレート機能もこの確認を先に挟んでいる。
+            if (!EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo())
+            {
+                Debug.Log("[TestFieldSceneBuilder] ユーザーがキャンセルしたため中断する。");
+                return;
+            }
             EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
 
             UGUIBuilderUtility.CreateLegacyEventSystem();
