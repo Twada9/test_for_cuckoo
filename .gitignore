@@ -88,3 +88,23 @@ fastlane/test_output
 # https://github.com/johnno1962/injectionforxcode
 
 iOSInjectionProject/
+
+# --- Unity (ModularMech) ---
+ModularMech/[Ll]ibrary/
+ModularMech/[Tt]emp/
+ModularMech/[Oo]bj/
+ModularMech/[Bb]uild/
+ModularMech/[Bb]uilds/
+ModularMech/[Ll]ogs/
+ModularMech/[Uu]ser[Ss]ettings/
+ModularMech/[Mm]emoryCaptures/
+ModularMech/[Rr]ecordings/
+ModularMech/*.csproj
+ModularMech/*.sln
+ModularMech/*.unityproj
+ModularMech/*.pidb
+ModularMech/*.booproj
+ModularMech/sysinfo.txt
+ModularMech/*.apk
+ModularMech/*.unitypackage
+ModularMech/crashlytics-build.properties
