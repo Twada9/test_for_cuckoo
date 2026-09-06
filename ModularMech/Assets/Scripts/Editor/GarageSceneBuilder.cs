@@ -63,20 +63,28 @@ namespace ModularMech.EditorTools
             // 単独でここだけ削除された場合に AssetDatabase.CreateAsset が失敗しないよう明示的に確保する。
             UGUIBuilderUtility.EnsureFolder("Assets/Materials/Placeholder");
 
-            SlotEntryView slotEntryPrefab = CreateSlotEntryPrefab();
-            PartEntryView partEntryPrefab = CreatePartEntryPrefab();
-            CapabilityIconView capabilityIconPrefab = CreateCapabilityIconPrefab();
-            Text issueTextPrefab = CreateIssueTextPrefab();
-            CapabilityIconSet capabilityIconSet = CreateCapabilityIconSet();
-
             // NewScene は開いているシーンの未保存変更を確認なしに破棄する。
             // Unity 自身のシーンテンプレート機能もこの確認を先に挟んでいる。
+            //
+            // 重要: この呼び出しは、プレハブ/ScriptableObject の生成・読込より**前**に置くこと。
+            // シーンの切り替え(NewScene)は、どこにも根を持たない(まだ SerializeField 等に
+            // 代入されていない)ロード済みアセット参照を Unity が暗黙に解放する契機になり得る。
+            // 実際に、ここより後で CreateXxxPrefab() を呼ぶ順序だったときは、
+            // 「既存のため再利用した」プレハブ/アセットの参照が NewScene の後で
+            // すべて破棄済み扱いになり、SlotListView 等の SerializeField に
+            // null が代入される実行時エラーとして発覚した。
             if (!EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo())
             {
                 Debug.Log("[GarageSceneBuilder] ユーザーがキャンセルしたため中断する。");
                 return;
             }
             EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
+
+            SlotEntryView slotEntryPrefab = CreateSlotEntryPrefab();
+            PartEntryView partEntryPrefab = CreatePartEntryPrefab();
+            CapabilityIconView capabilityIconPrefab = CreateCapabilityIconPrefab();
+            Text issueTextPrefab = CreateIssueTextPrefab();
+            CapabilityIconSet capabilityIconSet = CreateCapabilityIconSet();
 
             UGUIBuilderUtility.CreateLegacyEventSystem();
 
