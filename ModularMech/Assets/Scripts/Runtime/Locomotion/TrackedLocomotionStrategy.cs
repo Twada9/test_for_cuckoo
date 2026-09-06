@@ -4,22 +4,23 @@ using UnityEngine;
 namespace ModularMech.Mechs
 {
     /// <summary>
-    /// 装軌(キャタピラ)。直進が速く、旋回が遅い。
-    /// 前進していなくても左右入力だけでその場旋回(信地旋回)ができ、
-    /// 停止時のほうが旋回が速い。二脚との差はここと最高速に出る。
+    /// 装軌(キャタピラ)。直進が速く、旋回がかなり遅い。
+    ///
+    /// <para>
+    /// 「直進が速く旋回が遅い」という数値面の性格は <c>Locomotion_Tracked</c> プロファイルの
+    /// baseMoveSpeed / baseTurnSpeed 側に置いてある(CLAUDE.md D-14)。ここに残すのは
+    /// 積分の仕方の違いだけで、装軌らしさは次の2点で出す:
+    /// </para>
+    /// <list type="bullet">
+    /// <item>その場旋回: 前後入力が閾値未満なら目標速度を 0 に落とし、履帯を止めてから回る。
+    /// 微小な前後入力で這うように進みながら回る、ということが起きない。</item>
+    /// <item>横滑りしない: 旋回後、速度ベクトルを新しい正面へ即座に張り直す。
+    /// 目標「ベクトル」へ寄せるホバーとは逆の性格になる。</item>
+    /// </list>
     /// </summary>
     public sealed class TrackedLocomotionStrategy : ILocomotionStrategy
     {
-        /// <summary>直進は速い。</summary>
-        const float SpeedScale = 1.25f;
-
-        /// <summary>旋回は遅い。装軌の性格そのもの。</summary>
-        const float TurnScale = 0.45f;
-
-        /// <summary>その場旋回のときだけ旋回が速くなる(履帯を逆回転させる分)。</summary>
-        const float PivotTurnBonus = 1.8f;
-
-        /// <summary>この閾値未満の前後入力を「停止中」とみなす。</summary>
+        /// <summary>この閾値未満の前後入力を「停止中」とみなし、その場旋回に入る。</summary>
         const float PivotForwardThreshold = 0.15f;
 
         /// <summary>重量物なので加速は鈍い。</summary>
@@ -49,16 +50,17 @@ namespace ModularMech.Mechs
             float forwardInput = Mathf.Clamp(input.move.y, -1f, 1f);
             float turnInput = Mathf.Clamp(input.move.x, -1f, 1f);
 
-            float turnScale = TurnScale;
-            if (Mathf.Abs(forwardInput) < PivotForwardThreshold)
-            {
-                turnScale *= PivotTurnBonus;
-            }
-
             ctx.TurnAmount = turnInput;
-            ctx.RotateYaw(turnInput * ctx.TurnSpeed * turnScale * deltaTime);
+            ctx.RotateYaw(turnInput * ctx.TurnSpeed * deltaTime);
 
-            float targetSpeed = forwardInput * ctx.MaxMoveSpeed * SpeedScale;
+            // 履帯は横に滑らない。旋回した分だけ速度ベクトルを新しい正面へ張り直し、
+            // 横成分を捨てる。ホバー(目標ベクトルへ寄せる = 横滑りが残る)との対比がここ。
+            ctx.PlanarVelocity = ctx.Transform.forward * ctx.ForwardSpeed;
+
+            // その場旋回(信地旋回): 前後入力が閾値未満なら目標速度は 0。
+            // 履帯を止めてから回るので、微速前進しながらじりじり回る、ということが起きない。
+            bool pivoting = Mathf.Abs(forwardInput) < PivotForwardThreshold;
+            float targetSpeed = pivoting ? 0f : forwardInput * ctx.MaxMoveSpeed;
             if (input.sprint)
             {
                 targetSpeed *= ctx.RunSpeedRatio;

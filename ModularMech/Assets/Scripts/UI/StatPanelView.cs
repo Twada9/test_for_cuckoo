@@ -20,7 +20,8 @@ namespace ModularMech.UI
     /// <item>電力: 出力/消費の順。比率(PowerRatio) 1.0 未満で色を変える。</item>
     /// <item>能力アイコン: 「そもそも付与されていない」(一覧に出ない)と
     /// 「付与されたがペナルティで剥奪された」(暗く表示)を区別する。</item>
-    /// <item>警告行: ValidationIssue.Message を1件1行、Severity で色分け。</item>
+    /// <item>警告行: ValidationIssue.Message を1件1行、Severity で色分け。
+    /// セーブ/ロード経路の警告(<see cref="SetNotices"/>)も同じ警告行に出す(D-17)。</item>
     /// </list>
     /// </summary>
     public sealed class StatPanelView : MonoBehaviour
@@ -59,6 +60,12 @@ namespace ModularMech.UI
         private readonly List<CapabilityIconView> _capabilityIconPool = new List<CapabilityIconView>();
         private readonly List<Text> _issueTextPool = new List<Text>();
 
+        /// <summary>セーブ/ロード経路の注意書き。Validation とは出所が違うので別に保持する(D-17)。</summary>
+        private readonly List<string> _notices = new List<string>();
+
+        /// <summary>最後に渡された検証結果。注意書きだけが更新されたときの再描画に使う。</summary>
+        private LoadoutValidation _lastValidation;
+
         /// <summary>
         /// MechRuntime.LoadoutApplied のハンドラから呼ぶ想定。
         /// </summary>
@@ -69,11 +76,46 @@ namespace ModularMech.UI
         /// </param>
         public void Refresh(StatBlock stats, LoadoutValidation validation, ILocomotionProfileData locomotion, CapabilityFlags rawCapabilities)
         {
+            _lastValidation = validation;
+
             RefreshWeight(stats);
             RefreshPower(stats);
             RefreshSpeed(stats, locomotion);
             RefreshCapabilities(rawCapabilities, stats.Capabilities);
-            RefreshIssues(validation);
+            RefreshIssues();
+        }
+
+        /// <summary>
+        /// セーブ/ロード経路の注意書きを差し替える(D-17)。<see cref="LoadoutLoadResult.Warnings"/> /
+        /// <see cref="LoadoutSaveResult.Warnings"/> をそのまま渡す想定。
+        ///
+        /// <para>
+        /// これらは <see cref="LoadoutValidation"/> には入ってこない。Serializer は §7 どおり
+        /// 「未知の ID のスロットを空にして警告を積む」だけで例外も Error も出さないため、
+        /// UI がここで拾わないと、プレイヤーは保存したパーツが消えたことに気づけない。
+        /// </para>
+        /// <para>
+        /// 空リスト(または null)を渡せば以前の注意書きは消える。表示は常に
+        /// 「最後に行ったディスク操作の結果」を意味する。
+        /// </para>
+        /// </summary>
+        public void SetNotices(IReadOnlyList<string> notices)
+        {
+            _notices.Clear();
+
+            if (notices != null)
+            {
+                // 呼び出し側のリストを後から書き換えられても表示が化けないよう、中身を写して持つ。
+                for (int i = 0; i < notices.Count; i++)
+                {
+                    if (!string.IsNullOrEmpty(notices[i]))
+                    {
+                        _notices.Add(notices[i]);
+                    }
+                }
+            }
+
+            RefreshIssues();
         }
 
         private void RefreshWeight(StatBlock stats)
@@ -125,8 +167,20 @@ namespace ModularMech.UI
 
             if (powerBarFill != null)
             {
-                float ratio = stats.TotalPowerOutput > 0f ? stats.TotalPowerDraw / stats.TotalPowerOutput : 0f;
-                powerBarFill.fillAmount = Mathf.Clamp01(ratio);
+                // バーは「出力に対してどれだけ消費しているか」。出力 0 で消費があるときは比が定義できないが、
+                // それは「消費していない」ではなく「まったく足りていない」状態なので満杯にする。
+                // 空バーにすると無負荷に見えて、電源が無い構成の異常さが読み取れない(D-9)。
+                float fill;
+                if (stats.TotalPowerOutput > 0f)
+                {
+                    fill = Mathf.Clamp01(stats.TotalPowerDraw / stats.TotalPowerOutput);
+                }
+                else
+                {
+                    fill = stats.TotalPowerDraw > 0f ? 1f : 0f;
+                }
+
+                powerBarFill.fillAmount = fill;
                 powerBarFill.color = stats.IsUnderpowered ? warningColor : normalColor;
             }
         }
@@ -208,27 +262,46 @@ namespace ModularMech.UI
             }
         }
 
-        private void RefreshIssues(LoadoutValidation validation)
+        /// <summary>
+        /// 警告行を描き直す。セーブ/ロード由来の注意書きを先に、検証結果をその後に並べる。
+        /// 注意書きを先頭に置くのは、「保存したパーツが消えている」ことが、その結果として出る
+        /// 「Torso がありません」等より先に読まれるべき情報だから(D-17)。
+        /// </summary>
+        private void RefreshIssues()
         {
             if (issueListContainer == null || issueTextPrefab == null)
             {
                 return;
             }
 
-            IReadOnlyList<ValidationIssue> issues = validation != null
-                ? validation.Issues
+            IReadOnlyList<ValidationIssue> issues = _lastValidation != null
+                ? _lastValidation.Issues
                 : Array.Empty<ValidationIssue>();
 
-            EnsureIssuePool(issues.Count);
+            int total = _notices.Count + issues.Count;
+            EnsureIssuePool(total);
+
+            for (int i = 0; i < _notices.Count; i++)
+            {
+                Text text = _issueTextPool[i];
+                text.gameObject.SetActive(true);
+                text.text = _notices[i];
+
+                // 保存データ由来の注意書きは Severity を持たない。出撃を止める性質のものではないので
+                // 一律 Warning 色にする(出撃可否は LoadoutValidation.IsDeployable だけが決める)。
+                text.color = warningColor;
+            }
+
             for (int i = 0; i < issues.Count; i++)
             {
                 ValidationIssue issue = issues[i];
-                Text text = _issueTextPool[i];
+                Text text = _issueTextPool[_notices.Count + i];
                 text.gameObject.SetActive(true);
                 text.text = issue.Message;
                 text.color = issue.Severity == ValidationSeverity.Error ? errorColor : warningColor;
             }
-            for (int i = issues.Count; i < _issueTextPool.Count; i++)
+
+            for (int i = total; i < _issueTextPool.Count; i++)
             {
                 _issueTextPool[i].gameObject.SetActive(false);
             }

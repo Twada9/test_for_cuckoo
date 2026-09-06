@@ -10,9 +10,6 @@ namespace ModularMech.Loadouts
     /// </summary>
     public sealed class ResolvedLoadout
     {
-        private static readonly Dictionary<PartSlot, IPartData> EmptyParts = new Dictionary<PartSlot, IPartData>();
-        private static readonly Dictionary<PartSlot, string> EmptyMissing = new Dictionary<PartSlot, string>();
-
         private readonly Dictionary<PartSlot, IPartData> _parts;
         private readonly Dictionary<PartSlot, string> _missingBySlot;
         private readonly List<string> _missingPartIds;
@@ -21,8 +18,12 @@ namespace ModularMech.Loadouts
         /// <param name="missingBySlot">カタログに無かったスロットとその ID。</param>
         public ResolvedLoadout(Dictionary<PartSlot, IPartData> parts, Dictionary<PartSlot, string> missingBySlot)
         {
-            _parts = parts ?? EmptyParts;
-            _missingBySlot = missingBySlot ?? EmptyMissing;
+            // 空の辞書はインスタンスごとに作る。静的な1個を共有すると、Parts / MissingBySlot を
+            // IReadOnlyDictionary から Dictionary へキャストして書き込まれたときに、
+            // 以後に作られる全 ResolvedLoadout がその内容を引き継いでしまう。
+            // 空構成の解決は装備変更時にしか起きないので、この割り当ては問題にならない。
+            _parts = parts ?? new Dictionary<PartSlot, IPartData>(0);
+            _missingBySlot = missingBySlot ?? new Dictionary<PartSlot, string>(0);
 
             // 辞書の列挙順に依存しないよう、スロット宣言順で ID を並べる。
             _missingPartIds = new List<string>(_missingBySlot.Count);

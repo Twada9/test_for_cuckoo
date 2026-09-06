@@ -6,19 +6,27 @@ namespace ModularMech.Mechs
     /// <summary>
     /// 二脚。接地して歩き、重力を受け、Jump 能力があれば跳べる。基準となる移動方式。
     ///
-    /// 派生方式(四脚など)が味付けだけを変えられるよう、倍率を protected virtual にしてある。
-    /// 数値そのもの(速度・旋回・加速度)は LocomotionProfile とペナルティから来るので、
-    /// ここに書く倍率は「方式の性格」だけを表す。
+    /// <para>
+    /// 最高速・旋回速度・ジャンプ力に<b>倍率を掛けない</b>(CLAUDE.md D-14)。これらは
+    /// <c>StatPanelView</c> がプレイヤーに提示する量であり、戦略側で掛けると表示と実挙動が
+    /// 恒久的に食い違うため。方式ごとの速度差・旋回差は <c>LocomotionProfile</c>
+    /// (脚アセットごとの数値)だけで表現する。
+    /// </para>
+    /// <para>
+    /// ここに残してよいのは「どう積分するか」の係数だけ ―― 加速・減速の立ち上がりと空中制御。
+    /// これらはステータス表示に現れない挙動のパラメータであり、派生方式(四脚など)が
+    /// 味付けを変えられるよう protected virtual にしてある。
+    /// </para>
     /// </summary>
     public class BipedLocomotionStrategy : ILocomotionStrategy
     {
         public virtual LocomotionType Type => LocomotionType.Biped;
 
-        protected virtual float SpeedScale => 1f;
-        protected virtual float TurnScale => 1f;
+        /// <summary>加速の立ち上がり係数。目標速度そのものには掛からない(D-14)。</summary>
         protected virtual float AccelerationScale => 1f;
+
+        /// <summary>制動の効き係数。目標速度そのものには掛からない(D-14)。</summary>
         protected virtual float DecelerationScale => 1f;
-        protected virtual float JumpScale => 1f;
 
         /// <summary>空中での加減速の効き。1 にすると空中で自由に方向転換できてしまう。</summary>
         protected virtual float AirControl => 0.35f;
@@ -40,10 +48,10 @@ namespace ModularMech.Mechs
 
             float turnInput = Mathf.Clamp(input.move.x, -1f, 1f);
             ctx.TurnAmount = turnInput;
-            ctx.RotateYaw(turnInput * ctx.TurnSpeed * TurnScale * deltaTime);
+            ctx.RotateYaw(turnInput * ctx.TurnSpeed * deltaTime);
 
             float forwardInput = Mathf.Clamp(input.move.y, -1f, 1f);
-            float targetSpeed = forwardInput * ctx.MaxMoveSpeed * SpeedScale;
+            float targetSpeed = forwardInput * ctx.MaxMoveSpeed;
 
             // sprint は能力(Run)で既に落とされている前提。ここでは能力を再判定しない。
             if (input.sprint)
@@ -75,7 +83,9 @@ namespace ModularMech.Mechs
 
                 if (input.jump && ctx.CanJump)
                 {
-                    ctx.VerticalVelocity = ctx.JumpPower * JumpScale;
+                    // JumpPower は LocomotionProfile.BaseJumpPower + jumpPowerMod の値そのもの。
+                    // 方式ごとの跳躍差はプロファイル側の数値で表す(D-14)。
+                    ctx.VerticalVelocity = ctx.JumpPower;
                     ctx.NotifyJumped();
                 }
             }

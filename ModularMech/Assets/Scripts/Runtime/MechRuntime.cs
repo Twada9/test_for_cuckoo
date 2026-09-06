@@ -34,11 +34,16 @@ namespace ModularMech.Mechs
         [SerializeField] string[] defaultPartIds = Array.Empty<string>();
 
         [Header("Behavior")]
-        [Tooltip("Loadout.SlotChanged を受けてフレーム末に1回だけ再適用する。")]
+        [Tooltip("Loadout.SlotChanged を受けてフレーム末に1回だけ再適用する(D-6)。\n" +
+                 "false にすると装備変更が見た目にもステータスにも一切反映されなくなる。" +
+                 "その場合は変更した側が明示的に Apply() か RequestRebuild() を呼ぶ責任を負う。\n" +
+                 "ガレージ画面はこの自動再適用に依存しているので、通常は true のままにすること。")]
         [SerializeField] bool rebuildOnSlotChanged = true;
 
-        [Tooltip("適用のたびに検証結果をコンソールへ出す。UI が出来るまでの確認用。")]
-        [SerializeField] bool logValidation = true;
+        [Tooltip("適用のたびに検証結果をコンソールへ出す。UI が無いシーンでの確認用。\n" +
+                 "既定は false。ガレージでは組み立ての途中で必須スロットが一時的に空になるのが正常なため、" +
+                 "有効にすると正常な作業中に Error が出続けて本当の不具合が埋もれる。")]
+        [SerializeField] bool logValidation = false;
 
         bool _rebuildRequested;
         bool _applying;
@@ -87,10 +92,28 @@ namespace ModularMech.Mechs
 
         void Start()
         {
-            if (applyOnStart && ActiveLoadout == null)
+            EnsureDefaultLoadoutApplied();
+        }
+
+        /// <summary>
+        /// 既定 Loadout をまだ一度も適用していなければ適用する。何度呼んでも安全。
+        ///
+        /// <para>
+        /// Start からだけでなく、Start の実行順に依存できない他コンポーネント
+        /// (ガレージ画面など)からも呼べるように公開している。Unity は同一シーン内の
+        /// Start の順序を保証しないため、これが無いと「ガレージが先に走って空の Loadout を
+        /// 適用 → MechRuntime.Start は ActiveLoadout != null を見て既定構成を組まない」という
+        /// 順序依存のすり抜けが起きる(CLAUDE.md D-16)。
+        /// </para>
+        /// </summary>
+        public void EnsureDefaultLoadoutApplied()
+        {
+            if (!applyOnStart || ActiveLoadout != null)
             {
-                Apply(BuildDefaultLoadout(), catalog);
+                return;
             }
+
+            Apply(BuildDefaultLoadout(), catalog);
         }
 
         void OnDestroy()

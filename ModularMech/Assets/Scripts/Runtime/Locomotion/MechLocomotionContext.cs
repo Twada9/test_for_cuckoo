@@ -20,7 +20,10 @@ namespace ModularMech.Mechs
         public Transform Transform { get; set; }
         public CharacterController Controller { get; set; }
         public MechRuntime Runtime { get; set; }
-        public Animator Animator { get; set; }
+
+        // Animator への直接参照は持たない。アニメータへの書き込みは MechAnimationDriver に一本化してある
+        // (パラメータ名とダンプ時間をそこだけが知る)。戦略が Animator を直接触れると、
+        // 同じパラメータを2箇所から書く経路ができてしまう。
         public MechAnimationDriver AnimationDriver { get; set; }
 
         // --- Loadout 適用時に焼き込む値 ---------------------------------------------
@@ -102,9 +105,16 @@ namespace ModularMech.Mechs
             JumpedThisFrame = false;
         }
 
+        /// <summary>
+        /// この角度未満の回転は無視する。入力が無いフレームで Transform を書き換えないための足切りで、
+        /// 「ゼロと等しいか」の判定ではない(規約: float の等値比較をしない。閾値は &lt; で書く)。
+        /// 1フレーム 0.0001 度は 60fps で 1 分回し続けても 0.36 度なので、実質静止と見なしてよい。
+        /// </summary>
+        const float MinYawDegrees = 0.0001f;
+
         public void RotateYaw(float degrees)
         {
-            if (Transform == null || Mathf.Approximately(degrees, 0f))
+            if (Transform == null || Mathf.Abs(degrees) < MinYawDegrees)
             {
                 return;
             }
@@ -115,6 +125,13 @@ namespace ModularMech.Mechs
         /// <summary>
         /// 1フレーム分の移動を適用する。CharacterController があればそちらを使い、
         /// 無ければ Transform を直接動かす(ガレージのプレビューなど物理無しの状況向け)。
+        ///
+        /// <para>
+        /// 物理無しの経路では鉛直成分を捨てる。地面が無いので支えようがなく、接地維持のための
+        /// 押し付け速度(<see cref="GroundedStickSpeed"/>)の分だけ機体が沈み続けるため。
+        /// <see cref="RefreshGrounded"/> が接地扱いにするのと対で、
+        /// 「CharacterController が無いときは落下も上昇もしない」に揃える(D-20)。
+        /// </para>
         /// </summary>
         public void ApplyMotion(Vector3 worldDelta)
         {
@@ -127,6 +144,7 @@ namespace ModularMech.Mechs
 
             if (Transform != null)
             {
+                worldDelta.y = 0f;
                 Transform.position += worldDelta;
             }
         }
@@ -134,10 +152,24 @@ namespace ModularMech.Mechs
         /// <summary>
         /// CharacterController から接地状態を取り込む。接地系の戦略だけが使う。
         /// ホバーのように接地しない方式は、これを呼ばずに自分で値を申告する(D-7)。
+        ///
+        /// <para>
+        /// CharacterController が無い(= 物理無しのプレビュー)ときは<b>接地扱い</b>にする
+        /// (CLAUDE.md D-20)。<see cref="ApplyMotion"/> がその状況を明示的に想定して
+        /// Transform を直接動かす経路を持っているのに、接地判定だけが常に false を返すと、
+        /// 戦略が毎フレーム重力を積算し続けて機体が無限に落ちていく。
+        /// ホバーが接地を申告するのと同じ「安全側に倒す」判断(D-7)。
+        /// </para>
         /// </summary>
         public void RefreshGrounded()
         {
-            IsGrounded = Controller != null && Controller.enabled && Controller.isGrounded;
+            if (Controller == null || !Controller.enabled)
+            {
+                IsGrounded = true;
+                return;
+            }
+
+            IsGrounded = Controller.isGrounded;
         }
 
         /// <summary>

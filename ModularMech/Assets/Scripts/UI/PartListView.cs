@@ -10,6 +10,13 @@ namespace ModularMech.UI
     /// 選択中スロットに装備可能なパーツ一覧(<see cref="PartCatalog.PartsForSlot"/>)。
     /// エントリはプールし、スロット切り替えのたびに Destroy/Instantiate しない
     /// (必要数だけ有効化し、余りは非表示のまま使い回す)。
+    ///
+    /// <para>
+    /// プールは <see cref="EnsurePoolSize"/> による遅延生成で、<c>Awake</c> には何も置かない。
+    /// 他オブジェクトの OnEnable から <see cref="Show"/> が先に呼ばれても壊れないこと ――
+    /// これは <c>SlotListView</c> と揃えた不変条件(CLAUDE.md D-16)。ここに Awake 初期化を
+    /// 足さないこと。
+    /// </para>
     /// </summary>
     public sealed class PartListView : MonoBehaviour
     {

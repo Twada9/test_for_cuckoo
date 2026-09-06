@@ -33,6 +33,12 @@ namespace ModularMech.UI
         [SerializeField] private PartListView partListView;
         [SerializeField] private StatPanelView statPanelView;
 
+        [Header("プレビュー")]
+        [Tooltip("ガレージのプレビュー機体の移動制御。未設定なら MechRuntime と同じ GameObject から拾う。\n" +
+                 "ガレージでは必ず無効化する(D-19)。有効なままだと重力で落下し、" +
+                 "MechPreviewRotator のドラッグ回転と移動戦略のヨー回転が同じ Transform を奪い合う。")]
+        [SerializeField] private MechLocomotionController previewLocomotion;
+
         [Header("保存/読込(任意。ボタンを繋がない場合は使わない)")]
         [SerializeField] private Button saveButton;
         [SerializeField] private Button loadButton;
@@ -40,6 +46,7 @@ namespace ModularMech.UI
         private Loadout _workingLoadout;
         private PartSlot _selectedSlot;
         private bool _hasSelectedSlot;
+        private bool _initialized;
 
         /// <summary>
         /// 出撃可否(テストフィールド遷移ボタン等、他画面から参照する想定のフック)。
@@ -50,13 +57,25 @@ namespace ModularMech.UI
             && mechRuntime.Validation != null
             && mechRuntime.Validation.IsDeployable;
 
+        /// <summary>
+        /// 購読だけを行う。状態の初期化は <see cref="Start"/> に置く(CLAUDE.md D-16)。
+        ///
+        /// <para>
+        /// ここで初期化してはいけない理由: Unity は Awake → OnEnable → Start の順に回すため、
+        /// OnEnable の時点では同じシーンの <see cref="MechRuntime"/> がまだ Start を通っておらず、
+        /// <c>ActiveLoadout</c> は null のままである。そこで働き用 Loadout を作ってしまうと
+        /// 「空の構成」を掴んでしまい、しかもそれを Apply することで MechRuntime 側の
+        /// 既定構成の適用条件(ActiveLoadout == null)まで潰してしまう。
+        /// </para>
+        /// </summary>
         private void OnEnable()
         {
-            EnsureWorkingLoadout();
-
             if (slotListView != null) slotListView.SlotSelected += HandleSlotSelected;
             if (partListView != null) partListView.PartChosen += HandlePartChosen;
             if (mechRuntime != null) mechRuntime.LoadoutApplied += HandleLoadoutApplied;
+
+            // 初回の OnEnable では _workingLoadout はまだ無い(Start で作る)。
+            // 2回目以降(画面の再表示)ではここで購読を復帰させる。
             if (_workingLoadout != null) _workingLoadout.SlotChanged += HandleSlotChanged;
 
             if (saveButton != null)
@@ -69,6 +88,24 @@ namespace ModularMech.UI
                 loadButton.onClick.RemoveListener(LoadFromDisk);
                 loadButton.onClick.AddListener(LoadFromDisk);
             }
+
+            if (_initialized)
+            {
+                // 再表示。状態は保持しているので、表示だけ現在値に合わせ直す。
+                RefreshSlotList();
+                if (_hasSelectedSlot) partListView?.Show(_selectedSlot, partCatalog, _workingLoadout);
+            }
+        }
+
+        /// <summary>
+        /// 状態の初期化はここで行う(D-16)。Start の時点なら同一シーンの全 Awake が終わっている。
+        /// </summary>
+        private void Start()
+        {
+            _initialized = true;
+
+            DisablePreviewLocomotion();
+            EnsureWorkingLoadout();
 
             RefreshSlotList();
             SelectSlot(PartSlot.Torso);
@@ -90,9 +127,28 @@ namespace ModularMech.UI
         }
 
         /// <summary>
+        /// ガレージのプレビュー機体は「見せるだけ」で、操作させない(CLAUDE.md D-19)。
+        /// 有効なままだと戦略が重力を積算して機体が落ちていき、さらに
+        /// <see cref="MechPreviewRotator"/> のドラッグ回転と戦略のヨー回転が同じ Transform を奪い合う。
+        /// 参照が未配線でも動くよう、MechRuntime と同じ GameObject から拾うフォールバックを持つ。
+        /// </summary>
+        private void DisablePreviewLocomotion()
+        {
+            if (previewLocomotion == null && mechRuntime != null)
+            {
+                previewLocomotion = mechRuntime.GetComponent<MechLocomotionController>();
+            }
+
+            if (previewLocomotion != null && previewLocomotion.enabled)
+            {
+                previewLocomotion.enabled = false;
+            }
+        }
+
+        /// <summary>
         /// 初回は MechRuntime が既に持っている構成を引き継ぎ、無ければ空の Loadout から始める。
-        /// 2回目以降の OnEnable では作り直さない(この画面が非表示の間に外部から
-        /// ActiveLoadout が差し替えられるケースまでは v1 では追従しない — 未検証点として報告する)。
+        /// 2回目以降は作り直さない(この画面が非表示の間に外部から ActiveLoadout が
+        /// 差し替えられるケースまでは v1 では追従しない — 未検証点として報告する)。
         /// </summary>
         private void EnsureWorkingLoadout()
         {
@@ -101,9 +157,19 @@ namespace ModularMech.UI
                 return;
             }
 
+            // Start の順序は保証されないので、MechRuntime.Start を待たずにこちらから既定構成の
+            // 適用を促す。適用済みなら何もしない(D-16)。これが無いと、ガレージが先に走ったときに
+            // 空の構成のまま既定機体が永久に使われない。
+            if (mechRuntime != null)
+            {
+                mechRuntime.EnsureDefaultLoadoutApplied();
+            }
+
             _workingLoadout = mechRuntime != null && mechRuntime.ActiveLoadout != null
                 ? mechRuntime.ActiveLoadout.Clone()
                 : new Loadout();
+
+            _workingLoadout.SlotChanged += HandleSlotChanged;
         }
 
         private void HandleSlotSelected(PartSlot slot)
@@ -231,7 +297,14 @@ namespace ModularMech.UI
             }
 
             LoadoutSaveResult result = LoadoutSaveFile.Save(new List<Loadout> { _workingLoadout }, 0);
-            LogWarnings(result.Warnings);
+            ReportDiskResult(result.Warnings);
+
+            if (!result.Success)
+            {
+                // Warnings にも理由は入っているが、保存の失敗は「気づかないと構成を失う」ので
+                // コンソールにも Error として残す。
+                Debug.LogError($"[GarageScreen] 構成の保存に失敗しました: {result.Path}", this);
+            }
         }
 
         /// <summary>保存ファイルを読み込み、先頭(activeIndex)の構成を作業中Loadoutとして反映する(M7)。</summary>
@@ -243,7 +316,10 @@ namespace ModularMech.UI
             }
 
             LoadoutLoadResult result = LoadoutSaveFile.Load(partCatalog);
-            LogWarnings(result.Warnings);
+
+            // 「保存したはずのパーツが消えた」に気づけるよう、警告はコンソールだけで終わらせず
+            // ステータスパネルの警告行にも出す(D-17)。読み込みに失敗した場合も同じ経路で見せる。
+            ReportDiskResult(result.Warnings);
 
             if (!result.Success || result.Loadouts == null || result.Loadouts.Count == 0)
             {
@@ -267,6 +343,26 @@ namespace ModularMech.UI
 
             // Loadout インスタンスを丸ごと差し替えたので、MechRuntime に明示的に再認識させる。
             ApplyWorkingLoadout();
+        }
+
+        /// <summary>
+        /// セーブ/ロード経路の警告を、コンソールとステータスパネルの警告行の両方へ流す(D-17)。
+        ///
+        /// <para>
+        /// <see cref="LoadoutSerializer"/> は §7 どおり未知のパーツ ID のスロットを空にして
+        /// 警告を積むだけなので、この経路では <see cref="ValidationCode.UnknownPartId"/> の
+        /// Error は発火しない(D-13 の Error は実行中のカタログ差し替えに対する防御網)。
+        /// つまりここで出さないと、プレイヤーは装備が消えたことに気づけない。
+        /// </para>
+        /// <para>
+        /// 常に呼ぶこと。警告が 0 件のときは空リストを渡してパネル側の古い警告を消す役目も持つ。
+        /// 表示は「最後に行ったディスク操作の結果」を意味する。
+        /// </para>
+        /// </summary>
+        private void ReportDiskResult(IReadOnlyList<string> warnings)
+        {
+            LogWarnings(warnings);
+            statPanelView?.SetNotices(warnings);
         }
 
         private static void LogWarnings(IReadOnlyList<string> warnings)

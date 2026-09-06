@@ -18,10 +18,39 @@ namespace ModularMech.Mechs
     [AddComponentMenu("ModularMech/Mech Locomotion Controller")]
     public sealed class MechLocomotionController : MonoBehaviour
     {
+        /// <summary>
+        /// ペナルティ倍率の下限(CLAUDE.md D-15)。§3.3 の式そのものは変えず、消費側でだけ効かせる。
+        ///
+        /// <para>
+        /// powerOutput = 0 かつ powerDraw &gt; 0 のとき PowerRatio は 0 になり、加速度も旋回速度も
+        /// 0 倍になる。これを放置すると「入力しても永久に旋回できない」機体ができ、
+        /// パーツ構成のせいなのか不具合なのかプレイヤーには切り分けられない。
+        /// </para>
+        /// <para>
+        /// 速度・加速・旋回に<b>対称に</b>掛けること。片方にだけ下限を置くと
+        /// 「這うように前進はするが決して向きが変わらない」という、より分かりにくい壊れ方をする。
+        /// なお SpeedMultiplier は §3.3 の Lerp が 0.4 で下げ止まるためこの下限には触れないが、
+        /// 対称性を崩さないために同じ形で書いておく。
+        /// </para>
+        /// </summary>
+        const float MinPenaltyFactor = 0.1f;
+
+        /// <summary>
+        /// 加速度の絶対下限。ペナルティ由来の下限は <see cref="MinPenaltyFactor"/> が受け持つので、
+        /// こちらは LocomotionProfile.acceleration が 0 のままのデータ不備に対する保険。
+        /// 0 だと Vector3.MoveTowards が1フレームも進まず、入力しても永久に静止したままになる。
+        /// </summary>
+        const float MinAcceleration = 0.01f;
+
+        /// <summary>
+        /// 減速比の下限。0 以下だと一度動き出した機体が二度と止まらなくなるため、
+        /// Inspector で 0 を入れられても最低限の制動は残す。
+        /// </summary>
+        const float MinDecelerationRatio = 0.1f;
+
         [Header("References")]
         [SerializeField] MechRuntime runtime;
         [SerializeField] CharacterController characterController;
-        [SerializeField] Animator animator;
         [SerializeField] MechAnimationDriver animationDriver;
 
         [Header("Tuning (機体共通。パーツ固有の値は LocomotionProfile 側)")]
@@ -72,11 +101,6 @@ namespace ModularMech.Mechs
                 characterController = GetComponent<CharacterController>();
             }
 
-            if (animator == null)
-            {
-                animator = GetComponentInChildren<Animator>();
-            }
-
             if (animationDriver == null)
             {
                 animationDriver = GetComponent<MechAnimationDriver>();
@@ -94,7 +118,6 @@ namespace ModularMech.Mechs
 
             _context.Transform = transform;
             _context.Controller = characterController;
-            _context.Animator = animator;
             _context.AnimationDriver = animationDriver;
             _context.Runtime = runtime;
         }
@@ -301,17 +324,25 @@ namespace ModularMech.Mechs
                 return;
             }
 
+            // ペナルティ倍率は §3.3 の値をそのまま使い、消費側でだけ下限を掛ける(D-15)。
+            // 速度・加速・旋回に同じ下限を対称に適用する。
+            float speedFactor = Mathf.Max(MinPenaltyFactor, stats.SpeedMultiplier);
+            float turnFactor = Mathf.Max(MinPenaltyFactor, stats.TurnSpeedMultiplier);
+            float accelerationFactor = Mathf.Max(MinPenaltyFactor, stats.AccelerationMultiplier);
+
             // 加算補正(パーツ)→ 乗算ペナルティ(過積載/パワー不足)の順。§3.3 の適用順を崩さない。
-            _context.MaxMoveSpeed = Mathf.Max(0f, (profile.BaseMoveSpeed + stats.Raw.moveSpeedMod) * stats.SpeedMultiplier);
-            _context.TurnSpeed = Mathf.Max(0f, (profile.BaseTurnSpeed + stats.Raw.turnSpeedMod) * stats.TurnSpeedMultiplier);
+            // ここで焼き込んだ MaxMoveSpeed は StatPanelView が主表示する実効速度と同じ値になる。
+            // 移動戦略はこの値に倍率を掛けてはならない(D-14)。
+            _context.MaxMoveSpeed = Mathf.Max(0f, (profile.BaseMoveSpeed + stats.Raw.moveSpeedMod) * speedFactor);
+            _context.TurnSpeed = Mathf.Max(0f, (profile.BaseTurnSpeed + stats.Raw.turnSpeedMod) * turnFactor);
             _context.JumpPower = Mathf.Max(0f, profile.BaseJumpPower + stats.Raw.jumpPowerMod);
             _context.GroundOffset = profile.GroundOffset;
 
             // パワー不足は加速度に効く(§3.3)。
             // PartStats.stability はここでは読まない(v1 の予約フィールド。CLAUDE.md D-4)。
-            float acceleration = Mathf.Max(0.01f, profile.Acceleration * stats.AccelerationMultiplier);
+            float acceleration = Mathf.Max(MinAcceleration, profile.Acceleration * accelerationFactor);
             _context.Acceleration = acceleration;
-            _context.Deceleration = acceleration * Mathf.Max(0.1f, decelerationRatio);
+            _context.Deceleration = acceleration * Mathf.Max(MinDecelerationRatio, decelerationRatio);
 
             SwitchStrategy(_registry.Resolve(profile.Type));
         }

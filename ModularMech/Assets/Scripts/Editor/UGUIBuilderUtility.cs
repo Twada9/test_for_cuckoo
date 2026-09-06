@@ -142,7 +142,7 @@ namespace ModularMech.EditorTools
 
         public static LayoutElement AddFixedHeight(GameObject go, float height)
         {
-            var element = go.AddComponent<LayoutElement>();
+            var element = go.GetComponent<LayoutElement>() ?? go.AddComponent<LayoutElement>();
             element.preferredHeight = height;
             element.minHeight = height;
             return element;
@@ -153,6 +153,18 @@ namespace ModularMech.EditorTools
             var element = go.GetComponent<LayoutElement>() ?? go.AddComponent<LayoutElement>();
             element.preferredWidth = width;
             element.minWidth = width;
+            return element;
+        }
+
+        /// <summary>
+        /// 残り幅を埋める伸縮要素。素の Image は ILayoutElement を実装しない(サイズの希望を
+        /// 持たない)ため、childForceExpandWidth=false な HorizontalLayoutGroup の下では
+        /// 明示しないと幅0に潰れる(ゲージのバー背景などで必要)。
+        /// </summary>
+        public static LayoutElement AddFlexibleWidth(GameObject go, float flex = 1f)
+        {
+            var element = go.GetComponent<LayoutElement>() ?? go.AddComponent<LayoutElement>();
+            element.flexibleWidth = flex;
             return element;
         }
 

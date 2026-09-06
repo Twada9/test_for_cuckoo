@@ -1,6 +1,5 @@
 using ModularMech.Data;
 using ModularMech.Loadouts;
-using UnityEngine;
 
 namespace ModularMech.Mechs
 {
@@ -8,6 +7,11 @@ namespace ModularMech.Mechs
     /// 解決済み構成からステータスと能力を集約し、ペナルティを適用する(設計ドキュメント §3.3)。
     /// 式は設計ドキュメントのまま変えない。ペナルティの乗算はここだけに置き、
     /// パーツ側の補正は加算に統一しておく(混在させると打ち消し合いで破綻するため)。
+    ///
+    /// <para>
+    /// 純粋ロジックなので <c>UnityEngine</c> に依存しない(CLAUDE.md 原則9)。
+    /// EditMode テストから ScriptableObject を用意せずに直接叩けることが条件になっている。
+    /// </para>
     /// </summary>
     public static class StatAggregator
     {
@@ -55,8 +59,8 @@ namespace ModularMech.Mechs
                 overweightRatio = raw.weight / weightCapacity;
                 if (overweightRatio > 1f)
                 {
-                    // Mathf.Lerp は t を 0..1 にクランプするため、超過率 1.5 以上では 0.4 で下げ止まる。
-                    speedMultiplier *= Mathf.Lerp(1f, OverweightSpeedFloor,
+                    // Lerp は t を 0..1 にクランプするため、超過率 1.5 以上では 0.4 で下げ止まる。
+                    speedMultiplier *= Lerp(1f, OverweightSpeedFloor,
                         (overweightRatio - 1f) / OverweightRampRange);
 
                     capabilities &= ~CapabilityFlags.Run;
@@ -89,6 +93,28 @@ namespace ModularMech.Mechs
                 accelerationMultiplier,
                 turnSpeedMultiplier,
                 capabilities);
+        }
+
+        /// <summary>
+        /// <c>UnityEngine.Mathf.Lerp</c> と同じ挙動の線形補間(t を 0..1 にクランプする)。
+        /// 式を変えないために自前で持つ ―― §3.3 が想定しているのはクランプ付きの Lerp であり、
+        /// クランプが無いと超過率 1.5 を超えたところで速度倍率が 0.4 を割り込み、
+        /// やがて負になって機体が後退する。
+        /// クランプ判定を <c>&lt;</c> / <c>&gt;</c> で書くのは Mathf.Clamp01 と同じ形にするためで、
+        /// NaN が来たときの結果(そのまま NaN)まで一致する。
+        /// </summary>
+        private static float Lerp(float a, float b, float t)
+        {
+            if (t < 0f)
+            {
+                t = 0f;
+            }
+            else if (t > 1f)
+            {
+                t = 1f;
+            }
+
+            return a + (b - a) * t;
         }
     }
 }

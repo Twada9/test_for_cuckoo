@@ -10,12 +10,15 @@ namespace ModularMech.Mechs
     ///  - 接地しない(常に GroundOffset だけ浮く)
     ///  - ジャンプしない。Jump 能力が付いていても踏み切らない(浮いているものは地面を蹴れない)
     ///  - 慣性が強い。入力を切ってもしばらく滑り、旋回しても速度ベクトルが遅れて追従する
+    ///
+    /// <para>
+    /// 「速いが旋回が鈍い」という数値面の性格は <c>Locomotion_Hover</c> プロファイルの
+    /// baseMoveSpeed / baseTurnSpeed 側に置いてある(CLAUDE.md D-14)。ここで最高速や
+    /// 旋回速度に倍率を掛けると、ステータスパネルの実効速度表示と実挙動が食い違う。
+    /// </para>
     /// </summary>
     public sealed class HoverLocomotionStrategy : ILocomotionStrategy
     {
-        const float SpeedScale = 1.15f;
-        const float TurnScale = 0.7f;
-
         /// <summary>推力の立ち上がりが鈍い。これが「滑る」感触の本体。</summary>
         const float AccelerationScale = 0.35f;
 
@@ -61,10 +64,10 @@ namespace ModularMech.Mechs
 
             float turnInput = Mathf.Clamp(input.move.x, -1f, 1f);
             ctx.TurnAmount = turnInput;
-            ctx.RotateYaw(turnInput * ctx.TurnSpeed * TurnScale * deltaTime);
+            ctx.RotateYaw(turnInput * ctx.TurnSpeed * deltaTime);
 
             float forwardInput = Mathf.Clamp(input.move.y, -1f, 1f);
-            float targetSpeed = forwardInput * ctx.MaxMoveSpeed * SpeedScale;
+            float targetSpeed = forwardInput * ctx.MaxMoveSpeed;
             if (input.sprint)
             {
                 targetSpeed *= ctx.RunSpeedRatio;

@@ -56,6 +56,14 @@ namespace ModularMech.UI
             for (int i = 0; i < mappings.Count; i++)
             {
                 Mapping mapping = mappings[i];
+
+                // flag 未設定(None)の行を弾く。Has(None) は (value & 0) == 0 で常に true になり、
+                // Inspector で追加しただけの空行がどんな構成でも表示されてしまうため。
+                if (mapping.flag == CapabilityFlags.None)
+                {
+                    continue;
+                }
+
                 if (capabilities.Has(mapping.flag))
                 {
                     result.Add(new Entry(mapping.flag, mapping.displayName, mapping.icon));
