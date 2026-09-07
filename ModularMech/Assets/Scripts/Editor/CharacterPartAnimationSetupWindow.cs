@@ -1,4 +1,5 @@
 using System.IO;
+using ModularMech.Assembling;
 using ModularMech.Data;
 using ModularMech.Mechs;
 using UnityEditor;
@@ -27,6 +28,11 @@ namespace ModularMech.EditorTools
         private string _speedParameter = "Speed";
         private PartDefinition _partDefinitionToUpdate;
         private string _outputFolder = "Assets/Prefabs/Parts";
+
+        // 全身モデルを剛体アタッチする際の接続先(D-27-4)。既定は骨格ルートボーン "Root"(高さ 0)。
+        // スロット既定の "Chest"(高さ ~1.65m)に 0 オフセットで刺すとモデルが宙に浮くため。
+        private string _attachBoneName = "Root";
+        private Vector3 _attachPositionOffset = Vector3.zero;
 
         [MenuItem("Tools/ModularMech/Character Part Animation Setup")]
         public static void Open()
@@ -60,6 +66,18 @@ namespace ModularMech.EditorTools
             _outputFolder = EditorGUILayout.TextField(
                 new GUIContent("出力先フォルダ", "新しいプレハブを保存する場所。"),
                 _outputFolder);
+
+            EditorGUILayout.Space(8);
+
+            _attachBoneName = EditorGUILayout.TextField(
+                new GUIContent("アタッチ先ボーン",
+                    "機体骨格の、このモデルをぶら下げるボーン名。空ならスロット既定(Torso なら Chest)。" +
+                    "全身モデルは通常ルートボーン(Root)を指定する。"),
+                _attachBoneName);
+
+            _attachPositionOffset = EditorGUILayout.Vector3Field(
+                new GUIContent("位置オフセット", "アタッチ後の微調整。足が地面にめり込む/浮くときに使う。"),
+                _attachPositionOffset);
 
             EditorGUILayout.Space(8);
 
@@ -117,6 +135,15 @@ namespace ModularMech.EditorTools
                     speedProp.stringValue = _speedParameter;
                     serialized.ApplyModifiedPropertiesWithoutUndo();
                 }
+
+                // 全身モデルがスロット既定ボーン(Chest, 高さ ~1.65m)で宙に浮くのを防ぐ(D-27-4)。
+                // アタッチ情報の出典は PartAttachment に一本化する規約(D-1)。
+                var attachment = instance.GetComponent<PartAttachment>();
+                if (attachment == null)
+                {
+                    attachment = instance.AddComponent<PartAttachment>();
+                }
+                attachment.Configure(_attachBoneName ?? string.Empty, _attachPositionOffset, Vector3.zero, Vector3.one);
 
                 GameObject savedPrefab = PrefabUtility.SaveAsPrefabAsset(instance, path);
                 if (savedPrefab == null)

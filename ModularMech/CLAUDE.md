@@ -530,3 +530,54 @@ D-21(起動時の自動読込)により、保存ファイルが一度も無い�
   「既に存在する」だけでは「中身が正しい」ことを意味しない。
   既存でも中身が空(または全欠落)なら、生成した定義で埋め直す。
   中身が既にあるなら(手動追加分を保護するため)従来どおり据え置く。
+
+### D-27. 装飾用キャラクターモデル(VRM 等)を Torso パーツにする経路の規約
+
+VRoid 等で作った独立スケルトンのキャラクターモデルを、機体の見た目として
+1スロット(通常は `Torso`)に差し込む補助経路を確定させる。設計ドキュメント §0 の
+スコープ外だが、実機検証で「モデルが一切表示されない」事故が起きたため、
+以下を仕様と同じ強さで扱う。
+
+**背景の事故**: `CharacterPartAnimationSetupWindow` が生成プレハブを組み立てる際、
+一時インスタンスのルートに `HideFlags.DontSave` を付けてから
+`PrefabUtility.SaveAsPrefabAsset` を呼んでいた。Unity は DontSave の付いた
+オブジェクトをプレハブ保存の対象から除外するため、保存は
+`No objects were found for saving into prefab` の**エラーだけ出して null を返し、
+ファイルは1つも書かれなかった**。ウィンドウはその null をそのまま
+`PartDefinition.meshPrefab` に代入し、`AssetDatabase.SaveAssets()` で永続化し、
+さらに「作成した」と Debug.Log した。結果、プレイヤーが指定した Torso パーツの
+`meshPrefab` が **null に破壊され**、`MechAssembly.SpawnSlot` の
+「`meshPrefab == null` は見た目を持たない正常なパーツ」分岐(D-13 とは別の正常系)に
+吸い込まれて、**無言で不可視**になった。
+
+1. **エディタツールがアセットへ参照を書き戻す前に、その参照が実在することを確認する。**
+   `SaveAsPrefabAsset` の戻り値が null(または `out bool success` が false)のときは
+   **`PartDefinition` に一切触れない**(既存の `meshPrefab` を保持する)。失敗時は
+   `Debug.LogError` で止め、成功ログ・`AssetDatabase.SaveAssets()` を実行しない。
+   「生成物をアセットの必須フィールドへ代入する」系のツールは全てこの順序を守る。
+   (対応済み: commit eb99c84 / 8c07f75)
+
+2. **オフスクリーンでプレハブを組むときは `HideFlags.DontSave` を使わない。**
+   `HideFlags.DontSave` は「シーンに保存しない」だけでなく `SaveAsPrefabAsset` 自体を
+   失敗させる(`No objects were found for saving into prefab`)。開いているシーンを
+   汚さない目的なら、`GarageSceneBuilder` の `Create*Prefab` 系と同じく
+   フラグ無しで組み立てて `finally` で `DestroyImmediate` する(保存直後に消えるので
+   シーンには実質何も残らない)。`EditorSceneManager.NewPreviewScene()` に移してもよい
+   (D-25 が禁じた「アクティブシーンを差し替える `NewScene`」とは別物)。
+   (対応済み: commit 8c07f75)
+
+3. **`MechAssembly` は `CosmeticLocomotionAnimator` が載ったモデルの Animator を剥がさない。**
+   `stripNestedAnimators` は共有リグに追従する / 剛体で貼るだけの静的メッシュが
+   誤って持ち込んだ Animator を消すための機能。独立スケルトンを自前の Animator で
+   動かす装飾モデル(D-1)はその対象外。剥がすと
+   `[RequireComponent(typeof(Animator))]` 違反でリビルドのたびにエラーが出て、
+   かつ手足が完全に止まる。`StripAnimators` は
+   `GetComponentInParent<CosmeticLocomotionAnimator>(true)` が非 null の Animator を
+   スキップする。
+
+4. **全身モデルを剛体アタッチするなら `PartAttachment` を必ず付ける。**
+   `PartAttachment` 無しの `Torso` パーツはスロット既定ボーン `"Chest"`(高さ ~1.65m)に
+   オフセット 0 で刺さり、モデルが宙に浮く。ウィンドウは生成プレハブに
+   `PartAttachment` を追加し、既定で骨格ルートボーン `"Root"`(高さ 0)に
+   オフセット 0 で付ける(VRM は足が原点にあるため接地する)。ボーン名・オフセットは
+   ウィンドウの入力欄で調整でき、コード定数では変えない(§10 / D-1)。

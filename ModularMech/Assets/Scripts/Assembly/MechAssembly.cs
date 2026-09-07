@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using ModularMech.Data;
 using ModularMech.Loadouts;
+using ModularMech.Mechs;
 using UnityEngine;
 
 namespace ModularMech.Assembling
@@ -387,6 +388,15 @@ namespace ModularMech.Assembling
             var animators = instance.GetComponentsInChildren<Animator>(true);
             for (int i = 0; i < animators.Length; i++)
             {
+                // 独立スケルトンを自前の Animator で動かす装飾モデル(VRM 等)の Animator は残す(D-27-3)。
+                // これは共有リグに追従しない見た目専用モデルで(D-1)、機体側 Animator と姿勢を奪い合わない。
+                // 消すと CosmeticLocomotionAnimator の [RequireComponent(Animator)] 違反で
+                // リビルドのたびにエラーが出て、かつ手足が完全に止まる。
+                if (animators[i].GetComponentInParent<CosmeticLocomotionAnimator>(true) != null)
+                {
+                    continue;
+                }
+
                 DestroySafely(animators[i]);
             }
         }
