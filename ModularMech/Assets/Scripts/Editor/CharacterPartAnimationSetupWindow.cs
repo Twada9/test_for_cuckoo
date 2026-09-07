@@ -95,6 +95,16 @@ namespace ModularMech.EditorTools
             instance.hideFlags = HideFlags.DontSave;
             try
             {
+                // Instantiate() 直後は Model アセットの Prefab Instance として接続されたままのことがある。
+                // その状態で SaveAsPrefabAsset を呼ぶと Prefab Variant になり、GarageSceneBuilder の
+                // Create*Prefab 系(new GameObject() から組み立てる、接続なしの状態)とは前提が変わって
+                // しまう。接続を完全に切ってから保存し、挙動を揃える。
+                if (PrefabUtility.IsPartOfAnyPrefab(instance))
+                {
+                    PrefabUtility.UnpackPrefabInstance(
+                        instance, PrefabUnpackMode.Completely, InteractionMode.AutomatedAction);
+                }
+
                 var animator = instance.GetComponent<Animator>();
                 if (animator == null)
                 {
@@ -117,6 +127,21 @@ namespace ModularMech.EditorTools
                 }
 
                 GameObject savedPrefab = PrefabUtility.SaveAsPrefabAsset(instance, path);
+                if (savedPrefab == null)
+                {
+                    // SaveAsPrefabAsset は失敗時に例外を投げず null を返すことがある。
+                    // ディスクへの書き込み自体は成功している可能性があるので、パスから読み直して確認する。
+                    AssetDatabase.Refresh();
+                    savedPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(path);
+                }
+
+                if (savedPrefab == null)
+                {
+                    Debug.LogError(
+                        $"[CharacterPartAnimationSetupWindow] プレハブの保存に失敗した: {path}。" +
+                        "PartDefinition の Mesh Prefab は変更していない(既存の参照を守るため)。");
+                    return;
+                }
 
                 if (_partDefinitionToUpdate != null)
                 {
