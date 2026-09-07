@@ -90,21 +90,13 @@ namespace ModularMech.EditorTools
             string baseName = _sourceModel.name;
             string path = AssetDatabase.GenerateUniqueAssetPath($"{_outputFolder}/{baseName}_Animated.prefab");
 
-            // シーンを一切汚さないよう、非表示のフラグを付けた一時インスタンスで組み立てる。
+            // 一時インスタンスを組み立てて保存後に破棄する(GarageSceneBuilder の
+            // Create*Prefab 系と同じ手順)。HideFlags.DontSave は「シーンに保存しない」だけでなく
+            // SaveAsPrefabAsset 自体も失敗させてしまう("No objects were found for saving into prefab"
+            // の原因になった)ため、絶対に付けないこと。破棄は finally で行うのでシーンは汚れない。
             GameObject instance = Instantiate(_sourceModel);
-            instance.hideFlags = HideFlags.DontSave;
             try
             {
-                // Instantiate() 直後は Model アセットの Prefab Instance として接続されたままのことがある。
-                // その状態で SaveAsPrefabAsset を呼ぶと Prefab Variant になり、GarageSceneBuilder の
-                // Create*Prefab 系(new GameObject() から組み立てる、接続なしの状態)とは前提が変わって
-                // しまう。接続を完全に切ってから保存し、挙動を揃える。
-                if (PrefabUtility.IsPartOfAnyPrefab(instance))
-                {
-                    PrefabUtility.UnpackPrefabInstance(
-                        instance, PrefabUnpackMode.Completely, InteractionMode.AutomatedAction);
-                }
-
                 var animator = instance.GetComponent<Animator>();
                 if (animator == null)
                 {
