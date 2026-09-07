@@ -42,7 +42,10 @@ namespace ModularMech.EditorTools
         [MenuItem("Tools/ModularMech/Build Garage Scene")]
         public static void BuildScene()
         {
-            if (!TryLoadPrerequisites(out PartCatalog catalog, out GameObject mechPrefab))
+            // ここでの読込は「前提条件を満たしているか」の検証だけに使い、戻り値の参照自体は
+            // 後段で使わない。NewScene より前に取得した参照は、シーン切り替えの後で
+            // 破棄済み扱いになり得るため(D-25)。実際に使う参照は NewScene の直後に読み直す。
+            if (!TryLoadPrerequisites(out _, out _))
             {
                 return;
             }
@@ -79,6 +82,11 @@ namespace ModularMech.EditorTools
                 return;
             }
             EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
+
+            // D-25: NewScene の前に読み込んだ参照は使わず、ここで改めて読み直す。
+            // TryLoadPrerequisites が既に存在確認を済ませているので、ここでは単純な再読込でよい。
+            PartCatalog catalog = AssetDatabase.LoadAssetAtPath<PartCatalog>(CatalogPath);
+            GameObject mechPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(MechPrefabPath);
 
             SlotEntryView slotEntryPrefab = CreateSlotEntryPrefab();
             PartEntryView partEntryPrefab = CreatePartEntryPrefab();

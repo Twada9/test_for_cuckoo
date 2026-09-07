@@ -502,6 +502,21 @@ D-21(起動時の自動読込)により、保存ファイルが一度も無い�
 - `TestFieldSceneBuilder` はこの順序を最初から守っていた(NewScene 後に BuildTerrain 等で
   マテリアルを作る)ため影響なし。
 
+**追記(1回目の修正が不完全だった件)**: 上記の修正では UI プレハブ5点の生成・読込だけを
+`NewScene` の後へ移したが、`GarageSceneBuilder.BuildScene()` / `TestFieldSceneBuilder.BuildScene()`
+冒頭の `TryLoadPrerequisites(out PartCatalog catalog, out GameObject mechPrefab)` を見落としており、
+**`catalog` と `mechPrefab` は依然として `NewScene` より前に読み込まれたままだった**。
+
+実機で「エラーは無いが装備可能パーツ一覧が完全に空(『装備しない』すら出ない)」という形で再現した
+(`PartListView.Show` は `catalog == null` だと何もログを出さず全消去するため、無言の空欄になる)。
+`GarageScreen.partCatalog` に代入されていた参照が、他の5点と同じ理由で破棄済み扱いになっていた。
+
+**教訓: 「既存のため再利用するプレハブ」だけが対象ではない。`AssetDatabase.LoadAssetAtPath` で
+読んだアセットは、たとえルートレベルの ScriptableObject / プレハブであっても、
+`NewScene` をまたいで保持してはならない。** 前提条件の検証(存在するか)は `NewScene` より前に
+行ってよいが、その戻り値の参照は使い捨てにし、実際に使う参照は `NewScene` の直後に
+`AssetDatabase.LoadAssetAtPath` で読み直すこと。両ビルダーとも、この読み直しを追加して解消した。
+
 ### D-26. カタログ等の「集約アセット」は、既存でも空なら埋め直す
 
 `PlaceholderPartGenerator.CreateCatalog` は「既に PartCatalog.asset があれば何もしない」

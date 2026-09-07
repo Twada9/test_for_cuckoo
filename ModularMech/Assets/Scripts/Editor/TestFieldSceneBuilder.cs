@@ -31,7 +31,8 @@ namespace ModularMech.EditorTools
         [MenuItem("Tools/ModularMech/Build Test Field Scene")]
         public static void BuildScene()
         {
-            if (!TryLoadPrerequisites(out PartCatalog catalog, out GameObject mechPrefab))
+            // 前提条件の検証のみに使う。戻り値の参照は使わない(D-25。理由は GarageSceneBuilder と同じ)。
+            if (!TryLoadPrerequisites(out _, out _))
             {
                 return;
             }
@@ -64,6 +65,10 @@ namespace ModularMech.EditorTools
                 return;
             }
             EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
+
+            // D-25: NewScene の前に読み込んだ参照は使わず、ここで改めて読み直す。
+            PartCatalog catalog = AssetDatabase.LoadAssetAtPath<PartCatalog>(CatalogPath);
+            GameObject mechPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(MechPrefabPath);
 
             UGUIBuilderUtility.CreateLegacyEventSystem();
 
